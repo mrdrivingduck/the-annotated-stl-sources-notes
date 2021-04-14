@@ -1,4 +1,4 @@
-# Chapter 6.4 基本算法
+# Chapter 6.4 - 基本算法
 
 Created by : Mr Dk.
 

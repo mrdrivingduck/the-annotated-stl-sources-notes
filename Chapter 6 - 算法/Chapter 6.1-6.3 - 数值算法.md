@@ -1,4 +1,4 @@
-# Chapter 6.1-6.3 数值算法
+# Chapter 6.1-6.3 - 数值算法
 
 Created by : Mr Dk.
 
