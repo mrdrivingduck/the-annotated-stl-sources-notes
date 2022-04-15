@@ -126,8 +126,8 @@ inline void __distance(_InputIterator __first, _InputIterator __last,
 }
 
 template <class _RandomAccessIterator, class _Distance>
-inline void __distance(_RandomAccessIterator __first, 
-                       _RandomAccessIterator __last, 
+inline void __distance(_RandomAccessIterator __first,
+                       _RandomAccessIterator __last,
                        _Distance& __n, random_access_iterator_tag)
 {
   __STL_REQUIRES(_RandomAccessIterator, _RandomAccessIterator);
@@ -135,7 +135,7 @@ inline void __distance(_RandomAccessIterator __first,
 }
 
 template <class _InputIterator, class _Distance>
-inline void distance(_InputIterator __first, 
+inline void distance(_InputIterator __first,
                      _InputIterator __last, _Distance& __n)
 {
   __STL_REQUIRES(_InputIterator, _InputIterator);
@@ -164,7 +164,7 @@ __distance(_RandomAccessIterator __first, _RandomAccessIterator __last,
 template <class _InputIterator>
 inline typename iterator_traits<_InputIterator>::difference_type
 distance(_InputIterator __first, _InputIterator __last) {
-  typedef typename iterator_traits<_InputIterator>::iterator_category 
+  typedef typename iterator_traits<_InputIterator>::iterator_category
     _Category;
   __STL_REQUIRES(_InputIterator, _InputIterator);
   return __distance(__first, __last, _Category());
@@ -180,7 +180,7 @@ inline void __advance(_InputIter& __i, _Distance __n, input_iterator_tag) {
 }
 
 template <class _BidirectionalIterator, class _Distance>
-inline void __advance(_BidirectionalIterator& __i, _Distance __n, 
+inline void __advance(_BidirectionalIterator& __i, _Distance __n,
                       bidirectional_iterator_tag) {
   __STL_REQUIRES(_BidirectionalIterator, _BidirectionalIterator);
   if (__n >= 0)
@@ -190,7 +190,7 @@ inline void __advance(_BidirectionalIterator& __i, _Distance __n,
 }
 
 template <class _RandomAccessIterator, class _Distance>
-inline void __advance(_RandomAccessIterator& __i, _Distance __n, 
+inline void __advance(_RandomAccessIterator& __i, _Distance __n,
                       random_access_iterator_tag) {
   __STL_REQUIRES(_RandomAccessIterator, _RandomAccessIterator);
   __i += __n;
@@ -202,6 +202,3 @@ inline void advance(_InputIterator& __i, _Distance __n) {
   __advance(__i, __n, iterator_category(__i));
 }
 ```
-
----
-

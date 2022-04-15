@@ -16,10 +16,10 @@ set 的迭代器在经历插入或删除操作后一般来说不会失效。
 
 STL 特别提供了一组 set / multiset 的算法来进行集合操作：
 
-* `set_intersection()` 交集
-* `set_union()` 并集
-* `set_difference()` 差集
-* `set_symmetric_difference()` 对称差集
+- `set_intersection()` 交集
+- `set_union()` 并集
+- `set_difference()` 差集
+- `set_symmetric_difference()` 对称差集
 
 标准 STL 以 **红黑树** 作为 set 的底层机制。
 
@@ -45,10 +45,10 @@ public:
   typedef _Compare key_compare;
   typedef _Compare value_compare;
 private:
-  typedef _Rb_tree<key_type, value_type, 
+  typedef _Rb_tree<key_type, value_type,
                   _Identity<value_type> /* KeyOfValue */, key_compare, _Alloc> _Rep_type;
   _Rep_type _M_t;  // red-black tree representing set
-  
+
 public: // 只读迭代器，不可修改 key 的值
   typedef typename _Rep_type::const_pointer pointer;
   typedef typename _Rep_type::const_pointer const_pointer;
@@ -61,7 +61,7 @@ public: // 只读迭代器，不可修改 key 的值
   typedef typename _Rep_type::size_type size_type;
   typedef typename _Rep_type::difference_type difference_type;
   typedef typename _Rep_type::allocator_type allocator_type;
-    
+
   // ...
 };
 ```
@@ -85,17 +85,17 @@ explicit set(const _Compare& __comp,
              const allocator_type& __a = allocator_type())
     : _M_t(__comp, __a) {}
 
-set(const value_type* __first, const value_type* __last) 
-    : _M_t(_Compare(), allocator_type()) 
+set(const value_type* __first, const value_type* __last)
+    : _M_t(_Compare(), allocator_type())
     { _M_t.insert_unique(__first, __last); }
 
-set(const value_type* __first, 
+set(const value_type* __first,
     const value_type* __last, const _Compare& __comp,
     const allocator_type& __a = allocator_type())
     : _M_t(__comp, __a) { _M_t.insert_unique(__first, __last); }
 
 set(const_iterator __first, const_iterator __last)
-    : _M_t(_Compare(), allocator_type()) 
+    : _M_t(_Compare(), allocator_type())
     { _M_t.insert_unique(__first, __last); }
 
 set(const_iterator __first, const_iterator __last, const _Compare& __comp,
@@ -112,7 +112,7 @@ allocator_type get_allocator() const { return _M_t.get_allocator(); }
 
 iterator begin() const { return _M_t.begin(); }
 iterator end() const { return _M_t.end(); }
-reverse_iterator rbegin() const { return _M_t.rbegin(); } 
+reverse_iterator rbegin() const { return _M_t.rbegin(); }
 reverse_iterator rend() const { return _M_t.rend(); }
 bool empty() const { return _M_t.empty(); }
 size_type size() const { return _M_t.size(); }
@@ -124,7 +124,7 @@ void swap(set<_Key,_Compare,_Alloc>& __x) { _M_t.swap(__x._M_t); }
 
 ```c++
 pair<iterator,bool> insert(const value_type& __x) {           // (从根结点开始寻找位置) 并插入元素
-    pair<typename _Rep_type::iterator, bool> __p = _M_t.insert_unique(__x); 
+    pair<typename _Rep_type::iterator, bool> __p = _M_t.insert_unique(__x);
     return pair<iterator, bool>(__p.first, __p.second);
 }
 iterator insert(iterator __position, const value_type& __x) { // 在指定位置插入元素
@@ -143,16 +143,16 @@ void insert(const value_type* __first, const value_type* __last) {
 删除函数：
 
 ```c++
-void erase(iterator __position) { 
+void erase(iterator __position) {
     typedef typename _Rep_type::iterator _Rep_iterator;
-    _M_t.erase((_Rep_iterator&)__position); 
+    _M_t.erase((_Rep_iterator&)__position);
 }
-size_type erase(const key_type& __x) { 
-    return _M_t.erase(__x); 
+size_type erase(const key_type& __x) {
+    return _M_t.erase(__x);
 }
-void erase(iterator __first, iterator __last) { 
+void erase(iterator __first, iterator __last) {
     typedef typename _Rep_type::iterator _Rep_iterator;
-    _M_t.erase((_Rep_iterator&)__first, (_Rep_iterator&)__last); 
+    _M_t.erase((_Rep_iterator&)__first, (_Rep_iterator&)__last);
 }
 void clear() { _M_t.clear(); }
 ```
@@ -168,7 +168,7 @@ iterator lower_bound(const key_type& __x) const { // 第一个大于等于 x 的
     return _M_t.lower_bound(__x);
 }
 iterator upper_bound(const key_type& __x) const { // 第一个大于 x 的结点
-    return _M_t.upper_bound(__x); 
+    return _M_t.upper_bound(__x);
 }
 pair<iterator,iterator> equal_range(const key_type& __x) const { // 与 x 值相同的元素范围
     return _M_t.equal_range(__x);
@@ -179,17 +179,14 @@ pair<iterator,iterator> equal_range(const key_type& __x) const { // 与 x 值相
 
 ```c++
 template <class _Key, class _Compare, class _Alloc>
-inline bool operator==(const set<_Key,_Compare,_Alloc>& __x, 
+inline bool operator==(const set<_Key,_Compare,_Alloc>& __x,
                        const set<_Key,_Compare,_Alloc>& __y) {
   return __x._M_t == __y._M_t;
 }
 
 template <class _Key, class _Compare, class _Alloc>
-inline bool operator<(const set<_Key,_Compare,_Alloc>& __x, 
+inline bool operator<(const set<_Key,_Compare,_Alloc>& __x,
                       const set<_Key,_Compare,_Alloc>& __y) {
   return __x._M_t < __y._M_t;
 }
 ```
-
----
-

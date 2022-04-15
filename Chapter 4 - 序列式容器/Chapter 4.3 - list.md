@@ -64,7 +64,7 @@ struct _List_iterator_base {
   bool operator!=(const _List_iterator_base& __x) const {
     return _M_node != __x._M_node;
   }
-};  
+};
 
 template<class _Tp, class _Ref, class _Ptr>
 struct _List_iterator : public _List_iterator_base {
@@ -87,20 +87,20 @@ struct _List_iterator : public _List_iterator_base {
   pointer operator->() const { return &(operator*()); }
 #endif /* __SGI_STL_NO_ARROW_OPERATOR */
 
-  _Self& operator++() { 
+  _Self& operator++() {
     this->_M_incr();
     return *this;
   }
-  _Self operator++(int) { 
+  _Self operator++(int) {
     _Self __tmp = *this;
     this->_M_incr();
     return __tmp;
   }
-  _Self& operator--() { 
+  _Self& operator--() {
     this->_M_decr();
     return *this;
   }
-  _Self operator--(int) { 
+  _Self operator--(int) {
     _Self __tmp = *this;
     this->_M_decr();
     return __tmp;
@@ -114,7 +114,7 @@ struct _List_iterator : public _List_iterator_base {
 
 ```c++
 template <class _Tp, class _Alloc>
-class _List_base 
+class _List_base
 {
 public:
   typedef _Alloc allocator_type;
@@ -135,7 +135,7 @@ public:
 protected:
   typedef simple_alloc<_List_node<_Tp>, _Alloc> _Alloc_type;
   _List_node<_Tp>* _M_get_node() { return _Alloc_type::allocate(1); }
-  void _M_put_node(_List_node<_Tp>* __p) { _Alloc_type::deallocate(__p, 1); } 
+  void _M_put_node(_List_node<_Tp>* __p) { _Alloc_type::deallocate(__p, 1); }
 
 protected:
   _List_node<_Tp>* _M_node;
@@ -172,7 +172,7 @@ list 使用缺省的 `alloc` 空间分配器，并在类内定义了一个分配
 ```c++
 typedef simple_alloc<_List_node<_Tp>, _Alloc> _Alloc_type;
 _List_node<_Tp>* _M_get_node() { return _Alloc_type::allocate(1); }
-void _M_put_node(_List_node<_Tp>* __p) { _Alloc_type::deallocate(__p, 1); } 
+void _M_put_node(_List_node<_Tp>* __p) { _Alloc_type::deallocate(__p, 1); }
 ```
 
 以下两个子函数除了分配内存，还调用构造函数构造对象：
@@ -251,7 +251,7 @@ iterator erase(iterator __first, iterator __last)
 
 ```c++
 void pop_front() { erase(begin()); }
-void pop_back() { 
+void pop_back() {
     iterator __tmp = end();
     erase(--__tmp);
 }
@@ -304,12 +304,12 @@ void transfer(iterator __position, iterator __first, iterator __last) {
         // Remove [first, last) from its old position.
         __last._M_node->_M_prev->_M_next     = __position._M_node;
         __first._M_node->_M_prev->_M_next    = __last._M_node;
-        __position._M_node->_M_prev->_M_next = __first._M_node; 
+        __position._M_node->_M_prev->_M_next = __first._M_node;
 
         // Splice [first, last) into its new position.
         _List_node_base* __tmp      = __position._M_node->_M_prev;
         __position._M_node->_M_prev = __last._M_node->_M_prev;
-        __last._M_node->_M_prev     = __first._M_node->_M_prev; 
+        __last._M_node->_M_prev     = __first._M_node->_M_prev;
         __first._M_node->_M_prev    = __tmp;
     }
 }
@@ -321,7 +321,7 @@ void transfer(iterator __position, iterator __first, iterator __last) {
 
 ```c++
 void splice(iterator __position, list& __x) { // x 与当前 list 不能是同一个 list
-    if (!__x.empty()) 
+    if (!__x.empty())
         this->transfer(__position, __x.begin(), __x.end());
 }
 void splice(iterator __position, list&, iterator __i) { // 仅插入 i 指向的结点
@@ -331,7 +331,7 @@ void splice(iterator __position, list&, iterator __i) { // 仅插入 i 指向的
     this->transfer(__position, __i, __j);
 }
 void splice(iterator __position, list&, iterator __first, iterator __last) {
-    if (__first != __last) 
+    if (__first != __last)
         this->transfer(__position, __first, __last);
 }
 ```
@@ -376,9 +376,9 @@ void list<_Tp, _Alloc>::sort()
         __counter[__i].merge(__carry);
         __carry.swap(__counter[__i++]);
       }
-      __carry.swap(__counter[__i]);         
+      __carry.swap(__counter[__i]);
       if (__i == __fill) ++__fill;
-    } 
+    }
 
     for (int __i = 1; __i < __fill; ++__i)
       __counter[__i].merge(__counter[__i-1]);
@@ -400,11 +400,8 @@ inline void __List_base_reverse(_List_node_base* __p)
 }
 
 template <class _Tp, class _Alloc>
-inline void list<_Tp, _Alloc>::reverse() 
+inline void list<_Tp, _Alloc>::reverse()
 {
   __List_base_reverse(this->_M_node);
-}    
+}
 ```
-
----
-

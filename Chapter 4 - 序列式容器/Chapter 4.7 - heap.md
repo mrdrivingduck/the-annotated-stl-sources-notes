@@ -16,8 +16,8 @@ heap 不属于 SQL 容器组件，而是一种组织数据的方式，用于实�
 
 这样一来，只需要：
 
-* 一个数组
-* 一组 heap 算法
+- 一个数组
+- 一组 heap 算法
 
 就能够实现堆。堆可以被分为 max-heap 和 min-heap。STL 提供的是 max-heap。
 
@@ -25,11 +25,11 @@ heap 不属于 SQL 容器组件，而是一种组织数据的方式，用于实�
 
 ### `push_heap` 算法
 
-该算法默认新的元素已经被插入在底层结构的 `end()` 迭代器所在的位置上。为了让这个新元素满足堆的定义，需要对该结点执行一个 *上浮 (percolate up)* 操作，直到该元素的父结点比该元素大。
+该算法默认新的元素已经被插入在底层结构的 `end()` 迭代器所在的位置上。为了让这个新元素满足堆的定义，需要对该结点执行一个 _上浮 (percolate up)_ 操作，直到该元素的父结点比该元素大。
 
 ```c++
 template <class _RandomAccessIterator, class _Compare>
-inline void 
+inline void
 push_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
           _Compare __comp) // 头尾迭代器指示区间，其中最后一个元素是新插入的；comp 表示比较方式
 {
@@ -41,18 +41,18 @@ push_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
 
 ```c++
 template <class _RandomAccessIterator, class _Distance, class _Tp>
-inline void 
+inline void
 __push_heap_aux(_RandomAccessIterator __first,
                 _RandomAccessIterator __last, _Distance*, _Tp*)
 {
-  __push_heap(__first, _Distance((__last - __first) - 1), _Distance(0), 
+  __push_heap(__first, _Distance((__last - __first) - 1), _Distance(0),
               _Tp(*(__last - 1))); // 指明堆的有效区间，以及最后一个位置的元素
 }
 ```
 
 ```c++
 template <class _RandomAccessIterator, class _Distance, class _Tp>
-void 
+void
 __push_heap(_RandomAccessIterator __first,
             _Distance __holeIndex, _Distance __topIndex, _Tp __value)
 {
@@ -61,7 +61,7 @@ __push_heap(_RandomAccessIterator __first,
     *(__first + __holeIndex) = *(__first + __parent); // 父结点下移
     __holeIndex = __parent;                           // 父结点空缺
     __parent = (__holeIndex - 1) / 2;                 // 指向父结点的父结点
-  }    
+  }
   *(__first + __holeIndex) = __value; // 新元素放入合适的结点
 }
 ```
@@ -72,7 +72,7 @@ __push_heap(_RandomAccessIterator __first,
 
 ```c++
 template <class _RandomAccessIterator, class _Compare>
-inline void 
+inline void
 pop_heap(_RandomAccessIterator __first,
          _RandomAccessIterator __last, _Compare __comp)
 {
@@ -83,18 +83,18 @@ pop_heap(_RandomAccessIterator __first,
 
 ```c++
 template <class _RandomAccessIterator, class _Tp>
-inline void 
+inline void
 __pop_heap_aux(_RandomAccessIterator __first, _RandomAccessIterator __last,
                _Tp*)
 {
-  __pop_heap(__first, __last - 1, __last - 1, 
+  __pop_heap(__first, __last - 1, __last - 1,
              _Tp(*(__last - 1)), __DISTANCE_TYPE(__first));
 }
 ```
 
 ```c++
 template <class _RandomAccessIterator, class _Tp, class _Distance>
-inline void 
+inline void
 __pop_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
            _RandomAccessIterator __result, _Tp __value, _Distance*)
 {
@@ -105,7 +105,7 @@ __pop_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
 
 ```c++
 template <class _RandomAccessIterator, class _Distance, class _Tp>
-void 
+void
 __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,
               _Distance __len, _Tp __value)
 {
@@ -144,7 +144,7 @@ void sort_heap(_RandomAccessIterator __first, _RandomAccessIterator __last)
 }
 
 template <class _RandomAccessIterator, class _Compare>
-void 
+void
 sort_heap(_RandomAccessIterator __first,
           _RandomAccessIterator __last, _Compare __comp)
 {
@@ -168,7 +168,7 @@ __make_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
   if (__last - __first < 2) return;
   _Distance __len = __last - __first;
   _Distance __parent = (__len - 2)/2;
-    
+
   while (true) {
     __adjust_heap(__first, __parent, __len, _Tp(*(__first + __parent)),
                   __comp);
@@ -178,8 +178,8 @@ __make_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
 }
 
 template <class _RandomAccessIterator, class _Compare>
-inline void 
-make_heap(_RandomAccessIterator __first, 
+inline void
+make_heap(_RandomAccessIterator __first,
           _RandomAccessIterator __last, _Compare __comp)
 {
   __STL_REQUIRES(_RandomAccessIterator, _Mutable_RandomAccessIterator);
@@ -191,6 +191,3 @@ make_heap(_RandomAccessIterator __first,
 ## 4.7.3 heap 没有迭代器
 
 heap 不提供遍历功能，也不提供迭代器。
-
----
-

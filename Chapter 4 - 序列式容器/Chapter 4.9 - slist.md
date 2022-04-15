@@ -47,7 +47,7 @@ __slist_make_link(_Slist_node_base* __prev_node,
 获得某个结点的前一个结点 (需要从头开始找)：
 
 ```c++
-inline _Slist_node_base* 
+inline _Slist_node_base*
 __slist_previous(_Slist_node_base* __head,
                  const _Slist_node_base* __node)
 {
@@ -56,7 +56,7 @@ __slist_previous(_Slist_node_base* __head,
   return __head;
 }
 
-inline const _Slist_node_base* 
+inline const _Slist_node_base*
 __slist_previous(const _Slist_node_base* __head,
                  const _Slist_node_base* __node)
 {
@@ -140,7 +140,7 @@ struct _Slist_iterator : public _Slist_iterator_base
 slist 内维护了一个实物头结点。
 
 ```c++
-template <class _Tp, class _Alloc> 
+template <class _Tp, class _Alloc>
 struct _Slist_base {
   typedef _Alloc allocator_type;
   allocator_type get_allocator() const { return allocator_type(); }
@@ -166,13 +166,13 @@ protected:
 
 protected:
   _Slist_node_base _M_head; // 头结点 (不是结点指针，而就是一个结点)
-}; 
+};
 ```
 
 删除一个范围以内的结点 (由范围之前的一个结点和范围内最后一个结点的下一个结点指示)：
 
 ```c++
-template <class _Tp, class _Alloc> 
+template <class _Tp, class _Alloc>
 _Slist_node_base*
 _Slist_base<_Tp,_Alloc>::_M_erase_after(_Slist_node_base* __before_first,
                                         _Slist_node_base* __last_node) {
@@ -229,7 +229,7 @@ private:
     __STL_UNWIND(this->_M_put_node(__node));
     return __node;
   }
-  
+
   _Node* _M_create_node() {
     _Node* __node = this->_M_get_node(); // 分配结点空间
     __STL_TRY {
@@ -263,7 +263,7 @@ public:
   slist& operator= (const slist& __x);
 
   ~slist() {}
-  
+
   // ...
 };
 ```
@@ -272,7 +272,7 @@ public:
 
 ```c++
 iterator begin() { return iterator((_Node*)this->_M_head._M_next); } // 头结点的下一个元素
-const_iterator begin() const 
+const_iterator begin() const
   { return const_iterator((_Node*)this->_M_head._M_next);}
 
 iterator end() { return iterator(0); }                               // 空指针
@@ -281,8 +281,8 @@ const_iterator end() const { return const_iterator(0); }
 // Experimental new feature: before_begin() returns a
 // non-dereferenceable iterator that, when incremented, yields
 // begin().  This iterator may be used as the argument to
-// insert_after, erase_after, etc.  Note that even for an empty 
-// slist, before_begin() is not the same iterator as end().  It 
+// insert_after, erase_after, etc.  Note that even for an empty
+// slist, before_begin() is not the same iterator as end().  It
 // is always necessary to increment before_begin() at least once to
 // obtain end().
 iterator before_begin() { return iterator((_Node*) &this->_M_head); } // 头结点
@@ -303,7 +303,7 @@ void swap(slist& __x)
 
 ```c++
 reference front() { return ((_Node*) this->_M_head._M_next)->_M_data; }
-const_reference front() const 
+const_reference front() const
     { return ((_Node*) this->_M_head._M_next)->_M_data; }
 void push_front(const value_type& __x)   {
     __slist_make_link(&this->_M_head, _M_create_node(__x));
@@ -362,6 +362,3 @@ void _M_insert_after_range(_Node_base* __pos,                        // 在当�
     }
 }
 ```
-
----
-

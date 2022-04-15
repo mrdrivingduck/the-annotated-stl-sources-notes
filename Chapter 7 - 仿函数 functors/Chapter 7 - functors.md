@@ -14,8 +14,8 @@ Nanjing, Jiangsu, China
 
 仿函数在 STL 中主要作用于算法领域：
 
-* 算法的第一个版本使用最常用 (或最直观) 的某种运算 (比如 `operator<`)
-* 算法的第二个版本使用用户提供的仿函数操作，实现算法的 **泛化** (比如用户自行提供一个比较函数)
+- 算法的第一个版本使用最常用 (或最直观) 的某种运算 (比如 `operator<`)
+- 算法的第二个版本使用用户提供的仿函数操作，实现算法的 **泛化** (比如用户自行提供一个比较函数)
 
 如果想要将某个 **操作** 当作算法的参数，那么有两种方法：
 
@@ -105,7 +105,7 @@ struct divides : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与�
 
 ```c++
 template <class _Tp>
-struct modulus : public binary_function<_Tp,_Tp,_Tp> 
+struct modulus : public binary_function<_Tp,_Tp,_Tp>
 {
   _Tp operator()(const _Tp& __x, const _Tp& __y) const { return __x % __y; }
 };
@@ -123,8 +123,8 @@ struct negate : public unary_function<_Tp,_Tp> // 参数类型与返回类型一
 
 此外，还有两个不符合 C++ 标准的，表示同一元素的仿函数 (二元运算)：
 
-* `T + 0 = T`
-* `T * 1 = T`
+- `T + 0 = T`
+- `T * 1 = T`
 
 ```c++
 // identity_element (not part of the C++ standard).
@@ -145,7 +145,7 @@ template <class _Tp> inline _Tp identity_element(multiplies<_Tp>) {
 
 ```c++
 template <class _Tp>
-struct equal_to : public binary_function<_Tp,_Tp,bool> 
+struct equal_to : public binary_function<_Tp,_Tp,bool>
 {
   bool operator()(const _Tp& __x, const _Tp& __y) const { return __x == __y; }
 };
@@ -155,7 +155,7 @@ struct equal_to : public binary_function<_Tp,_Tp,bool>
 
 ```c++
 template <class _Tp>
-struct not_equal_to : public binary_function<_Tp,_Tp,bool> 
+struct not_equal_to : public binary_function<_Tp,_Tp,bool>
 {
   bool operator()(const _Tp& __x, const _Tp& __y) const { return __x != __y; }
 };
@@ -165,7 +165,7 @@ struct not_equal_to : public binary_function<_Tp,_Tp,bool>
 
 ```c++
 template <class _Tp>
-struct greater : public binary_function<_Tp,_Tp,bool> 
+struct greater : public binary_function<_Tp,_Tp,bool>
 {
   bool operator()(const _Tp& __x, const _Tp& __y) const { return __x > __y; }
 };
@@ -185,7 +185,7 @@ struct greater_equal : public binary_function<_Tp,_Tp,bool>
 
 ```c++
 template <class _Tp>
-struct less : public binary_function<_Tp,_Tp,bool> 
+struct less : public binary_function<_Tp,_Tp,bool>
 {
   bool operator()(const _Tp& __x, const _Tp& __y) const { return __x < __y; }
 };
@@ -195,7 +195,7 @@ struct less : public binary_function<_Tp,_Tp,bool>
 
 ```c++
 template <class _Tp>
-struct less_equal : public binary_function<_Tp,_Tp,bool> 
+struct less_equal : public binary_function<_Tp,_Tp,bool>
 {
   bool operator()(const _Tp& __x, const _Tp& __y) const { return __x <= __y; }
 };
@@ -290,12 +290,9 @@ struct _Project2nd : public binary_function<_Arg1, _Arg2, _Arg2> {
   _Arg2 operator()(const _Arg1&, const _Arg2& __y) const { return __y; }
 };
 
-template <class _Arg1, class _Arg2> 
+template <class _Arg1, class _Arg2>
 struct project1st : public _Project1st<_Arg1, _Arg2> {};
 
 template <class _Arg1, class _Arg2>
 struct project2nd : public _Project2nd<_Arg1, _Arg2> {};
 ```
-
----
-

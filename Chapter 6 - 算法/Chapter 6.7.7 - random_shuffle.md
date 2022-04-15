@@ -42,6 +42,3 @@ void random_shuffle(_RandomAccessIter __first, _RandomAccessIter __last,
     iter_swap(__i, __first + __rand((__i - __first) + 1));  // mod
 }
 ```
-
----
-

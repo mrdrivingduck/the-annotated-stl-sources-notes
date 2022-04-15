@@ -64,7 +64,7 @@ partial_sort_copy(_InputIter __first, _InputIter __last,
                  _LessThanComparable);
   __STL_REQUIRES(typename iterator_traits<_InputIter>::value_type,
                  _LessThanComparable);
-  return __partial_sort_copy(__first, __last, __result_first, __result_last, 
+  return __partial_sort_copy(__first, __last, __result_first, __result_last,
                              __DISTANCE_TYPE(__result_first),
                              __VALUE_TYPE(__first));
 }
@@ -74,7 +74,7 @@ template <class _InputIter, class _RandomAccessIter, class _Distance,
 _RandomAccessIter __partial_sort_copy(_InputIter __first,
                                       _InputIter __last,
                                       _RandomAccessIter __result_first,
-                                      _RandomAccessIter __result_last, 
+                                      _RandomAccessIter __result_last,
                                       _Distance*, _Tp*) {
   if (__result_first == __result_last) return __result_last;
   _RandomAccessIter __result_real_last = __result_first;
@@ -95,6 +95,3 @@ _RandomAccessIter __partial_sort_copy(_InputIter __first,
   return __result_real_last;
 }
 ```
-
----
-

@@ -169,7 +169,7 @@ bool lexicographical_compare(_InputIter1 __first1, _InputIter1 __last1,
 部分具体化：对于单字节的字符串，使用 `memcmp()` 进行比较。如果已经比较完毕的部分大小不相上下，那么长度更长的字符串更大。
 
 ```c++
-inline bool 
+inline bool
 lexicographical_compare(const unsigned char* __first1,
                         const unsigned char* __last1,
                         const unsigned char* __first2,
@@ -293,8 +293,8 @@ inline void swap(_Tp& __a, _Tp& __b) {
 
 `copy()` 对性能上的优化分为两个层次：
 
-* 针对参数给定的迭代器类型，可以使用不同的操作算法
-* 针对被复制元素的数据类型，选择是否使用高效的内存移动算法
+- 针对参数给定的迭代器类型，可以使用不同的操作算法
+- 针对被复制元素的数据类型，选择是否使用高效的内存移动算法
 
 ```c++
 //--------------------------------------------------
@@ -371,7 +371,7 @@ __SGI_STL_DECLARE_COPY_TRIVIAL(wchar_t)
 #ifdef _STL_LONG_LONG
 __SGI_STL_DECLARE_COPY_TRIVIAL(long long)
 __SGI_STL_DECLARE_COPY_TRIVIAL(unsigned long long)
-#endif 
+#endif
 __SGI_STL_DECLARE_COPY_TRIVIAL(float)
 __SGI_STL_DECLARE_COPY_TRIVIAL(double)
 __SGI_STL_DECLARE_COPY_TRIVIAL(long double)
@@ -433,10 +433,10 @@ __copy_trivial(const _Tp* __first, const _Tp* __last, _Tp* __result) {
 //--------------------------------------------------
 // copy_backward
 
-template <class _BidirectionalIter1, class _BidirectionalIter2, 
+template <class _BidirectionalIter1, class _BidirectionalIter2,
           class _Distance>
-inline _BidirectionalIter2 __copy_backward(_BidirectionalIter1 __first, 
-                                           _BidirectionalIter1 __last, 
+inline _BidirectionalIter2 __copy_backward(_BidirectionalIter1 __first,
+                                           _BidirectionalIter1 __last,
                                            _BidirectionalIter2 __result,
                                            bidirectional_iterator_tag,
                                            _Distance*)
@@ -448,8 +448,8 @@ inline _BidirectionalIter2 __copy_backward(_BidirectionalIter1 __first,
 
 // 针对 Random Access Iterator 的特化版本，提升性能
 template <class _RandomAccessIter, class _BidirectionalIter, class _Distance>
-inline _BidirectionalIter __copy_backward(_RandomAccessIter __first, 
-                                          _RandomAccessIter __last, 
+inline _BidirectionalIter __copy_backward(_RandomAccessIter __first,
+                                          _RandomAccessIter __last,
                                           _BidirectionalIter __result,
                                           random_access_iterator_tag,
                                           _Distance*)
@@ -459,6 +459,3 @@ inline _BidirectionalIter __copy_backward(_RandomAccessIter __first,
   return __result;
 }
 ```
-
----
-

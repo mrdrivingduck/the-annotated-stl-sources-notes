@@ -11,7 +11,7 @@ Nanjing, Jiangsu, China
 map 的特性是，所有元素都根据元素的 key 值自动被排序。map 的所有元素都是 **pair** (key + value)。map 不允许两个元素有相同的 key 值。
 
 ```c++
-template <class _Key, class _Tp, 
+template <class _Key, class _Tp,
           class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<_Key>), // 默认使用 < 比较 key
           class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) > // 默认使用 alloc 分配器
 class map;
@@ -20,7 +20,7 @@ class map;
 multimap 允许两个元素有相同的 key。
 
 ```c++
-template <class _Key, class _Tp, 
+template <class _Key, class _Tp,
           class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<_Key>),
           class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
 class multimap;
@@ -61,7 +61,7 @@ public:
   typedef _Tp                   mapped_type;
   typedef pair<const _Key, _Tp> value_type;
   typedef _Compare              key_compare;
-    
+
   // 定义用于比较 value 相对大小的仿函数，重载了该类的 () 运算符
   // 使用与泛型参数 (用于比较 key 的仿函数) 相同的仿函数比较 value
   class value_compare
@@ -80,7 +80,7 @@ private:
   typedef _Rb_tree<key_type, value_type, // 红黑树的类型定义
                    _Select1st<value_type>, key_compare, _Alloc> _Rep_type;
   _Rep_type _M_t;  // red-black tree representing map
-    
+
   // ...
 };
 ```
@@ -133,7 +133,7 @@ map(const value_type* __first,
     : _M_t(__comp, __a) { _M_t.insert_unique(__first, __last); }
 
 map(const_iterator __first, const_iterator __last)
-    : _M_t(_Compare(), allocator_type()) 
+    : _M_t(_Compare(), allocator_type())
     { _M_t.insert_unique(__first, __last); }
 
 map(const_iterator __first, const_iterator __last, const _Compare& __comp,
@@ -176,7 +176,7 @@ void swap(map<_Key,_Tp,_Compare,_Alloc>& __x) { _M_t.swap(__x._M_t); }
 不允许元素的 key 重复，因此调用红黑树的 `insert_unique()`；如果是 multimap，那么调用 `insert_equal()`。
 
 ```c++
-pair<iterator,bool> insert(const value_type& __x) 
+pair<iterator,bool> insert(const value_type& __x)
   { return _M_t.insert_unique(__x); }
 iterator insert(iterator position, const value_type& __x)
   { return _M_t.insert_unique(position, __x); }
@@ -207,15 +207,15 @@ void clear() { _M_t.clear(); }
 iterator find(const key_type& __x) { return _M_t.find(__x); }
 const_iterator find(const key_type& __x) const { return _M_t.find(__x); }
 size_type count(const key_type& __x) const {
-    return _M_t.find(__x) == _M_t.end() ? 0 : 1; 
+    return _M_t.find(__x) == _M_t.end() ? 0 : 1;
 }
 iterator lower_bound(const key_type& __x) {return _M_t.lower_bound(__x); }
 const_iterator lower_bound(const key_type& __x) const {
-    return _M_t.lower_bound(__x); 
+    return _M_t.lower_bound(__x);
 }
 iterator upper_bound(const key_type& __x) {return _M_t.upper_bound(__x); }
 const_iterator upper_bound(const key_type& __x) const {
-    return _M_t.upper_bound(__x); 
+    return _M_t.upper_bound(__x);
 }
 
 pair<iterator,iterator> equal_range(const key_type& __x) {
@@ -232,17 +232,14 @@ pair<const_iterator,const_iterator> equal_range(const key_type& __x) const {
 
 ```c++
 template <class _Key, class _Tp, class _Compare, class _Alloc>
-inline bool operator==(const map<_Key,_Tp,_Compare,_Alloc>& __x, 
+inline bool operator==(const map<_Key,_Tp,_Compare,_Alloc>& __x,
                        const map<_Key,_Tp,_Compare,_Alloc>& __y) {
   return __x._M_t == __y._M_t;
 }
 
 template <class _Key, class _Tp, class _Compare, class _Alloc>
-inline bool operator<(const map<_Key,_Tp,_Compare,_Alloc>& __x, 
+inline bool operator<(const map<_Key,_Tp,_Compare,_Alloc>& __x,
                       const map<_Key,_Tp,_Compare,_Alloc>& __y) {
   return __x._M_t < __y._M_t;
 }
 ```
-
----
-

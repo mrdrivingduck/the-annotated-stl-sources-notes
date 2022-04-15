@@ -17,7 +17,7 @@ queue 是一种 FIFO (First In First Out) 的数据结构。允许从尾端加�
 deque 是双向开口结构，如果封闭其头部的入口，以及尾部的出口，那么就很容易形成一个 queue。SGI STL 默认以 deque 作为 queue 的底层结构。同样，queue 借用了底层结构的 API，并屏蔽了其中的一些 API，因此也是一个 container adapter。
 
 ```c++
-template <class _Tp, 
+template <class _Tp,
           class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(deque<_Tp>) >
 class queue;
 ```
@@ -35,7 +35,7 @@ class queue {
   __STL_CLASS_REQUIRES_SAME_TYPE(_Tp, _Sequence_value_type);
 
 
-#ifdef __STL_MEMBER_TEMPLATES 
+#ifdef __STL_MEMBER_TEMPLATES
   template <class _Tp1, class _Seq1>
   friend bool operator== (const queue<_Tp1, _Seq1>&,
                           const queue<_Tp1, _Seq1>&);
@@ -77,7 +77,7 @@ public:
 
 ```c++
 template <class _Tp, class _Sequence>
-bool 
+bool
 operator==(const queue<_Tp, _Sequence>& __x, const queue<_Tp, _Sequence>& __y)
 {
   return __x.c == __y.c;
@@ -102,6 +102,3 @@ queue 不提供遍历功能，也不提供迭代器。
 ```c++
 queue<int, list<int> > list_queue;
 ```
-
----
-

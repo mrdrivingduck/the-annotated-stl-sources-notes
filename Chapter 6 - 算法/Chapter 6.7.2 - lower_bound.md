@@ -15,7 +15,7 @@ Nanjing, Jiangsu, China
 ```c++
 template <class _ForwardIter, class _Tp, class _Distance>
 _ForwardIter __lower_bound(_ForwardIter __first, _ForwardIter __last,
-                           const _Tp& __val, _Distance*) 
+                           const _Tp& __val, _Distance*)
 {
   _Distance __len = 0;    // 标识区间长度
   distance(__first, __last, __len);
@@ -73,6 +73,3 @@ bool binary_search(_ForwardIter __first, _ForwardIter __last,
   return __i != __last && !(__val < *__i);                 // 排除 val < *i 的元素
 }
 ```
-
----
-

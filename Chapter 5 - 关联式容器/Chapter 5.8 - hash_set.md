@@ -31,10 +31,10 @@ class hash_set
   __STL_CLASS_BINARY_FUNCTION_CHECK(_EqualKey, bool, _Value, _Value);
 
 private:
-  typedef hashtable<_Value, _Value, _HashFcn, _Identity<_Value>, 
+  typedef hashtable<_Value, _Value, _HashFcn, _Identity<_Value>,
                     _EqualKey, _Alloc> _Ht;
   _Ht _M_ht; // hashtable
-  
+
 public:
   typedef typename _Ht::key_type key_type;
   typedef typename _Ht::value_type value_type;
@@ -123,11 +123,11 @@ public:
   void insert(const value_type* __f, const value_type* __l) {
     _M_ht.insert_unique(__f,__l);
   }
-  void insert(const_iterator __f, const_iterator __l) 
+  void insert(const_iterator __f, const_iterator __l)
     {_M_ht.insert_unique(__f, __l); }
   pair<iterator, bool> insert_noresize(const value_type& __obj)
   {
-    pair<typename _Ht::iterator, bool> __p = 
+    pair<typename _Ht::iterator, bool> __p =
       _M_ht.insert_unique_noresize(__obj);
     return pair<iterator, bool>(__p.first, __p.second);
   }
@@ -137,7 +137,7 @@ public:
 
   // 查找某个 key 出现的次数
   size_type count(const key_type& __key) const { return _M_ht.count(__key); }
-  
+
   // 查找某个 key 的迭代器范围
   pair<iterator, iterator> equal_range(const key_type& __key) const
     { return _M_ht.equal_range(__key); }
@@ -158,13 +158,10 @@ public:
 };
 
 template <class _Value, class _HashFcn, class _EqualKey, class _Alloc>
-inline bool 
+inline bool
 operator==(const hash_set<_Value,_HashFcn,_EqualKey,_Alloc>& __hs1,
            const hash_set<_Value,_HashFcn,_EqualKey,_Alloc>& __hs2)
 {
   return __hs1._M_ht == __hs2._M_ht;
 }
 ```
-
----
-

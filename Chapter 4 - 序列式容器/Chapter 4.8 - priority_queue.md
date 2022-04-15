@@ -15,7 +15,7 @@ Nanjing, Jiangsu, China
 ## 4.8.2 priority_queue 完整定义列表
 
 ```c++
-template <class _Tp, 
+template <class _Tp,
           class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(vector<_Tp>), // 底层容器
           class _Compare                                             // 比较运算算子
           __STL_DEPENDENT_DEFAULT_TMPL(less<typename _Sequence::value_type>) >
@@ -44,35 +44,35 @@ public:
   // 构造函数主要对 make_heap() 函数进行了实用
   priority_queue() : c() {}
   explicit priority_queue(const _Compare& __x) :  c(), comp(__x) {}
-  priority_queue(const _Compare& __x, const _Sequence& __s) 
-    : c(__s), comp(__x) 
-    { make_heap(c.begin(), c.end(), comp); } 
+  priority_queue(const _Compare& __x, const _Sequence& __s)
+    : c(__s), comp(__x)
+    { make_heap(c.begin(), c.end(), comp); }
 
-      priority_queue(const value_type* __first, const value_type* __last) 
+      priority_queue(const value_type* __first, const value_type* __last)
     : c(__first, __last) { make_heap(c.begin(), c.end(), comp); }
 
-  priority_queue(const value_type* __first, const value_type* __last, 
-                 const _Compare& __x) 
+  priority_queue(const value_type* __first, const value_type* __last,
+                 const _Compare& __x)
     : c(__first, __last), comp(__x)
     { make_heap(c.begin(), c.end(), comp); }
 
-  priority_queue(const value_type* __first, const value_type* __last, 
+  priority_queue(const value_type* __first, const value_type* __last,
                  const _Compare& __x, const _Sequence& __c)
-    : c(__c), comp(__x) 
-  { 
+    : c(__c), comp(__x)
+  {
     c.insert(c.end(), __first, __last);
     make_heap(c.begin(), c.end(), comp);
   }
-    
+
   // 容量操作使用了底层容器的 API
   bool empty() const { return c.empty(); }
   size_type size() const { return c.size(); }
   const_reference top() const { return c.front(); }
-    
+
   // push 函数应用了 push_heap() 算法
   void push(const value_type& __x) {
     __STL_TRY {
-      c.push_back(__x); 
+      c.push_back(__x);
       push_heap(c.begin(), c.end(), comp);
     }
     __STL_UNWIND(c.clear());
@@ -98,6 +98,3 @@ public:
 priority_queue<int> q1;
 priority_queue<int, deque<int>, greater<int>> q2; // 底层容器需要支持随机访问迭代器
 ```
-
----
-

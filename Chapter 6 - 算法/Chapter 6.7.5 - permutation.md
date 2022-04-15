@@ -8,7 +8,7 @@ Nanjing, Jiangsu, China
 
 ---
 
-STL 提供了获取序列 *前一个* / *后一个* 排列组合序列的算法。所谓 *前一个 / 后一个* 是指将序列中的所有元素根据 `operator<` 进行字典序排序后的 *前一个 / 后一个* 序列。函数默认使用 `operator<` 来进行比较，但用户可以自行指定二元仿函数进行比较。
+STL 提供了获取序列 _前一个_ / _后一个_ 排列组合序列的算法。所谓 _前一个 / 后一个_ 是指将序列中的所有元素根据 `operator<` 进行字典序排序后的 _前一个 / 后一个_ 序列。函数默认使用 `operator<` 来进行比较，但用户可以自行指定二元仿函数进行比较。
 
 ## next_permutation
 
@@ -17,7 +17,7 @@ STL 提供了获取序列 *前一个* / *后一个* 排列组合序列的算法�
 > 为什么可以这样？
 
 ```c++
-// next_permutation and prev_permutation, with and without an explicitly 
+// next_permutation and prev_permutation, with and without an explicitly
 // supplied comparison function.
 
 template <class _BidirectionalIter>
@@ -98,6 +98,3 @@ template <class _BidirectionalIter, class _Compare>
 bool prev_permutation(_BidirectionalIter __first, _BidirectionalIter __last,
                       _Compare __comp);
 ```
-
----
-

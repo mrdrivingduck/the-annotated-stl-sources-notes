@@ -10,20 +10,20 @@ Nanjing, Jiangsu, China
 
 以下算法只包含单纯的数据移动、线性查找、计数、遍历、遍历施加操作等操作。从操作目标上来说，算法包含两种版本：
 
-* 在指定区间范围上 **就地操作**
-* 在指定区间范围上操作后，复制到另一个目标区间中 (通常来说实现上会简单些)
+- 在指定区间范围上 **就地操作**
+- 在指定区间范围上操作后，复制到另一个目标区间中 (通常来说实现上会简单些)
 
 从操作方式上来说，算法也可以分为两个版本：
 
-* 使用默认的方式 (`operator<` 或 `operator==`) 操作数据
-* 使用用户自定义的仿函数操作数据
+- 使用默认的方式 (`operator<` 或 `operator==`) 操作数据
+- 使用用户自定义的仿函数操作数据
 
 ## adjacent_find
 
 找出第一组 **满足条件** 的相邻元素，这里的满足条件指的是：
 
-* (默认) 两个相邻元素相等 (`operator==` 返回 `true`)
-* 用户指定一个二元仿函数，操作数为一对相邻元素，函数返回 `true`
+- (默认) 两个相邻元素相等 (`operator==` 返回 `true`)
+- 用户指定一个二元仿函数，操作数为一对相邻元素，函数返回 `true`
 
 一次线性遍历可以实现。
 
@@ -67,8 +67,8 @@ _ForwardIter adjacent_find(_ForwardIter __first, _ForwardIter __last,
 
 找出区间内第一个满足条件的元素，这里的满足条件指的是：
 
-* (默认) 与给定参数相等
-* 用户指定的一元仿函数对当前元素返回 `true`
+- (默认) 与给定参数相等
+- 用户指定的一元仿函数对当前元素返回 `true`
 
 一次线性遍历可以实现。
 
@@ -98,8 +98,8 @@ inline _InputIter find_if(_InputIter __first, _InputIter __last,
 
 在序列一所在的区间中，查找序列二第一次出现的位置。如果序列一中不存在包含序列二的区间，那么返回序列一的尾迭代器。
 
-* 默认使用 `operator==` 来判断序列二的元素是否出现在序列一中
-* 用户可以自行指定二元仿函数覆盖默认行为
+- 默认使用 `operator==` 来判断序列二的元素是否出现在序列一中
+- 用户可以自行指定二元仿函数覆盖默认行为
 
 需要两层循环实现。外层循环遍历序列一，内层循环遍历序列二。
 
@@ -111,7 +111,7 @@ _ForwardIter1 search(_ForwardIter1 __first1, _ForwardIter1 __last1,
 
 template <class _ForwardIter1, class _ForwardIter2>
 _ForwardIter1 search(_ForwardIter1 __first1, _ForwardIter1 __last1,
-                     _ForwardIter2 __first2, _ForwardIter2 __last2) 
+                     _ForwardIter2 __first2, _ForwardIter2 __last2)
 {
   __STL_REQUIRES(_ForwardIter1, _ForwardIterator);
   __STL_REQUIRES(_ForwardIter2, _ForwardIterator);
@@ -164,8 +164,8 @@ _ForwardIter1 search(_ForwardIter1 __first1, _ForwardIter1 __last1,
 
 `search_n()` 查找中连续 `n` 个元素的位置：
 
-* 默认使用 `operator==` 来比较序列内元素是否等于给定元素
-* 用户可自行提供二元仿函数
+- 默认使用 `operator==` 来比较序列内元素是否等于给定元素
+- 用户可自行提供二元仿函数
 
 代码上写的是两层循环，实际上序列内元素只会被遍历一次。
 
@@ -209,22 +209,22 @@ _ForwardIter search_n(_ForwardIter __first, _ForwardIter __last,
 
 寻找序列一所在区间中，序列二最后一次出现的位置。
 
-* (默认) 使用 `operator==` 决定元素是否出现
-* 用户可自行提供仿函数
+- (默认) 使用 `operator==` 决定元素是否出现
+- 用户可自行提供仿函数
 
 显然，需要两层循环结构来实现。如果迭代器具有 **逆向移动** 的功能，那么相当于在逆向上进行一次 `search()`；否则，迭代器只能从头开始寻找。所以，这里需要根据迭代器的类型做两种不同的实现。这也是 STL 中经常使用的编译器参数推导技巧。
 
 ```c++
-template <class _ForwardIter1, class _ForwardIter2, 
+template <class _ForwardIter1, class _ForwardIter2,
           class _BinaryPredicate>
-inline _ForwardIter1 
-find_end(_ForwardIter1 __first1, _ForwardIter1 __last1, 
+inline _ForwardIter1
+find_end(_ForwardIter1 __first1, _ForwardIter1 __last1,
          _ForwardIter2 __first2, _ForwardIter2 __last2,
          _BinaryPredicate __comp);  // 用户自行提供二元仿函数
 
 template <class _ForwardIter1, class _ForwardIter2>
-inline _ForwardIter1 
-find_end(_ForwardIter1 __first1, _ForwardIter1 __last1, 
+inline _ForwardIter1
+find_end(_ForwardIter1 __first1, _ForwardIter1 __last1,
          _ForwardIter2 __first2, _ForwardIter2 __last2)
 {
   __STL_REQUIRES(_ForwardIter1, _ForwardIterator);
@@ -246,7 +246,7 @@ find_end(_ForwardIter1 __first1, _ForwardIter1 __last1,
 // the *last* possible match.  Note that find_end for bidirectional iterators
 // is much faster than for forward iterators.
 
-// find_end for forward iterators. 
+// find_end for forward iterators.
 template <class _ForwardIter1, class _ForwardIter2>
 _ForwardIter1 __find_end(_ForwardIter1 __first1, _ForwardIter1 __last1,
                          _ForwardIter2 __first2, _ForwardIter2 __last2,
@@ -306,8 +306,8 @@ __find_end(_BidirectionalIter1 __first1, _BidirectionalIter1 __last1,
 
 寻找序列 1 中，第一次出现序列 2 中任意元素的位置。显然这也会是一个二层循环。
 
-* (默认) 使用 `operator==` 决定元素是否出现
-* 用户自行提供二元仿函数
+- (默认) 使用 `operator==` 决定元素是否出现
+- 用户自行提供二元仿函数
 
 ```c++
 // find_first_of, with and without an explicitly supplied comparison function.
@@ -323,7 +323,7 @@ _InputIter find_first_of(_InputIter __first1, _InputIter __last1,
 {
   __STL_REQUIRES(_InputIter, _InputIterator);
   __STL_REQUIRES(_ForwardIter, _ForwardIterator);
-  __STL_REQUIRES_BINARY_OP(_OP_EQUAL, bool, 
+  __STL_REQUIRES_BINARY_OP(_OP_EQUAL, bool,
      typename iterator_traits<_InputIter>::value_type,
      typename iterator_traits<_ForwardIter>::value_type);
 
@@ -420,7 +420,7 @@ _OutputIter transform(_InputIter1 __first1, _InputIter1 __last1,
 template <class _ForwardIter, class _Generator>
 void generate(_ForwardIter __first, _ForwardIter __last, _Generator __gen) {
   __STL_REQUIRES(_ForwardIter, _ForwardIterator);
-  __STL_GENERATOR_CHECK(_Generator, 
+  __STL_GENERATOR_CHECK(_Generator,
           typename iterator_traits<_ForwardIter>::value_type);
   for ( ; __first != __last; ++__first)
     *__first = __gen();  // 赋值
@@ -450,7 +450,7 @@ _ForwardIter max_element(_ForwardIter __first, _ForwardIter __last) {
                  _LessThanComparable);
   if (__first == __last) return __first;
   _ForwardIter __result = __first;
-  while (++__first != __last) 
+  while (++__first != __last)
     if (*__result < *__first)  // 大于现有最大值
       __result = __first;
   return __result;
@@ -467,7 +467,7 @@ _ForwardIter min_element(_ForwardIter __first, _ForwardIter __last) {
                  _LessThanComparable);
   if (__first == __last) return __first;
   _ForwardIter __result = __first;
-  while (++__first != __last) 
+  while (++__first != __last)
     if (*__first < *__result)  // 小于现有最小值
       __result = __first;
   return __result;
@@ -526,7 +526,7 @@ _ForwardIter remove(_ForwardIter __first, _ForwardIter __last,
   __STL_CONVERTIBLE(_Tp, typename iterator_traits<_ForwardIter>::value_type);
   __first = find(__first, __last, __value);  // 找到区间内第一个删除位置
   _ForwardIter __i = __first;
-  return __first == __last ? __first 
+  return __first == __last ? __first
                            : remove_copy(++__i, __last, __first, __value);  // 从删除位置的下一个位置开始 remove_copy()
 }
 
@@ -538,7 +538,7 @@ _ForwardIter remove_if(_ForwardIter __first, _ForwardIter __last,
                typename iterator_traits<_ForwardIter>::value_type);
   __first = find_if(__first, __last, __pred);  // 调用 find_if() 找到第一个删除位置
   _ForwardIter __i = __first;
-  return __first == __last ? __first 
+  return __first == __last ? __first
                            : remove_copy_if(++__i, __last, __first, __pred);
 }
 ```
@@ -635,7 +635,7 @@ inline void reverse(_BidirectionalIter __first, _BidirectionalIter __last) {
 }
 
 template <class _BidirectionalIter>
-void __reverse(_BidirectionalIter __first, _BidirectionalIter __last, 
+void __reverse(_BidirectionalIter __first, _BidirectionalIter __last,
                bidirectional_iterator_tag) {  // 双向迭代器版本
   while (true)
     if (__first == __last || __first == --__last)  // 循环终止条件为首尾迭代器相同或交错
@@ -695,7 +695,7 @@ _BidirectionalIter __rotate(_BidirectionalIter __first,
   __reverse(__middle, __last,   bidirectional_iterator_tag());  // 颠倒 middle 到 last 之间的区间
 
   // 以下，颠倒 first 到 last 之间的区间
-  
+
   while (__first != __middle && __middle != __last)
     swap (*__first++, *--__last);
 
@@ -772,7 +772,7 @@ _OutputIter __unique_copy(_InputIter __first, _InputIter __last,
 
 template <class _InputIter, class _OutputIter>
 inline _OutputIter __unique_copy(_InputIter __first, _InputIter __last,
-                                 _OutputIter __result, 
+                                 _OutputIter __result,
                                  output_iterator_tag) {  // 输出迭代器版本
   return __unique_copy(__first, __last, __result, __VALUE_TYPE(__first));
 }
@@ -888,7 +888,7 @@ inline _ForwardIter partition(_ForwardIter __first,
    			      _ForwardIter __last,
 			      _Predicate   __pred) {
   __STL_REQUIRES(_ForwardIter, _Mutable_ForwardIterator);
-  __STL_UNARY_FUNCTION_CHECK(_Predicate, bool, 
+  __STL_UNARY_FUNCTION_CHECK(_Predicate, bool,
         typename iterator_traits<_ForwardIter>::value_type);
   return __partition(__first, __last, __pred, __ITERATOR_CATEGORY(__first));  // 根据迭代器类型分派
 }
@@ -941,9 +941,4 @@ _BidirectionalIter __partition(_BidirectionalIter __first,
 }
 ```
 
----
-
 > 尼玛的，累死我了... 😆
-
----
-

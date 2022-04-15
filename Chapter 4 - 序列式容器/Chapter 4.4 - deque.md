@@ -59,15 +59,15 @@ struct _Deque_iterator {
   _Tp* _M_first;        // 当前缓冲区中的头
   _Tp* _M_last;         // 当前缓冲区中的尾 (包括未使用的空间在内)
   _Map_pointer _M_node; // 指向 map
-  
+
   // ...
 };
 ```
 
 deque 类内也维护着两个重要的迭代器 `start` 和 `finish`：
 
-* `start` 迭代器的 `cur` 指针指向 deque 内第一个缓冲区的第一个 (已被使用) 的位置
-* `finish` 迭代器的 `cur` 指针指向 deque 内最后一个缓冲区的最后一个 (已被使用) 的位置的下一个位置
+- `start` 迭代器的 `cur` 指针指向 deque 内第一个缓冲区的第一个 (已被使用) 的位置
+- `finish` 迭代器的 `cur` 指针指向 deque 内最后一个缓冲区的最后一个 (已被使用) 的位置的下一个位置
 
 这两个迭代器的 `cur` 指针标定了 deque 的数据访问范围。如图所示：
 
@@ -92,9 +92,9 @@ pointer operator->() const { return _M_cur; }
 
 `operator-` 运算符计算两个迭代器之间的距离。这个距离包含三个部分：
 
-* 两个迭代器之间的完整缓冲区个数 * 缓冲区大小
-* 当前迭代器所在缓冲区中，`cur` 与 `first` 之间的距离
-* 参数迭代器所在缓冲区中，`cur` 与 `last` 之间的距离
+- 两个迭代器之间的完整缓冲区个数 \* 缓冲区大小
+- 当前迭代器所在缓冲区中，`cur` 与 `first` 之间的距离
+- 参数迭代器所在缓冲区中，`cur` 与 `last` 之间的距离
 
 ```c++
 difference_type operator-(const _Self& __x) const {
@@ -105,8 +105,8 @@ difference_type operator-(const _Self& __x) const {
 
 `operator++` 和 `operator--` 运算符在修改 `cur` 的同时，需要判断是否到达缓冲区边界：
 
-* 如果到达缓冲区前边界，那么跳到前一个缓冲区，并将 `cur` 设置为缓冲区最后一个元素的下一个位置
-* 如果到达缓冲区后边界，那么跳到后一个缓冲区，并将 `cur` 设置为缓冲区的第一个元素
+- 如果到达缓冲区前边界，那么跳到前一个缓冲区，并将 `cur` 设置为缓冲区最后一个元素的下一个位置
+- 如果到达缓冲区后边界，那么跳到后一个缓冲区，并将 `cur` 设置为缓冲区的第一个元素
 
 ```c++
 _Self& operator++() {
@@ -115,7 +115,7 @@ _Self& operator++() {
         _M_set_node(_M_node + 1);
         _M_cur = _M_first;
     }
-    return *this; 
+    return *this;
 }
 _Self operator++(int)  {
     _Self __tmp = *this;
@@ -186,7 +186,7 @@ reference operator[](difference_type __n) const { return *(*this + __n); }
 bool operator==(const _Self& __x) const { return _M_cur == __x._M_cur; }
 bool operator!=(const _Self& __x) const { return !(*this == __x); }
 bool operator<(const _Self& __x) const {
-    return (_M_node == __x._M_node) ? 
+    return (_M_node == __x._M_node) ?
         (_M_cur < __x._M_cur) : (_M_node < __x._M_node);
 }
 bool operator>(const _Self& __x) const  { return __x < *this; }
@@ -214,7 +214,7 @@ public:
   }
   _Deque_base(const allocator_type&)
     : _M_map(0), _M_map_size(0),  _M_start(), _M_finish() {}
-  ~_Deque_base();    
+  ~_Deque_base();
 
 protected:
   void _M_initialize_map(size_t);
@@ -235,9 +235,9 @@ protected:
     { return _Node_alloc_type::allocate(__deque_buf_size(sizeof(_Tp))); }
   void _M_deallocate_node(_Tp* __p)
     { _Node_alloc_type::deallocate(__p, __deque_buf_size(sizeof(_Tp))); }
-  _Tp** _M_allocate_map(size_t __n) 
+  _Tp** _M_allocate_map(size_t __n)
     { return _Map_alloc_type::allocate(__n); }
-  void _M_deallocate_map(_Tp** __p, size_t __n) 
+  void _M_deallocate_map(_Tp** __p, size_t __n)
     { _Map_alloc_type::deallocate(__p, __n); }
 };
 ```
@@ -252,7 +252,7 @@ const_iterator end() const { return _M_finish; }
 
 reference operator[](size_type __n)
     { return _M_start[difference_type(__n)]; } // 从第一个有效元素开始随机访问
-const_reference operator[](size_type __n) const 
+const_reference operator[](size_type __n) const
     { return _M_start[difference_type(__n)]; }
 
 reference front() { return *_M_start; }
@@ -304,19 +304,19 @@ template <class _Tp, class _Alloc>
 void
 _Deque_base<_Tp,_Alloc>::_M_initialize_map(size_t __num_elements)
 {
-  size_t __num_nodes = 
+  size_t __num_nodes =
     __num_elements / __deque_buf_size(sizeof(_Tp)) + 1; // 容纳指定元素需要的缓冲区个数
 
   _M_map_size = max((size_t) _S_initial_map_size, __num_nodes + 2); // map 内前后各预留一个空指针备用
   // enum { _S_initial_map_size = 8 };
   // 最少要有 8 个缓冲区指针的空间
-    
+
   _M_map = _M_allocate_map(_M_map_size); // 分配 map 内存
 
   // 从 map 的中间开始启用 (前后留空)
   _Tp** __nstart = _M_map + (_M_map_size - __num_nodes) / 2;
   _Tp** __nfinish = __nstart + __num_nodes;
-    
+
   __STL_TRY {
     _M_create_nodes(__nstart, __nfinish); // 依次创建每一个缓冲区
   }
@@ -393,14 +393,14 @@ void  deque<_Tp,_Alloc>::_M_push_front_aux(const value_type& __t)
     construct(_M_start._M_cur, __t_copy);
   }
   __STL_UNWIND((++_M_start, _M_deallocate_node(*(_M_start._M_node - 1))));
-} 
+}
 ```
 
 这里引出了问题：如果 map 中的空间不够用了怎么办？不妨看看 `reserve_map_at_back()` 和 `reserve_map_at_front()` 是怎么干的。这两个函数不负责分配缓冲区，只负责重新分配一个更大的 map，并将原来 map 中的缓冲区指针搬运到新的 map 中，并析构释放原来的 map。
 
 ```c++
 // Makes sure the _M_map has space for new nodes.  Does not actually
-//  add the nodes.  Can invalidate _M_map pointers.  (And consequently, 
+//  add the nodes.  Can invalidate _M_map pointers.  (And consequently,
 //  deque iterators.)
 
 void _M_reserve_map_at_back (size_type __nodes_to_add = 1) {
@@ -426,16 +426,16 @@ void deque<_Tp,_Alloc>::_M_reallocate_map(size_type __nodes_to_add,
 
   _Map_pointer __new_nstart;
   if (_M_map_size > 2 * __new_num_nodes) { // 不需重新分配，前后不均罢了，将有效指针搬运到 map 中间
-    __new_nstart = _M_map + (_M_map_size - __new_num_nodes) / 2 
+    __new_nstart = _M_map + (_M_map_size - __new_num_nodes) / 2
                      + (__add_at_front ? __nodes_to_add : 0);
     if (__new_nstart < _M_start._M_node)
       copy(_M_start._M_node, _M_finish._M_node + 1, __new_nstart);
     else
-      copy_backward(_M_start._M_node, _M_finish._M_node + 1, 
+      copy_backward(_M_start._M_node, _M_finish._M_node + 1,
                     __new_nstart + __old_num_nodes);
   }
   else { // 需要重新分配 map
-    size_type __new_map_size = 
+    size_type __new_map_size =
       _M_map_size + max(_M_map_size, __nodes_to_add) + 2; // 新的 map 大小
 
     _Map_pointer __new_map = _M_allocate_map(__new_map_size); // 分配
@@ -458,8 +458,8 @@ void deque<_Tp,_Alloc>::_M_reallocate_map(size_type __nodes_to_add,
 
 `pop` 操作需要判断被删除的元素是否是当前缓冲区中的最后一个元素：
 
-* 如果不是，则直接析构元素，并调整 `cur` 指针
-* 如果是，那么切换缓冲区，重新调整 `cur` 指针，销毁元素，此外还需要释放缓冲区
+- 如果不是，则直接析构元素，并调整 `cur` 指针
+- 如果是，那么切换缓冲区，重新调整 `cur` 指针，销毁元素，此外还需要释放缓冲区
 
 ```c++
 void pop_back() {
@@ -476,7 +476,7 @@ void pop_front() {
         destroy(_M_start._M_cur); // 直接析构
         ++_M_start._M_cur;
     }
-    else 
+    else
         _M_pop_front_aux(); // 需要释放缓冲区
 }
 
@@ -490,9 +490,9 @@ void deque<_Tp,_Alloc>::_M_pop_back_aux()
   destroy(_M_finish._M_cur); // 析构元素
 }
 
-// Called only if _M_start._M_cur == _M_start._M_last - 1.  Note that 
-// if the deque has at least one element (a precondition for this member 
-// function), and if _M_start._M_cur == _M_start._M_last, then the deque 
+// Called only if _M_start._M_cur == _M_start._M_last - 1.  Note that
+// if the deque has at least one element (a precondition for this member
+// function), and if _M_start._M_cur == _M_start._M_last, then the deque
 // must have at least two nodes.
 template <class _Tp, class _Alloc>
 void deque<_Tp,_Alloc>::_M_pop_front_aux()
@@ -501,13 +501,13 @@ void deque<_Tp,_Alloc>::_M_pop_front_aux()
   _M_deallocate_node(_M_start._M_first);
   _M_start._M_set_node(_M_start._M_node + 1);
   _M_start._M_cur = _M_start._M_first;
-}  
+}
 ```
 
 `clear()` 清除整个 deque。deque 在最初状态 (无任何元素) 时保有一个缓冲区。
 
 ```c++
-template <class _Tp, class _Alloc> 
+template <class _Tp, class _Alloc>
 void deque<_Tp,_Alloc>::clear()
 {
   for (_Map_pointer __node = _M_start._M_node + 1;
@@ -552,7 +552,7 @@ iterator erase(iterator __pos) {
 
 ```c++
 template <class _Tp, class _Alloc>
-typename deque<_Tp,_Alloc>::iterator 
+typename deque<_Tp,_Alloc>::iterator
 deque<_Tp,_Alloc>::erase(iterator __first, iterator __last)
 {
   if (__first == _M_start && __last == _M_finish) {
@@ -616,6 +616,3 @@ deque<_Tp,_Alloc>::_M_insert_aux(iterator __pos, const value_type& __x)
 ```
 
 以上，`erase()` 和 `insert()` 能够成功实现的前提都是 `copy()` 和 `copy_backward()` 的正确操作。而这两个操作应当都是使用了 deque 迭代器屏蔽了底层细节，从而实现了可能的跨缓冲区的顺利复制。
-
----
-

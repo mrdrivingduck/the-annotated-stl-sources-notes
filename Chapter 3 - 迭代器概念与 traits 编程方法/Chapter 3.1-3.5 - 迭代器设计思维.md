@@ -8,14 +8,14 @@ Nanjing, Jiangsu, China
 
 ---
 
-**迭代器 (iterator)** 模式是 *Design Patterns* 中提供的 23 个设计模式之一，定义为：提供一种方法，使之能够依序巡防某个聚合物 (容器) 所含的各种元素，而又无需暴露该聚合物的内部表述方式。
+**迭代器 (iterator)** 模式是 _Design Patterns_ 中提供的 23 个设计模式之一，定义为：提供一种方法，使之能够依序巡防某个聚合物 (容器) 所含的各种元素，而又无需暴露该聚合物的内部表述方式。
 
 STL 的中心思想在于，将 **数据容器** 与 **算法** 分开，彼此独立设计，最后再以粘合剂将它们撮合在一起。容器的泛型化可以由 C++ 的 class templates 完成；算法的泛型化可以由 C++ 的 function templates 完成；迭代器实现容器和算法的粘合。
 
 迭代器是一种行为类似指针的对象，而指针最常用的操作是：
 
-* `operator*`
-* `operator->`
+- `operator*`
+- `operator->`
 
 因此，迭代器最重要的工作就是对以上两个运算符进行重载。
 
@@ -54,7 +54,7 @@ int main()
 template <class T>
 struct MyIter {
     typedef T value_type; // 将内嵌类型显式声明为 value_type 类型
-    
+
     T *ptr;
     // ...
 };
@@ -183,11 +183,11 @@ struct iterator_traits<const T*>
 
 用于区分迭代器的操作类型。根据移动特性分类，迭代器可以被分为：
 
-* Input Iterator：迭代器所指对象 **只读**
-* Output Iterator：迭代器所指对象 **只写**
-* Forward Iterator：迭代器所指区间范围内可读可写，但只能向前移动
-* Bidirectional Iterator：迭代器在区间上可 **双向移动**
-* Random Access Iterator：涵盖指针的所有算数能力，除了双向移动，还能 **跳跃移动** (随机访问)
+- Input Iterator：迭代器所指对象 **只读**
+- Output Iterator：迭代器所指对象 **只写**
+- Forward Iterator：迭代器所指区间范围内可读可写，但只能向前移动
+- Bidirectional Iterator：迭代器在区间上可 **双向移动**
+- Random Access Iterator：涵盖指针的所有算数能力，除了双向移动，还能 **跳跃移动** (随机访问)
 
 这五种迭代器有着天然的从属关系：
 
@@ -300,8 +300,5 @@ struct iterator {
 
 其中，后三个参数都有默认值，因此只需要提供前两个参数即可：
 
-* 迭代器类型
-* 迭代器的内嵌类型
-
----
-
+- 迭代器类型
+- 迭代器的内嵌类型

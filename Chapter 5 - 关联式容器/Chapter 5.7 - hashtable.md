@@ -14,9 +14,9 @@ Nanjing, Jiangsu, China
 
 使用 hash 函数带来的问题是有不同的元素被映射到相同的位置上，即所谓 **碰撞** 问题。解决碰撞的方法：
 
-* 线性探测 (linear probing)：负载因子小于 1，按照计算所得的 hash 值的位置逐一向下寻找 (平均插入成本的增长幅度远高于负载系数的增长幅度)
-* 二次探测 (quadratic probing)：负载因子小于 1，按照二次方程作为下一个位置的偏移逐一向下寻找 (两个元素经 hash 函数计算出的位置相同，那么之后插入时探测的位置也相同，导致浪费)
-* 链地址 (separate chaining)：负载因子大于 1，在每个 hash table 元素上维护一个链表
+- 线性探测 (linear probing)：负载因子小于 1，按照计算所得的 hash 值的位置逐一向下寻找 (平均插入成本的增长幅度远高于负载系数的增长幅度)
+- 二次探测 (quadratic probing)：负载因子小于 1，按照二次方程作为下一个位置的偏移逐一向下寻找 (两个元素经 hash 函数计算出的位置相同，那么之后插入时探测的位置也相同，导致浪费)
+- 链地址 (separate chaining)：负载因子大于 1，在每个 hash table 元素上维护一个链表
 
 > 如果底层桶个数的大小为 **质数**，并且保持负载因子在 **0.5** 以下，那么可以确定每插入一个新元素所需探测次数不多于 2 (为什么？)。当桶的个数需要增长时，需要找到比当前桶个数大两倍左右的质数。
 
@@ -30,7 +30,7 @@ struct _Hashtable_node
 {
   _Hashtable_node* _M_next;
   _Val _M_val;
-};  
+};
 ```
 
 桶维护的链表并没有使用 STL 的 list 或 slist，而是自行维护。所有的桶结点被维护在一个 vector 内，以便动态扩充。
@@ -43,10 +43,10 @@ template <class _Val, class _Key, class _HashFcn,
 struct _Hashtable_iterator {
   typedef hashtable<_Val,_Key,_HashFcn,_ExtractKey,_EqualKey,_Alloc>
           _Hashtable;
-  typedef _Hashtable_iterator<_Val, _Key, _HashFcn, 
+  typedef _Hashtable_iterator<_Val, _Key, _HashFcn,
                               _ExtractKey, _EqualKey, _Alloc>
           iterator;
-  typedef _Hashtable_const_iterator<_Val, _Key, _HashFcn, 
+  typedef _Hashtable_const_iterator<_Val, _Key, _HashFcn,
                                     _ExtractKey, _EqualKey, _Alloc>
           const_iterator;
   typedef _Hashtable_node<_Val> _Node;
@@ -61,7 +61,7 @@ struct _Hashtable_iterator {
   _Node* _M_cur;     // 指向结点
   _Hashtable* _M_ht; // 指向 hashtable
 
-  _Hashtable_iterator(_Node* __n, _Hashtable* __tab) 
+  _Hashtable_iterator(_Node* __n, _Hashtable* __tab)
     : _M_cur(__n), _M_ht(__tab) {}
   _Hashtable_iterator() {}
   reference operator*() const { return _M_cur->_M_val; }
@@ -80,7 +80,7 @@ struct _Hashtable_iterator {
 hashtable 的迭代器必须维护与 hashtable 的联系。迭代器的前进操作意味着利用结点的 `next` 指针访问桶内链表的下一个元素；如果当前结点刚好是链表的尾端，那么就应当跳转到下一个 bucket 上。
 
 ```c++
-template <class _Val, class _Key, class _HF, class _ExK, class _EqK, 
+template <class _Val, class _Key, class _HF, class _ExK, class _EqK,
           class _All>
 _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>&
 _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>::operator++()
@@ -95,7 +95,7 @@ _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>::operator++()
   return *this;
 }
 
-template <class _Val, class _Key, class _HF, class _ExK, class _EqK, 
+template <class _Val, class _Key, class _HF, class _ExK, class _EqK,
           class _All>
 inline _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>
 _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>::operator++(int)
@@ -163,7 +163,7 @@ static const unsigned long __stl_prime_list[__stl_num_primes] =
   1543ul,       3079ul,       6151ul,      12289ul,     24593ul,
   49157ul,      98317ul,      196613ul,    393241ul,    786433ul,
   1572869ul,    3145739ul,    6291469ul,   12582917ul,  25165843ul,
-  50331653ul,   100663319ul,  201326611ul, 402653189ul, 805306457ul, 
+  50331653ul,   100663319ul,  201326611ul, 402653189ul, 805306457ul,
   1610612741ul, 3221225473ul, 4294967291ul
 };
 
@@ -182,7 +182,7 @@ inline unsigned long __stl_next_prime(unsigned long __n)
 size_type bucket_count() const { return _M_buckets.size(); }
 
 size_type max_bucket_count() const
-  { return __stl_prime_list[(int)__stl_num_primes - 1]; } 
+  { return __stl_prime_list[(int)__stl_num_primes - 1]; }
 ```
 
 ## 5.7.5 hashtable 的构造与内存管理
@@ -288,7 +288,7 @@ void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
 }
 
 template <class _Val, class _Key, class _HF, class _Ex, class _Eq, class _All>
-pair<typename hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::iterator, bool> 
+pair<typename hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::iterator, bool>
 hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
   ::insert_unique_noresize(const value_type& __obj)
 {
@@ -317,7 +317,7 @@ iterator insert_equal(const value_type& __obj) // 由于操作肯定成功，因
 }
 
 template <class _Val, class _Key, class _HF, class _Ex, class _Eq, class _All>
-typename hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::iterator 
+typename hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::iterator
 hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
   ::insert_equal_noresize(const value_type& __obj)
 {
@@ -403,8 +403,8 @@ void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
         _M_buckets[__i] = __copy;                   // 加入链表
 
         // 复制后续结点
-        for (_Node* __next = __cur->_M_next; 
-             __next; 
+        for (_Node* __next = __cur->_M_next;
+             __next;
              __cur = __next, __next = __cur->_M_next) {
           __copy->_M_next = _M_new_node(__next->_M_val);
           __copy = __copy->_M_next;
@@ -456,10 +456,10 @@ __STL_TEMPLATE_NULL struct hash<unsigned long> {
 ```c++
 inline size_t __stl_hash_string(const char* __s)
 {
-  unsigned long __h = 0; 
+  unsigned long __h = 0;
   for ( ; *__s; ++__s)
     __h = 5*__h + *__s;
-  
+
   return size_t(__h);
 }
 
@@ -475,6 +475,3 @@ __STL_TEMPLATE_NULL struct hash<const char*>
 ```
 
 SGI STL 无法处理上述所列各数据类型以外的元素。如果要处理这些类型，用户需要为它们自行定义 hash 函数。
-
----
-

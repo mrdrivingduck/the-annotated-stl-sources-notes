@@ -175,10 +175,10 @@ _OutputIter set_difference(_InputIter1 __first1, _InputIter1 __last1,
   return copy(__first1, __last1, __result);  // 第一个集合中的剩余元素全部复制到差集中
 }
 
-template <class _InputIter1, class _InputIter2, class _OutputIter, 
+template <class _InputIter1, class _InputIter2, class _OutputIter,
           class _Compare>
 _OutputIter set_difference(_InputIter1 __first1, _InputIter1 __last1,
-                           _InputIter2 __first2, _InputIter2 __last2, 
+                           _InputIter2 __first2, _InputIter2 __last2,
                            _OutputIter __result, _Compare __comp) {
   __STL_REQUIRES(_InputIter1, _InputIterator);
   __STL_REQUIRES(_InputIter2, _InputIterator);
@@ -208,11 +208,11 @@ _OutputIter set_difference(_InputIter1 __first1, _InputIter1 __last1,
 
 ## 6.5.4 set_symmetric_difference
 
-`set_symmetric_difference()` 可以得到两个集合的对称差集，即 `(S1 - S2) ∪ (S2 - S1)`，*出现在第一个集合但不出现在第二个集合* 以及 *出现在第二个集合但不出现在第一个集合* 的每一个元素。参考之前非对称差集的实现 (`set_difference()`) 就可以知道如何实现这个函数。同样，支持 `operator<` 和二元仿函数两个版本。
+`set_symmetric_difference()` 可以得到两个集合的对称差集，即 `(S1 - S2) ∪ (S2 - S1)`，_出现在第一个集合但不出现在第二个集合_ 以及 _出现在第二个集合但不出现在第一个集合_ 的每一个元素。参考之前非对称差集的实现 (`set_difference()`) 就可以知道如何实现这个函数。同样，支持 `operator<` 和二元仿函数两个版本。
 
 ```c++
 template <class _InputIter1, class _InputIter2, class _OutputIter>
-_OutputIter 
+_OutputIter
 set_symmetric_difference(_InputIter1 __first1, _InputIter1 __last1,
                          _InputIter2 __first2, _InputIter2 __last2,
                          _OutputIter __result) {
@@ -244,7 +244,7 @@ set_symmetric_difference(_InputIter1 __first1, _InputIter1 __last1,
 
 template <class _InputIter1, class _InputIter2, class _OutputIter,
           class _Compare>
-_OutputIter 
+_OutputIter
 set_symmetric_difference(_InputIter1 __first1, _InputIter1 __last1,
                          _InputIter2 __first2, _InputIter2 __last2,
                          _OutputIter __result,
@@ -276,6 +276,3 @@ set_symmetric_difference(_InputIter1 __first1, _InputIter1 __last1,
   return copy(__first2, __last2, copy(__first1, __last1, __result));
 }
 ```
-
----
-

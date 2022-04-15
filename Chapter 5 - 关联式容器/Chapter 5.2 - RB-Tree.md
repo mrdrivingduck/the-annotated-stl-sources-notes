@@ -57,13 +57,13 @@ struct _Identity : public unary_function<_Tp,_Tp> {
 
 红黑树的两个重要的插入函数：
 
-* `insert_unique()` - 不允许插入重复的结点，用于支持 set / map，返回值为 `pair<iterator, bool>`，`iterator` 指向插入位置，`bool` 表示是否插入成功
-* `insert_equal()` - 允许插入重复的结点，用于支持 multiset / multimap，返回值为 `iterator`，指向插入位置
+- `insert_unique()` - 不允许插入重复的结点，用于支持 set / map，返回值为 `pair<iterator, bool>`，`iterator` 指向插入位置，`bool` 表示是否插入成功
+- `insert_equal()` - 允许插入重复的结点，用于支持 multiset / multimap，返回值为 `iterator`，指向插入位置
 
 ```c++
-template <class _Key, class _Value, class _KeyOfValue, 
+template <class _Key, class _Value, class _KeyOfValue,
           class _Compare, class _Alloc>
-pair<typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::iterator, 
+pair<typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::iterator,
      bool>
 _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>
   ::insert_unique(const _Value& __v)
@@ -89,7 +89,7 @@ _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>
 ```
 
 ```c++
-template <class _Key, class _Value, class _KeyOfValue, 
+template <class _Key, class _Value, class _KeyOfValue,
           class _Compare, class _Alloc>
 typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::iterator
 _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>
@@ -99,7 +99,7 @@ _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>
   _Link_type __x = _M_root(); // 根结点
   while (__x != 0) {
     __y = __x;
-    __x = _M_key_compare(_KeyOfValue()(__v), _S_key(__x)) ? 
+    __x = _M_key_compare(_KeyOfValue()(__v), _S_key(__x)) ?
             _S_left(__x) : _S_right(__x); // 根据 value 计算 key，进入左子树或右子树
   }
   return _M_insert(__x, __y, __v); // 插入 (肯定成功，除非结点内存分配失败)
@@ -111,9 +111,9 @@ _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>
 从根结点开始搜寻是否存在某个特定的 key：
 
 ```c++
-template <class _Key, class _Value, class _KeyOfValue, 
+template <class _Key, class _Value, class _KeyOfValue,
           class _Compare, class _Alloc>
-typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::const_iterator 
+typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::const_iterator
 _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::find(const _Key& __k) const
 {
   _Link_type __y = _M_header; /* Last node which is not less than __k. */
@@ -130,6 +130,3 @@ _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::find(const _Key& __k) const
     end() : __j; // 找到了
 }
 ```
-
----
-

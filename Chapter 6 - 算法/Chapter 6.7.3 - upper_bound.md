@@ -73,8 +73,8 @@ inline _ForwardIter upper_bound(_ForwardIter __first, _ForwardIter __last,
 
 二分查找的一个版本，在已排序的区间中寻找某个特定值所在的区间，该区间为：
 
-* 起点是可以插入该元素的第一个位置 (`lower_bound()`)
-* 终点是可以插入该元素的最后一个位置 (`upper_bound()`)
+- 起点是可以插入该元素的第一个位置 (`lower_bound()`)
+- 终点是可以插入该元素的最后一个位置 (`upper_bound()`)
 
 区间内的每一个元素都与该指定值相等。
 
@@ -85,7 +85,7 @@ template <class _ForwardIter, class _Tp>
 inline pair<_ForwardIter, _ForwardIter>
 equal_range(_ForwardIter __first, _ForwardIter __last, const _Tp& __val) {
   __STL_REQUIRES(_ForwardIter, _ForwardIterator);
-  __STL_REQUIRES_SAME_TYPE(_Tp, 
+  __STL_REQUIRES_SAME_TYPE(_Tp,
        typename iterator_traits<_ForwardIter>::value_type);
   __STL_REQUIRES(_Tp, _LessThanComparable);
   return __equal_range(__first, __last, __val,
@@ -128,6 +128,3 @@ inline pair<_ForwardIter, _ForwardIter>
 equal_range(_ForwardIter __first, _ForwardIter __last, const _Tp& __val,
             _Compare __comp);  // 用户自行提供仿函数
 ```
-
----
-

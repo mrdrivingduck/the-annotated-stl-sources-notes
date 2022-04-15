@@ -8,9 +8,9 @@ Nanjing, Jiangsu, China
 
 ---
 
-* `uninitialized_copy()` - 对应于高层算法 `copy()`
-* `uninitialized_fill()` - 对应于高层算法 `fill()`
-* `uninitialized_fill_n()` - 对应于高层算法 `fill_n()`
+- `uninitialized_copy()` - 对应于高层算法 `copy()`
+- `uninitialized_fill()` - 对应于高层算法 `fill()`
+- `uninitialized_fill_n()` - 对应于高层算法 `fill_n()`
 
 ## 2.3.1 `uninitialized_copy`
 
@@ -42,14 +42,14 @@ __uninitialized_copy(_InputIter __first, _InputIter __last,
 
 对于是否为 POD，进一步具体化出了两种版本：
 
-* 如果是 POD 类型，则调用 `copy()`
-* 如果不是 POD 类型，则遍历每一个元素，依次调用拷贝构造函数
+- 如果是 POD 类型，则调用 `copy()`
+- 如果不是 POD 类型，则遍历每一个元素，依次调用拷贝构造函数
 
 ```c++
 // Valid if copy construction is equivalent to assignment, and if the
 //  destructor is trivial.
 template <class _InputIter, class _ForwardIter>
-inline _ForwardIter 
+inline _ForwardIter
 __uninitialized_copy_aux(_InputIter __first, _InputIter __last,
                          _ForwardIter __result,
                          __true_type)
@@ -58,7 +58,7 @@ __uninitialized_copy_aux(_InputIter __first, _InputIter __last,
 }
 
 template <class _InputIter, class _ForwardIter>
-_ForwardIter 
+_ForwardIter
 __uninitialized_copy_aux(_InputIter __first, _InputIter __last,
                          _ForwardIter __result,
                          __false_type)
@@ -88,7 +88,7 @@ static _Tp* copy(const _Tp* __first, const _Tp* __last, _Tp* __result) {
 ```c++
 template <class _ForwardIter, class _Tp>
 inline void uninitialized_fill(_ForwardIter __first,
-                               _ForwardIter __last, 
+                               _ForwardIter __last,
                                const _Tp& __x)
 {
   __uninitialized_fill(__first, __last, __x, __VALUE_TYPE(__first));
@@ -99,12 +99,12 @@ inline void uninitialized_fill(_ForwardIter __first,
 
 ```c++
 template <class _ForwardIter, class _Tp, class _Tp1>
-inline void __uninitialized_fill(_ForwardIter __first, 
+inline void __uninitialized_fill(_ForwardIter __first,
                                  _ForwardIter __last, const _Tp& __x, _Tp1*)
 {
   typedef typename __type_traits<_Tp1>::is_POD_type _Is_POD;
   __uninitialized_fill_aux(__first, __last, __x, _Is_POD());
-                   
+
 }
 ```
 
@@ -115,7 +115,7 @@ inline void __uninitialized_fill(_ForwardIter __first,
 // destructor is trivial.
 template <class _ForwardIter, class _Tp>
 inline void
-__uninitialized_fill_aux(_ForwardIter __first, _ForwardIter __last, 
+__uninitialized_fill_aux(_ForwardIter __first, _ForwardIter __last,
                          const _Tp& __x, __true_type)
 {
   fill(__first, __last, __x);
@@ -123,7 +123,7 @@ __uninitialized_fill_aux(_ForwardIter __first, _ForwardIter __last,
 
 template <class _ForwardIter, class _Tp>
 void
-__uninitialized_fill_aux(_ForwardIter __first, _ForwardIter __last, 
+__uninitialized_fill_aux(_ForwardIter __first, _ForwardIter __last,
                          const _Tp& __x, __false_type)
 {
   _ForwardIter __cur = __first;
@@ -150,7 +150,7 @@ void fill(_ForwardIter __first, _ForwardIter __last, const _Tp& __value) {
 
 ```c++
 template <class _ForwardIter, class _Size, class _Tp>
-inline _ForwardIter 
+inline _ForwardIter
 uninitialized_fill_n(_ForwardIter __first, _Size __n, const _Tp& __x)
 {
   return __uninitialized_fill_n(__first, __n, __x, __VALUE_TYPE(__first));
@@ -161,7 +161,7 @@ uninitialized_fill_n(_ForwardIter __first, _Size __n, const _Tp& __x)
 
 ```c++
 template <class _ForwardIter, class _Size, class _Tp, class _Tp1>
-inline _ForwardIter 
+inline _ForwardIter
 __uninitialized_fill_n(_ForwardIter __first, _Size __n, const _Tp& __x, _Tp1*)
 {
   typedef typename __type_traits<_Tp1>::is_POD_type _Is_POD;
@@ -208,6 +208,3 @@ _OutputIter fill_n(_OutputIter __first, _Size __n, const _Tp& __value) {
   return __first;
 }
 ```
-
----
-

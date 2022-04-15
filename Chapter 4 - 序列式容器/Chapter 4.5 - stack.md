@@ -12,18 +12,18 @@ Nanjing, Jiangsu, China
 
 stack 是一种 FILO (First In Last Out) 的数据结构，只有一个出口。允许以下操作：
 
-* 新增元素
-* 移除元素
-* 取得最顶端元素
+- 新增元素
+- 移除元素
+- 取得最顶端元素
 
 此外，没有其它方法可以存取 stack 中的元素，也没有遍历操作。
 
 ## 4.5.2 stack 定义完整列表
 
-deque 是双向开口的数据结构。如果以 deque 为底层结构，封闭 deque 的头部开口，就形成了一个 stack。SGI STL 默认以 deque 为 stack 的底层结构。stack 的所有 API 都由底层数据结构的 API 来实现，只不过屏蔽了某些底层结构的 API (比如头部开口)。具有这种 *修改某物接口，形成另一种风貌* 性质的结构被称为 **adapter (适配器)**。STL 中的 stack 通常不被归类为容器 (container)，而是容器适配器 (container adapter)。
+deque 是双向开口的数据结构。如果以 deque 为底层结构，封闭 deque 的头部开口，就形成了一个 stack。SGI STL 默认以 deque 为 stack 的底层结构。stack 的所有 API 都由底层数据结构的 API 来实现，只不过屏蔽了某些底层结构的 API (比如头部开口)。具有这种 _修改某物接口，形成另一种风貌_ 性质的结构被称为 **adapter (适配器)**。STL 中的 stack 通常不被归类为容器 (container)，而是容器适配器 (container adapter)。
 
 ```c++
-template <class _Tp, 
+template <class _Tp,
           class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(deque<_Tp>) > // deque
 class stack;
 ```
@@ -105,6 +105,3 @@ list 也是双向开口的结构，并且 stack 使用的底层容器操作 `emp
 ```c++
 stack<int, list<int> > list_stack;
 ```
-
----
-

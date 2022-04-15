@@ -92,10 +92,10 @@ public:
   typedef void                pointer;
   typedef void                reference;
 
-  insert_iterator(_Container& __x, typename _Container::iterator __i) 
+  insert_iterator(_Container& __x, typename _Container::iterator __i)
     : container(&__x /* 指向底层容器 */), iter(__i /* 指示插入位置的迭代器 */) {}
   insert_iterator<_Container>&
-  operator=(const typename _Container::value_type& __value) { 
+  operator=(const typename _Container::value_type& __value) {
     iter = container->insert(iter, __value); // 在迭代器指示的位置插入
     ++iter;                                  // 重新指向构造函数指定的迭代器
     return *this;
@@ -106,7 +106,7 @@ public:
 };
 
 template <class _Container, class _Iterator>
-inline 
+inline
 insert_iterator<_Container> inserter(_Container& __x, _Iterator __i)
 {
   typedef typename _Container::iterator __iter;
@@ -172,7 +172,7 @@ public:
     current += __n; // 反向迭代器的 -= 对应正向迭代器的 +=
     return *this;
   }
-    
+
   // 这里的第一个 * 使用的是当前类重载的 operator*，实际上访问的是 *(current - 1)
   // 第二个 * 特指 *this 为当前对象 (迭代器)
   // 这里的 + 也是使用当前类重载的 operator+，实际上表示 (current - __n)
@@ -215,7 +215,7 @@ public:
   istream_iterator(istream& __s) : _M_stream(&__s) { _M_read(); }  // 绑定输入流，并读入第一个元素
   reference operator*() const { return _M_value; }                 // 返回已读入并暂存的元素
   pointer operator->() const { return &(operator*()); }
-  istream_iterator<_Tp, _Dist>& operator++() { 
+  istream_iterator<_Tp, _Dist>& operator++() {
     _M_read();  // 调用一次读取函数
     return *this;
   }
@@ -259,8 +259,8 @@ public:
     return *this;
   }
   ostream_iterator<_Tp>& operator*() { return *this; }     // 迭代器运算操作无效
-  ostream_iterator<_Tp>& operator++() { return *this; } 
-  ostream_iterator<_Tp>& operator++(int) { return *this; } 
+  ostream_iterator<_Tp>& operator++() { return *this; }
+  ostream_iterator<_Tp>& operator++(int) { return *this; }
 };
 ```
 
@@ -270,6 +270,3 @@ public:
 ostream_iterator<int> out(cout, " ");
 copy(vec.begin(), vec.end(), out);
 ```
-
----
-

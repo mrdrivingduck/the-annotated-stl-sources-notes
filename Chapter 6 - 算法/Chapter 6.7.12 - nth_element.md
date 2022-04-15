@@ -45,6 +45,3 @@ void __nth_element(_RandomAccessIter __first, _RandomAccessIter __nth,
   __insertion_sort(__first, __last);  // 区间内元素不超过 3 个，则直接使用快速排序
 }
 ```
-
----
-

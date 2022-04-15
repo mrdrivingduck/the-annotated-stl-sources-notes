@@ -10,8 +10,8 @@ Nanjing, Jiangsu, China
 
 SGI STL 的 hash_multiset 以 hashtable 作为底层机制。
 
-* 与 multiset (底层为 RB-Tree) 的区别：无序性
-* 与 hash_set 的区别：允许 key 值重复
+- 与 multiset (底层为 RB-Tree) 的区别：无序性
+- 与 hash_set 的区别：允许 key 值重复
 
 ```c++
 template <class _Value,
@@ -29,7 +29,7 @@ iterator insert(const value_type& __obj)
 void insert(const value_type* __f, const value_type* __l) {
     _M_ht.insert_equal(__f,__l);
 }
-void insert(const_iterator __f, const_iterator __l) 
+void insert(const_iterator __f, const_iterator __l)
     { _M_ht.insert_equal(__f, __l); }
 ```
 
@@ -41,6 +41,3 @@ size_type count(const key_type& __key) const { return _M_ht.count(__key); } // �
 pair<iterator, iterator> equal_range(const key_type& __key) const // 返回指定 key 值的迭代器区间
   { return _M_ht.equal_range(__key); }
 ```
-
----
-

@@ -12,10 +12,10 @@ Nanjing, Jiangsu, China
 
 算法的分类：
 
-* 质变算法：会改变操作对象的内容，如排序、删除、替换等
-  * 就地进行 (in-place)：就地改变操作对象
-  * 拷贝进行：将操作内容复制为一份副本，对副本进行修改并返回副本
-* 非质变算法：不改变操作对象的内容，如查找、计数、遍历等
+- 质变算法：会改变操作对象的内容，如排序、删除、替换等
+  - 就地进行 (in-place)：就地改变操作对象
+  - 拷贝进行：将操作内容复制为一份副本，对副本进行修改并返回副本
+- 非质变算法：不改变操作对象的内容，如查找、计数、遍历等
 
 所有泛型算法的前两个参数都是一对迭代器，指示了算法的操作区间 (左闭右开)。对 `[first, last)` 区间进行操作的必要条件是，必须能够由 `operator++` 使迭代器能够从 `first` 前进到 `last`。根据迭代器的前进特性，STL 的每一个算法声明都要表现出 **所需最低程度的迭代器类型**。
 
@@ -52,7 +52,7 @@ _Tp accumulate(_InputIterator __first, _InputIterator __last, _Tp __init,
 
 ```c++
 template <class _InputIterator, class _OutputIterator, class _Tp>
-_OutputIterator 
+_OutputIterator
 __adjacent_difference(_InputIterator __first, _InputIterator __last,
                       _OutputIterator __result, _Tp*)
 {
@@ -78,10 +78,10 @@ adjacent_difference(_InputIterator __first,
                                __VALUE_TYPE(__first));  // 取迭代器的数据类型
 }
 
-template <class _InputIterator, class _OutputIterator, class _Tp, 
+template <class _InputIterator, class _OutputIterator, class _Tp,
           class _BinaryOperation>
 _OutputIterator
-__adjacent_difference(_InputIterator __first, _InputIterator __last, 
+__adjacent_difference(_InputIterator __first, _InputIterator __last,
                       _OutputIterator __result, _Tp*,
                       _BinaryOperation __binary_op) {
   _Tp __value = *__first;  // value 特指前一个元素
@@ -94,7 +94,7 @@ __adjacent_difference(_InputIterator __first, _InputIterator __last,
 }
 
 template <class _InputIterator, class _OutputIterator, class _BinaryOperation>
-_OutputIterator 
+_OutputIterator
 adjacent_difference(_InputIterator __first, _InputIterator __last,
                     _OutputIterator __result, _BinaryOperation __binary_op)
 {
@@ -129,7 +129,7 @@ _Tp inner_product(_InputIterator1 __first1, _InputIterator1 __last1,
 template <class _InputIterator1, class _InputIterator2, class _Tp,
           class _BinaryOperation1, class _BinaryOperation2>
 _Tp inner_product(_InputIterator1 __first1, _InputIterator1 __last1,
-                  _InputIterator2 __first2, _Tp __init, 
+                  _InputIterator2 __first2, _Tp __init,
                   _BinaryOperation1 __binary_op1,
                   _BinaryOperation2 __binary_op2)
 {
@@ -147,7 +147,7 @@ _Tp inner_product(_InputIterator1 __first1, _InputIterator1 __last1,
 
 ```c++
 template <class _InputIterator, class _OutputIterator, class _Tp>
-_OutputIterator 
+_OutputIterator
 __partial_sum(_InputIterator __first, _InputIterator __last,
               _OutputIterator __result, _Tp*)
 {
@@ -160,7 +160,7 @@ __partial_sum(_InputIterator __first, _InputIterator __last,
 }
 
 template <class _InputIterator, class _OutputIterator>
-_OutputIterator 
+_OutputIterator
 partial_sum(_InputIterator __first, _InputIterator __last,
             _OutputIterator __result)
 {
@@ -173,8 +173,8 @@ partial_sum(_InputIterator __first, _InputIterator __last,
 
 template <class _InputIterator, class _OutputIterator, class _Tp,
           class _BinaryOperation>
-_OutputIterator 
-__partial_sum(_InputIterator __first, _InputIterator __last, 
+_OutputIterator
+__partial_sum(_InputIterator __first, _InputIterator __last,
               _OutputIterator __result, _Tp*, _BinaryOperation __binary_op)
 {
   _Tp __value = *__first;
@@ -186,7 +186,7 @@ __partial_sum(_InputIterator __first, _InputIterator __last,
 }
 
 template <class _InputIterator, class _OutputIterator, class _BinaryOperation>
-_OutputIterator 
+_OutputIterator
 partial_sum(_InputIterator __first, _InputIterator __last,
             _OutputIterator __result, _BinaryOperation __binary_op)
 {
@@ -194,7 +194,7 @@ partial_sum(_InputIterator __first, _InputIterator __last,
   __STL_REQUIRES(_OutputIterator, _OutputIterator);
   if (__first == __last) return __result;
   *__result = *__first;
-  return __partial_sum(__first, __last, __result, __VALUE_TYPE(__first), 
+  return __partial_sum(__first, __last, __result, __VALUE_TYPE(__first),
                        __binary_op);
 }
 ```
@@ -257,7 +257,7 @@ SGI 专属，不在 STL 标准中。设置某个区间的内容，使得区间�
 // iota is not part of the C++ standard.  It is an extension.
 
 template <class _ForwardIter, class _Tp>
-void 
+void
 iota(_ForwardIter __first, _ForwardIter __last, _Tp __value)
 {
   __STL_REQUIRES(_ForwardIter, _Mutable_ForwardIterator);
@@ -266,6 +266,3 @@ iota(_ForwardIter __first, _ForwardIter __last, _Tp __value)
     *__first++ = __value++;  // 从第一个元素开始，从 value 开始递增
 }
 ```
-
----
-

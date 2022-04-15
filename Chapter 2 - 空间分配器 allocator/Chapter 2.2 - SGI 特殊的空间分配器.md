@@ -22,10 +22,10 @@ Nanjing, Jiangsu, China
 
 为了减小操作的粒度，寻找机会获得性能上的提升，STL 的空间分配器将这些阶段独立：
 
-* 内存分配由 `alloc::allocate()` 负责
-* 内存释放由 `alloc::deallocate()` 负责
-* 对象构造由 `::construct()` 负责
-* 对象析构由 `::destroy()` 负责
+- 内存分配由 `alloc::allocate()` 负责
+- 内存释放由 `alloc::deallocate()` 负责
+- 对象构造由 `::construct()` 负责
+- 对象析构由 `::destroy()` 负责
 
 ## 2.2.3 构造和析构基本工具：`construct()` 和 `destroy()`
 
@@ -74,7 +74,7 @@ inline void _Destroy(_ForwardIterator __first, _ForwardIterator __last) {
 
 ```c++
 template <class _ForwardIterator, class _Tp>
-inline void 
+inline void
 __destroy(_ForwardIterator __first, _ForwardIterator __last, _Tp*)
 {
   typedef typename __type_traits<_Tp>::has_trivial_destructor
@@ -85,8 +85,8 @@ __destroy(_ForwardIterator __first, _ForwardIterator __last, _Tp*)
 
 最后，实现有 trivial 和无 trivial 情况下的两种销毁函数：
 
-* 无 trivial 的析构函数：依次调用每一个对象的析构函数
-* 有 trivial 的析构函数：什么也不做
+- 无 trivial 的析构函数：依次调用每一个对象的析构函数
+- 有 trivial 的析构函数：什么也不做
 
 ```c++
 template <class _ForwardIterator>
@@ -97,7 +97,7 @@ __destroy_aux(_ForwardIterator __first, _ForwardIterator __last, __false_type)
     destroy(&*__first);
 }
 
-template <class _ForwardIterator> 
+template <class _ForwardIterator>
 inline void __destroy_aux(_ForwardIterator, _ForwardIterator, __true_type) {}
 ```
 
@@ -105,13 +105,13 @@ inline void __destroy_aux(_ForwardIterator, _ForwardIterator, __true_type) {}
 
 SGI 使用 `malloc()` 和 `free()` 完成对内存的分配和释放。设计哲学：
 
-* 内存不足时的应变措施
-* 需要分配较多小型内存块时，如何解决内存碎片问题
+- 内存不足时的应变措施
+- 需要分配较多小型内存块时，如何解决内存碎片问题
 
 SGI 设计了 **双层级分配器**：
 
-* 第一级分配器 (`__malloc_alloc_template`) 直接使用 `malloc()` 和 `free()` (128B 以上)
-* 第二级分配器 (`__default_alloc_template`) 使用 **内存池** 来管理小块内存
+- 第一级分配器 (`__malloc_alloc_template`) 直接使用 `malloc()` 和 `free()` (128B 以上)
+- 第二级分配器 (`__default_alloc_template`) 使用 **内存池** 来管理小块内存
 
 ## 2.2.5 第一级分配器 `__malloc_alloc_template` 剖析
 
@@ -217,7 +217,7 @@ enum {_ALIGN = 8};
 enum {_MAX_BYTES = 128};
 enum {_NFREELISTS = 16}; // _MAX_BYTES/_ALIGN
 
-static _Obj* __STL_VOLATILE _S_free_list[_NFREELISTS]; 
+static _Obj* __STL_VOLATILE _S_free_list[_NFREELISTS];
 ```
 
 为了维护链表，需要额外的指针开销吗？答案是不需要：当小块内存不被使用时，其内存块中的前几个 (8 个？) 字节被用于链表指针；当小块内存被使用时，其整块内存都归用户使用。小块内存结点定义如下：
@@ -237,7 +237,7 @@ union _Obj {
 
 ```c++
 static size_t
-_S_round_up(size_t __bytes) 
+_S_round_up(size_t __bytes)
   { return (((__bytes) + (size_t) _ALIGN-1) & ~((size_t) _ALIGN - 1)); }
 
 static  size_t _S_freelist_index(size_t __bytes) {
@@ -312,8 +312,8 @@ static void deallocate(void* __p, size_t __n)
 
 当调用 `allocate()` 而相应 free-list 中没有可用内存块时，则调用 `refill()` 来为 free-list 填充空间。新的空间将取自内存池，默认取得 20 个所需内存块大小的空间，但在内存不足时可能并不能取得这么多的内存块：
 
-* 如果只取得了一个内存块，那么直接将这个内存块返回给调用者使用，free-list 没有新内存块
-* 如果取得了一个以上的内存块，则将除返回给调用者那一块以外的剩余内存块重新组织为链表
+- 如果只取得了一个内存块，那么直接将这个内存块返回给调用者使用，free-list 没有新内存块
+- 如果取得了一个以上的内存块，则将除返回给调用者那一块以外的剩余内存块重新组织为链表
 
 ```c++
 /* Returns an object of size __n, and optionally adds to size __n free list.*/
@@ -332,7 +332,7 @@ __default_alloc_template<__threads, __inst>::_S_refill(size_t __n)
     int __i;
 
     if (1 == __nobjs) return(__chunk); // 只获得一个内存块，直接返回给调用者
-    __my_free_list = _S_free_list + _S_freelist_index(__n); // 
+    __my_free_list = _S_free_list + _S_freelist_index(__n); //
 
     /* Build free list in chunk */
       __result = (_Obj*)__chunk;
@@ -364,17 +364,17 @@ static size_t _S_heap_size; // 已从堆上分配的总内存
 
 通过计算 `end_free - start_free` 表达式，可以判断内存池中的剩余空闲内存。
 
-* 如果足够分配 20 个小块内存，则直接把空闲内存拨付出去
-* 如果不足以分配 20 个小块内存，但至少能够分配 1 块以上，就拨付这些内存出去
-* 如果内存池连 1 块空闲内存也提供不了，就需要调用 `malloc()` 从堆上分配内存，分配量为需求量的 2 倍
-  * 1 块内存交出
-  * n - 1 块内存进入 free-list
-  * n 块内存留在内存池中
+- 如果足够分配 20 个小块内存，则直接把空闲内存拨付出去
+- 如果不足以分配 20 个小块内存，但至少能够分配 1 块以上，就拨付这些内存出去
+- 如果内存池连 1 块空闲内存也提供不了，就需要调用 `malloc()` 从堆上分配内存，分配量为需求量的 2 倍
+  - 1 块内存交出
+  - n - 1 块内存进入 free-list
+  - n 块内存留在内存池中
 
 如果整个系统堆都不够用了，`malloc()` 无法分配内存，那么 `chunk_alloc()` 将会寻找还有未用内存块且内存块足够大的 free-list：
 
-* 如果找到，就使用这个内存块
-* 如果没找到，则调用第一级分配器
+- 如果找到，就使用这个内存块
+- 如果没找到，则调用第一级分配器
 
 第一级分配器实际上也使用了 `malloc()`，但有着用户注册的 out-of-memory 处理指针，使得有机会调用用户注册的代码释放出一部分内存以供使用。如果还是不成功，则最终产生 `bad_alloc` 异常。
 
@@ -385,7 +385,7 @@ static size_t _S_heap_size; // 已从堆上分配的总内存
 /* We hold the allocation lock.                                         */
 template <bool __threads, int __inst>
 char*
-__default_alloc_template<__threads, __inst>::_S_chunk_alloc(size_t __size, 
+__default_alloc_template<__threads, __inst>::_S_chunk_alloc(size_t __size,
                                                             int& __nobjs)
 {
     char* __result;
@@ -449,6 +449,3 @@ __default_alloc_template<__threads, __inst>::_S_chunk_alloc(size_t __size,
     }
 }
 ```
-
----
-

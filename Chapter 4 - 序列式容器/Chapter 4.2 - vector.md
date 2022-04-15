@@ -21,7 +21,7 @@ vector 维护的是 **连续线性空间**，因此普通指针可以满足作�
 
 ```c++
 template <class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
-class vector : protected _Vector_base<_Tp, _Alloc> 
+class vector : protected _Vector_base<_Tp, _Alloc>
 {
 public:
   typedef value_type* iterator;
@@ -47,14 +47,14 @@ protected:
 
 ```c++
 template <class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
-class vector : protected _Vector_base<_Tp, _Alloc> 
+class vector : protected _Vector_base<_Tp, _Alloc>
 {
 public:
   iterator begin() { return _M_start; }
   const_iterator begin() const { return _M_start; }
   iterator end() { return _M_finish; }
   const_iterator end() const { return _M_finish; }
-    
+
   size_type size() const
     { return size_type(end() - begin()); }
   size_type max_size() const
@@ -63,10 +63,10 @@ public:
     { return size_type(_M_end_of_storage - begin()); }
   bool empty() const
     { return begin() == end(); }
-    
+
   reference operator[](size_type __n) { return *(begin() + __n); }
   const_reference operator[](size_type __n) const { return *(begin() + __n); }
-    
+
   reference front() { return *begin(); }
   const_reference front() const { return *begin(); }
   reference back() { return *(end() - 1); }
@@ -79,13 +79,13 @@ public:
 vector 使用空间分配器分配内存，并在类内定义了一个分配器，用于 **以元素大小为单位** 分配内存。
 
 ```c++
-template <class _Tp, class _Alloc> 
+template <class _Tp, class _Alloc>
 class _Vector_base {
 protected:
   typedef simple_alloc<_Tp, _Alloc> _M_data_allocator;
   _Tp* _M_allocate(size_t __n)
     { return _M_data_allocator::allocate(__n); }
-  void _M_deallocate(_Tp* __p, size_t __n) 
+  void _M_deallocate(_Tp* __p, size_t __n)
     { _M_data_allocator::deallocate(__p, __n); }
 };
 ```
@@ -96,7 +96,7 @@ vector 提供多个构造函数，允许用户指定空间大小以及初值。
 _Vector_base(const _Alloc&)
     : _M_start(0), _M_finish(0), _M_end_of_storage(0) {}
 _Vector_base(size_t __n, const _Alloc&)
-    : _M_start(0), _M_finish(0), _M_end_of_storage(0) 
+    : _M_start(0), _M_finish(0), _M_end_of_storage(0)
     {
         _M_start = _M_allocate(__n);
         _M_finish = _M_start;
@@ -109,7 +109,7 @@ explicit vector(const allocator_type& __a = allocator_type())
     : _Base(__a) {}
 
 vector(size_type __n, const _Tp& __value,
-       const allocator_type& __a = allocator_type()) 
+       const allocator_type& __a = allocator_type())
     : _Base(__n, __a)
     { _M_finish = uninitialized_fill_n(_M_start, __n, __value); }
 
@@ -117,7 +117,7 @@ explicit vector(size_type __n)
     : _Base(__n, allocator_type())
     { _M_finish = uninitialized_fill_n(_M_start, __n, _Tp()); }
 
-vector(const vector<_Tp, _Alloc>& __x) 
+vector(const vector<_Tp, _Alloc>& __x)
     : _Base(__x.size(), __x.get_allocator())
     { _M_finish = uninitialized_copy(__x.begin(), __x.end(), _M_start); }
 ```
@@ -126,8 +126,8 @@ vector(const vector<_Tp, _Alloc>& __x)
 
 调用 `push_back()` 将新元素插入到 vector 尾端时，首先需要检查备用空间：
 
-* 如果有备用空间，那么直接构造元素并调整 `finish` 迭代器
-* 如果没有备用空间，那么需要扩容 (重新分配内存，移动数据，释放原内存)
+- 如果有备用空间，那么直接构造元素并调整 `finish` 迭代器
+- 如果没有备用空间，那么需要扩容 (重新分配内存，移动数据，释放原内存)
 
 ```c++
 void push_back(const _Tp& __x) {
@@ -142,14 +142,14 @@ void push_back(const _Tp& __x) {
 
 内存重新分配的原则：
 
-* 如果原大小为 0，那么分配 1 个元素的空间
-* 如果原大小不为 0，那么分配原大小两倍的空间
+- 如果原大小为 0，那么分配 1 个元素的空间
+- 如果原大小不为 0，那么分配原大小两倍的空间
 
 使用 `uninitialized_copy()` 将原 vector 的内容拷贝到新 vector，并在结尾构造新元素。析构释放原 vector 的空间，并将三个迭代器指向新空间的正确位置。
 
 ```c++
 template <class _Tp, class _Alloc>
-void 
+void
 vector<_Tp, _Alloc>::_M_insert_aux(iterator __position, const _Tp& __x)
 {
   if (_M_finish != _M_end_of_storage) {
@@ -170,7 +170,7 @@ vector<_Tp, _Alloc>::_M_insert_aux(iterator __position, const _Tp& __x)
       ++__new_finish;
       __new_finish = uninitialized_copy(__position, _M_finish, __new_finish);
     }
-    __STL_UNWIND((destroy(__new_start,__new_finish), 
+    __STL_UNWIND((destroy(__new_start,__new_finish),
                   _M_deallocate(__new_start,__len)));
     destroy(begin(), end());
     _M_deallocate(_M_start, _M_end_of_storage - _M_start);
@@ -220,8 +220,8 @@ void clear() { erase(begin(), end()); }
 
 `insert()` 函数分为两种情况：
 
-* 备用空间大于等于新增元素个数，不需要触发扩容
-* 备用空间长度小于新增元素个数，需要扩容并搬运
+- 备用空间大于等于新增元素个数，不需要触发扩容
+- 备用空间长度小于新增元素个数，需要扩容并搬运
 
 对于备用空间大于等于新增元素个数的场景，需要根据新增元素的个数是否多于插入位置之后的元素个数，合理调用 `uninitialized_copy()` / `copy()` (需要初始化 / 不需要初始化)，以追求性能。
 
@@ -229,9 +229,9 @@ void clear() { erase(begin(), end()); }
 
 ```c++
 template <class _Tp, class _Alloc>
-void 
-vector<_Tp, _Alloc>::insert(iterator __position, 
-                            const_iterator __first, 
+void
+vector<_Tp, _Alloc>::insert(iterator __position,
+                            const_iterator __first,
                             const_iterator __last)
 {
   if (__first != __last) {
@@ -276,6 +276,3 @@ vector<_Tp, _Alloc>::insert(iterator __position,
   }
 }
 ```
-
----
-

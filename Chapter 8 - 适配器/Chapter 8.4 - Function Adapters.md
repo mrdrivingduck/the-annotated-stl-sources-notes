@@ -28,7 +28,7 @@ public:
 };
 
 template <class _Predicate>
-inline unary_negate<_Predicate> 
+inline unary_negate<_Predicate>
 not1(const _Predicate& __pred)
 {
   return unary_negate<_Predicate>(__pred);  // 返回一个被封装的一元仿函数
@@ -36,7 +36,7 @@ not1(const _Predicate& __pred)
 ```
 
 ```c++
-template <class _Predicate> 
+template <class _Predicate>
 class binary_negate  // 二元仿函数的非运算还是二元仿函数，参数为二元仿函数的两个参数类型，返回值为 bool 类型
   : public binary_function<typename _Predicate::first_argument_type,
                            typename _Predicate::second_argument_type,
@@ -45,7 +45,7 @@ protected:
   _Predicate _M_pred;      // 类内维护一个二元仿函数对象
 public:
   explicit binary_negate(const _Predicate& __x) : _M_pred(__x) {}
-  bool operator()(const typename _Predicate::first_argument_type& __x, 
+  bool operator()(const typename _Predicate::first_argument_type& __x,
                   const typename _Predicate::second_argument_type& __y) const
   {
     return !_M_pred(__x, __y);  // 重载 operator()，将二元仿函数对象的运算结果取反并返回
@@ -53,7 +53,7 @@ public:
 };
 
 template <class _Predicate>
-inline binary_negate<_Predicate> 
+inline binary_negate<_Predicate>
 not2(const _Predicate& __pred)
 {
   return binary_negate<_Predicate>(__pred);  // 返回一个被封装的二元仿函数
@@ -89,8 +89,8 @@ public:
 };
 
 template <class _Operation, class _Tp>
-inline binder1st<_Operation> 
-bind1st(const _Operation& __fn, const _Tp& __x) 
+inline binder1st<_Operation>
+bind1st(const _Operation& __fn, const _Tp& __x)
 {
   typedef typename _Operation::first_argument_type _Arg1_type;
   return binder1st<_Operation>(__fn /* 仿函数对象 */, _Arg1_type(__x) /* 第一参数绑定值 */);
@@ -107,7 +107,7 @@ protected:
   typename _Operation::second_argument_type value;  // 已绑定的仿函数第二参数的值
 public:
   binder2nd(const _Operation& __x,
-            const typename _Operation::second_argument_type& __y) 
+            const typename _Operation::second_argument_type& __y)
       : op(__x), value(__y) {}  // 构造函数指定仿函数对象和要绑定的第二参数的值
   typename _Operation::result_type
   operator()(const typename _Operation::first_argument_type& __x) const {
@@ -116,8 +116,8 @@ public:
 };
 
 template <class _Operation, class _Tp>
-inline binder2nd<_Operation> 
-bind2nd(const _Operation& __fn, const _Tp& __x) 
+inline binder2nd<_Operation>
+bind2nd(const _Operation& __fn, const _Tp& __x)
 {
   typedef typename _Operation::second_argument_type _Arg2_type;
   return binder2nd<_Operation>(__fn /* 仿函数对象 */, _Arg2_type(__x) /* 第二参数绑定值 */);
@@ -134,13 +134,13 @@ bind2nd(const _Operation& __fn, const _Tp& __x)
 template <class _Operation1, class _Operation2>
 class unary_compose
   : public unary_function<typename _Operation2::argument_type,
-                          typename _Operation1::result_type> 
+                          typename _Operation1::result_type>
 {
 protected:
   _Operation1 _M_fn1;  // 仿函数 1
   _Operation2 _M_fn2;  // 仿函数 2
 public:
-  unary_compose(const _Operation1& __x, const _Operation2& __y) 
+  unary_compose(const _Operation1& __x, const _Operation2& __y)
     : _M_fn1(__x), _M_fn2(__y) {}  // 构造函数
   typename _Operation1::result_type
   operator()(const typename _Operation2::argument_type& __x) const {
@@ -149,7 +149,7 @@ public:
 };
 
 template <class _Operation1, class _Operation2>
-inline unary_compose<_Operation1,_Operation2> 
+inline unary_compose<_Operation1,_Operation2>
 compose1(const _Operation1& __fn1, const _Operation2& __fn2)
 {
   return unary_compose<_Operation1,_Operation2>(__fn1 /* 仿函数 1 */, __fn2 /* 仿函数 2 */);
@@ -168,8 +168,8 @@ protected:
   _Operation2 _M_fn2;  // 仿函数 2
   _Operation3 _M_fn3;  // 仿函数 3
 public:
-  binary_compose(const _Operation1& __x, const _Operation2& __y, 
-                 const _Operation3& __z) 
+  binary_compose(const _Operation1& __x, const _Operation2& __y,
+                 const _Operation3& __z)
     : _M_fn1(__x), _M_fn2(__y), _M_fn3(__z) { }
   typename _Operation1::result_type
   operator()(const typename _Operation2::argument_type& __x) const {
@@ -178,8 +178,8 @@ public:
 };
 
 template <class _Operation1, class _Operation2, class _Operation3>
-inline binary_compose<_Operation1, _Operation2, _Operation3> 
-compose2(const _Operation1& __fn1, const _Operation2& __fn2, 
+inline binary_compose<_Operation1, _Operation2, _Operation3>
+compose2(const _Operation1& __fn1, const _Operation2& __fn2,
          const _Operation3& __fn3)
 {
   return binary_compose<_Operation1,_Operation2,_Operation3>
@@ -211,13 +211,13 @@ inline pointer_to_unary_function<_Arg, _Result> ptr_fun(_Result (*__x)(_Arg))
 
 ```c++
 template <class _Arg1, class _Arg2, class _Result>  // 函数指针的参数类型 (2 个) 和返回类型
-class pointer_to_binary_function : 
+class pointer_to_binary_function :
   public binary_function<_Arg1,_Arg2,_Result> {
 protected:
     _Result (*_M_ptr)(_Arg1, _Arg2);  // 二元函数的函数指针
 public:
     pointer_to_binary_function() {}
-    explicit pointer_to_binary_function(_Result (*__x)(_Arg1, _Arg2)) 
+    explicit pointer_to_binary_function(_Result (*__x)(_Arg1, _Arg2))
       : _M_ptr(__x) {}
     _Result operator()(_Arg1 __x, _Arg2 __y) const {
       return _M_ptr(__x, __y);  // 调用函数指针
@@ -225,7 +225,7 @@ public:
 };
 
 template <class _Arg1, class _Arg2, class _Result>
-inline pointer_to_binary_function<_Arg1,_Arg2,_Result> 
+inline pointer_to_binary_function<_Arg1,_Arg2,_Result>
 ptr_fun(_Result (*__x)(_Arg1, _Arg2)) {
   return pointer_to_binary_function<_Arg1,_Arg2,_Result>(__x /* 二元函数指针 */);
 }
@@ -320,7 +320,7 @@ private:
 
 ```c++
 // Mem_fun adaptor helper functions.  There are only two:
-//  mem_fun and mem_fun_ref.  (mem_fun1 and mem_fun1_ref 
+//  mem_fun and mem_fun_ref.  (mem_fun1 and mem_fun1_ref
 //  are provided for backward compatibility, but they are no longer
 //  part of the C++ standard.)
 
@@ -333,7 +333,7 @@ inline const_mem_fun_t<_Ret,_Tp> mem_fun(_Ret (_Tp::*__f)() const)
   { return const_mem_fun_t<_Ret,_Tp>(__f); }
 
 template <class _Ret, class _Tp>
-inline mem_fun_ref_t<_Ret,_Tp> mem_fun_ref(_Ret (_Tp::*__f)()) 
+inline mem_fun_ref_t<_Ret,_Tp> mem_fun_ref(_Ret (_Tp::*__f)())
   { return mem_fun_ref_t<_Ret,_Tp>(__f); }
 
 template <class _Ret, class _Tp>
@@ -374,6 +374,3 @@ inline const_mem_fun1_ref_t<_Ret,_Tp,_Arg>
 mem_fun1_ref(_Ret (_Tp::*__f)(_Arg) const)
   { return const_mem_fun1_ref_t<_Ret,_Tp,_Arg>(__f); }
 ```
-
----
-

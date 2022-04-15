@@ -42,7 +42,7 @@ public:
   typedef typename _Ht::value_type value_type;
   typedef typename _Ht::hasher hasher;
   typedef typename _Ht::key_equal key_equal;
-  
+
   typedef typename _Ht::size_type size_type;
   typedef typename _Ht::difference_type difference_type;
   typedef typename _Ht::pointer pointer;
@@ -126,11 +126,11 @@ public:
   void insert(const_iterator __f, const_iterator __l)
     { _M_ht.insert_unique(__f, __l); }
   pair<iterator,bool> insert_noresize(const value_type& __obj)
-    { return _M_ht.insert_unique_noresize(__obj); }    
+    { return _M_ht.insert_unique_noresize(__obj); }
 
   // key 值搜素
   iterator find(const key_type& __key) { return _M_ht.find(__key); }
-  const_iterator find(const key_type& __key) const 
+  const_iterator find(const key_type& __key) const
     { return _M_ht.find(__key); }
 
   // 查找或插入 (左右值)
@@ -140,7 +140,7 @@ public:
 
   // key 值个数
   size_type count(const key_type& __key) const { return _M_ht.count(__key); }
-  
+
   // 相等 key 值的迭代器区间
   pair<iterator, iterator> equal_range(const key_type& __key)
     { return _M_ht.equal_range(__key); }
@@ -163,13 +163,10 @@ public:
 };
 
 template <class _Key, class _Tp, class _HashFcn, class _EqlKey, class _Alloc>
-inline bool 
+inline bool
 operator==(const hash_map<_Key,_Tp,_HashFcn,_EqlKey,_Alloc>& __hm1,
            const hash_map<_Key,_Tp,_HashFcn,_EqlKey,_Alloc>& __hm2)
 {
   return __hm1._M_ht == __hm2._M_ht;
 }
 ```
-
----
-

@@ -12,16 +12,16 @@ Nanjing, Jiangsu, China
 
 ## 2.1 空间分配器的标准接口
 
-* `rebind()`：？
-* `allocator()` / `allocator(const allocator&)`：构造函数 / 拷贝构造函数
-* `template <class U> allocator::allocator(const allocator<U>&)`：泛化的拷贝构造函数
-* `~allocator()`：析构函数
-* `address(reference x)` / `address(const_reference x)`：返回对象地址
-* `allocate(size_type n, const void* = 0)`：分配存储 `n` 个对象的空间
-* `deallocate(pointer p, size_type n)`：归还先前分配的空间
-* `max_size()`：返回可成功分配的最大量
-* `construct(pointer p, const T& x)`：构造对象
-* `destroy(pointer p)`：析构对象
+- `rebind()`：？
+- `allocator()` / `allocator(const allocator&)`：构造函数 / 拷贝构造函数
+- `template <class U> allocator::allocator(const allocator<U>&)`：泛化的拷贝构造函数
+- `~allocator()`：析构函数
+- `address(reference x)` / `address(const_reference x)`：返回对象地址
+- `allocate(size_type n, const void* = 0)`：分配存储 `n` 个对象的空间
+- `deallocate(pointer p, size_type n)`：归还先前分配的空间
+- `max_size()`：返回可成功分配的最大量
+- `construct(pointer p, const T& x)`：构造对象
+- `destroy(pointer p)`：析构对象
 
 ```c++
 template <class _Tp>
@@ -51,7 +51,7 @@ public:
   // __n is permitted to be 0.  The C++ standard says nothing about what
   // the return value is when __n == 0.
   _Tp* allocate(size_type __n, const void* = 0) {
-    return __n != 0 ? static_cast<_Tp*>(_Alloc::allocate(__n * sizeof(_Tp))) 
+    return __n != 0 ? static_cast<_Tp*>(_Alloc::allocate(__n * sizeof(_Tp)))
                     : 0;
   }
 
@@ -59,7 +59,7 @@ public:
   void deallocate(pointer __p, size_type __n)
     { _Alloc::deallocate(__p, __n * sizeof(_Tp)); }
 
-  size_type max_size() const __STL_NOTHROW 
+  size_type max_size() const __STL_NOTHROW
     { return size_t(-1) / sizeof(_Tp); }
 
   void construct(pointer __p, const _Tp& __val) { new(__p) _Tp(__val); }
@@ -116,7 +116,7 @@ inline T* allocate(ptrdiff_t size, T*) {
     set_new_handler(0);
     T* tmp = (T*)(::operator new((size_t)(size * sizeof(T))));
     if (tmp == 0) {
-	cerr << "out of memory" << endl; 
+	cerr << "out of memory" << endl;
 	exit(1);
     }
     return tmp;
@@ -138,22 +138,19 @@ public:
     typedef const T& const_reference;
     typedef size_t size_type;
     typedef ptrdiff_t difference_type;
-    pointer allocate(size_type n) { 
+    pointer allocate(size_type n) {
 	return ::allocate((difference_type)n, (pointer)0);
     }
     void deallocate(pointer p) { ::deallocate(p); }
     pointer address(reference x) { return (pointer)&x; }
-    const_pointer const_address(const_reference x) { 
-	return (const_pointer)&x; 
+    const_pointer const_address(const_reference x) {
+	return (const_pointer)&x;
     }
-    size_type init_page_size() { 
-	return max(size_type(1), size_type(4096/sizeof(T))); 
+    size_type init_page_size() {
+	return max(size_type(1), size_type(4096/sizeof(T)));
     }
-    size_type max_size() const { 
-	return max(size_type(1), size_type(UINT_MAX/sizeof(T))); 
+    size_type max_size() const {
+	return max(size_type(1), size_type(UINT_MAX/sizeof(T)));
     }
 };
 ```
-
----
-
