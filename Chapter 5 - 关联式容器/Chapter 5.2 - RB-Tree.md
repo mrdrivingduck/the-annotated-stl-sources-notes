@@ -12,7 +12,7 @@ Nanjing, Jiangsu, China
 
 结点定义如下：
 
-```c++
+```cpp
 struct _Rb_tree_node_base
 {
   typedef _Rb_tree_Color_type _Color_type;
@@ -46,7 +46,7 @@ struct _Rb_tree_node : public _Rb_tree_node_base
 
 使用红黑树时，需要提供一个 `KeyOfValue` 仿函数，使得可以从 value 中获取到 key。对于 key 和 value 是同一个对象的情况 (比如说 set)，这样的仿函数被定义为：
 
-```c++
+```cpp
 template <class _Tp>
 struct _Identity : public unary_function<_Tp,_Tp> {
   const _Tp& operator()(const _Tp& __x) const { return __x; } // key 的值就是 value 的值
@@ -60,7 +60,7 @@ struct _Identity : public unary_function<_Tp,_Tp> {
 - `insert_unique()` - 不允许插入重复的结点，用于支持 set / map，返回值为 `pair<iterator, bool>`，`iterator` 指向插入位置，`bool` 表示是否插入成功
 - `insert_equal()` - 允许插入重复的结点，用于支持 multiset / multimap，返回值为 `iterator`，指向插入位置
 
-```c++
+```cpp
 template <class _Key, class _Value, class _KeyOfValue,
           class _Compare, class _Alloc>
 pair<typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::iterator,
@@ -88,7 +88,7 @@ _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>
 }
 ```
 
-```c++
+```cpp
 template <class _Key, class _Value, class _KeyOfValue,
           class _Compare, class _Alloc>
 typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::iterator
@@ -110,7 +110,7 @@ _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>
 
 从根结点开始搜寻是否存在某个特定的 key：
 
-```c++
+```cpp
 template <class _Key, class _Value, class _KeyOfValue,
           class _Compare, class _Alloc>
 typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::const_iterator

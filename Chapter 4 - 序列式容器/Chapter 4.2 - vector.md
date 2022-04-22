@@ -19,7 +19,7 @@ C/C++ 原生的数组是静态空间，一旦配置了就不能改变。vector �
 
 vector 维护的是 **连续线性空间**，因此普通指针可以满足作为 vector 迭代器的所有条件。vector 支持 **随机存取**，因此提供 Random Access Iterator。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
 class vector : protected _Vector_base<_Tp, _Alloc>
 {
@@ -33,7 +33,7 @@ public:
 
 由于 vector 使用连续的线性空间，因此使用了 `start` 和 `finish` 两个迭代器指示分配到的空间中正在使用的区间，`end_of_storage` 迭代器指示整块连续空间 (包含备用空间) 的尾端。
 
-```c++
+```cpp
 template <class _Tp, class _Allocator>
 class _Vector_alloc_base<_Tp, _Allocator, true> {
 protected:
@@ -45,7 +45,7 @@ protected:
 
 为降低重新分配内存时的时间成本，vector 实际分配的内存大小会比用户需求量更大一些，以备将来可能的扩充。实际分配的内存量被称为 **容量 (capacity)**。根据上述三个迭代器，有许多成员函数已经可以被实现：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
 class vector : protected _Vector_base<_Tp, _Alloc>
 {
@@ -78,7 +78,7 @@ public:
 
 vector 使用空间分配器分配内存，并在类内定义了一个分配器，用于 **以元素大小为单位** 分配内存。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 class _Vector_base {
 protected:
@@ -92,7 +92,7 @@ protected:
 
 vector 提供多个构造函数，允许用户指定空间大小以及初值。
 
-```c++
+```cpp
 _Vector_base(const _Alloc&)
     : _M_start(0), _M_finish(0), _M_end_of_storage(0) {}
 _Vector_base(size_t __n, const _Alloc&)
@@ -104,7 +104,7 @@ _Vector_base(size_t __n, const _Alloc&)
     }
 ```
 
-```c++
+```cpp
 explicit vector(const allocator_type& __a = allocator_type())
     : _Base(__a) {}
 
@@ -129,7 +129,7 @@ vector(const vector<_Tp, _Alloc>& __x)
 - 如果有备用空间，那么直接构造元素并调整 `finish` 迭代器
 - 如果没有备用空间，那么需要扩容 (重新分配内存，移动数据，释放原内存)
 
-```c++
+```cpp
 void push_back(const _Tp& __x) {
     if (_M_finish != _M_end_of_storage) {
         construct(_M_finish, __x);
@@ -147,7 +147,7 @@ void push_back(const _Tp& __x) {
 
 使用 `uninitialized_copy()` 将原 vector 的内容拷贝到新 vector，并在结尾构造新元素。析构释放原 vector 的空间，并将三个迭代器指向新空间的正确位置。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void
 vector<_Tp, _Alloc>::_M_insert_aux(iterator __position, const _Tp& __x)
@@ -187,7 +187,7 @@ vector<_Tp, _Alloc>::_M_insert_aux(iterator __position, const _Tp& __x)
 
 `pop_back()` 的实现很简单。调整 `finish` 迭代器后，销毁最后一个元素即可。
 
-```c++
+```cpp
 void pop_back() {
     --_M_finish;
     destroy(_M_finish);
@@ -196,7 +196,7 @@ void pop_back() {
 
 `erase()` 删除某个区间上的所有元素。通过调用全局的 `copy()` 函数，将被删除区间之后的所有元素复制到删除位置开始的位置，并把之后多余的元素给析构，最终重新设置 `finish` 迭代器。
 
-```c++
+```cpp
 iterator erase(iterator __position) {
     if (__position + 1 != end())
         copy(__position + 1, _M_finish, __position);
@@ -214,7 +214,7 @@ iterator erase(iterator __first, iterator __last) {
 
 `clear()` 相当于对 `start` 和 `finish` 迭代器之间的区间做 `erase()`：
 
-```c++
+```cpp
 void clear() { erase(begin(), end()); }
 ```
 
@@ -227,7 +227,7 @@ void clear() { erase(begin(), end()); }
 
 对于备用空间不够的场景，既然新分配了内存，则按区间调用 `uninitialized_copy()` (复制 + 初始化) 即可。新区间的长度为原区间的两倍或原区间长度 + 新增元素个数的较大者。最终需要销毁并释放原空间，并调整迭代器指向新空间。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void
 vector<_Tp, _Alloc>::insert(iterator __position,

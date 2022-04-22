@@ -25,7 +25,7 @@ STL 的中心思想在于，将 **数据容器** 与 **算法** 分开，彼此�
 
 迭代器既然功能类似指针，那么除了迭代器自身的数据类型 `I` 以外，还应该知道自身指向数据的数据类型 `T`，及其它的相关联的数据类型。利用 C++ 函数模板的参数推导功能，可以部分解决这样的问题：
 
-```c++
+```cpp
 template <class I, class T>
 void func_impl(I iter, T t)
 {
@@ -50,7 +50,7 @@ int main()
 
 通过在迭代器类内 **显式声明内嵌类型** 即可。比如将迭代器指向的数据类型统一命名为 `value_type`：
 
-```c++
+```cpp
 template <class T>
 struct MyIter {
     typedef T value_type; // 将内嵌类型显式声明为 value_type 类型
@@ -69,7 +69,7 @@ func(I iter)
 
 但是 STL 必须接受 C++ 原生指针作为迭代器，而原生指针并没有 `value_type` 的定义。通过 C++ 模板的 **部分具体化**，可以为原生指针类型单独实现一套特殊版本的模板：
 
-```c++
+```cpp
 template <class T>
 struct MyIter<T*> {
     // ...
@@ -80,7 +80,7 @@ struct MyIter<T*> {
 
 STL 定义了一个专门用于 **萃取** 迭代器特性 (包含其内嵌类型) 的结构体。假设我们关注迭代器的特性只有内嵌类型 `value_type` (实际上还会有别的)，那么模板结构体的定义为：
 
-```c++
+```cpp
 template <class I>
 struct iterator_traits {
     typedef typename I::value_type value_type;
@@ -89,7 +89,7 @@ struct iterator_traits {
 
 如果 `I` 类型有自己的 `value_type` 定义，那么 `I` 的 `value_type` 类型就是该结构体的 `value_type` 类型。`func()` 函数可改写为：
 
-```c++
+```cpp
 template <class I>
 typename iterator_traits<I>::value_type // func 的返回类型
 func(I iter)
@@ -100,7 +100,7 @@ func(I iter)
 
 对于原生指针类型，实现一个部分具体化的结构体模板，使其内嵌类型为原生指针指向的数据类型：
 
-```c++
+```cpp
 template <class T>
 struct iterator_traits<T*> {
     typedef T value_type;
@@ -109,7 +109,7 @@ struct iterator_traits<T*> {
 
 另外，还有常量指针。设计另一个部分具体化的版本即可：
 
-```c++
+```cpp
 template <class T>
 struct iterator_traits<const T*> {
     typedef T value_type;
@@ -118,7 +118,7 @@ struct iterator_traits<const T*> {
 
 综上，`iterator_traits` 实现了类似 **榨汁机** 的功能，把迭代器相关联的数据类型给榨取出来。当然，STL 中所有的迭代器都要遵循约定，定义出迭代器所有的关联数据类型。不遵守约定的迭代器将无法兼容 STL。除了指向的数据类型 (`value_type`) 外，迭代器需要定义五种相关联的数据类型。定义如下：
 
-```c++
+```cpp
 template <class I>
 struct iterator_traits {
     typedef typename I::iterator_category iterator_category;
@@ -141,7 +141,7 @@ struct iterator_traits {
 
 表示两个迭代器之间的距离。对于 C++ 原生指针和原生常量指针，需要部分具体化，使用 C++ 自带的 `ptrdiff_t` (定义在 `<sctddef>` 头文件中) 作为原生指针之间的距离：
 
-```c++
+```cpp
 template <class I>
 struct iterator_traits<T*>
 {
@@ -163,7 +163,7 @@ struct iterator_traits<const T*>
 
 指向迭代器所指数据的指针类型。同样需要对原生指针和原生常量指针进行特化。
 
-```c++
+```cpp
 template <class T>
 struct iterator_traits<T*>
 {
@@ -201,7 +201,7 @@ Output Iterator --
 
 五种迭代器根据从属关系定义为五个结构体。结构体内没有任何成员，因为只作为标记使用：
 
-```c++
+```cpp
 struct input_iterator_tag {  };
 struct output_iterator_tag {  };
 struct forward_iterator_tag : public input_iterator_tag {  };
@@ -211,7 +211,7 @@ struct random_access_iterator_tag : public bidirectional_iterator_tag {  };
 
 比如，对于算法模板中的 `advance()` 来说，其入口被定义为：
 
-```c++
+```cpp
 template <class InputIterator, class Distance>
 inline void advance(InputIterator& i, Distance n)
 {
@@ -221,7 +221,7 @@ inline void advance(InputIterator& i, Distance n)
 
 代码中产生了 `iterator_category` 对应的临时对象，根据对象类型，编译器选择合适的重载函数。重载的版本有以下几种，实现各不相同，并且最后一个参数只有类型没有变量名 (因为仅用于让编译器区分版本，具体实现内不需要使用)。
 
-```c++
+```cpp
 template <class InputIterator, class Distance>
 inline void __advance(InputIterator& i, Distance n, input_iterator_tag)
 {
@@ -255,7 +255,7 @@ inline void __advance(RandomAccessIterator& i, Distance n, random_access_iterato
 
 当然，对于这个迭代器关联类型，也需要为原生指针和原生常量指针特化出一个版本。由于原生指针和原生常量指针都是随机访问的迭代器，因此直接将迭代器类型特化为 Random Access Iterator：
 
-```c++
+```cpp
 template <class T>
 struct iterator_traits<T*> {
     typedef random_access_iterator_tag iterator_category;
@@ -269,7 +269,7 @@ struct iterator_traits<const T*> {
 
 另外，对于算法库中的函数模板，参数列表中的迭代器类型以它可以接受的 **最低级迭代器** 的类型为参数命名。比如 `advance()` 函数，能够接受 Input Iterator 以上的所有类型迭代器，因此该函数被定义为：
 
-```c++
+```cpp
 template <class InputIterator, class Distance>
 inline void advance(InputIterator& i, Distance n)
 {
@@ -283,7 +283,7 @@ inline void advance(InputIterator& i, Distance n)
 
 如果一个迭代器不提供上述五个关联数据类型，traits 机制将无法工作，导致自别于整个 STL 架构，无法与 STL 其它组件顺利搭配。STL 提供了一个类，使得如果每个新设计的迭代器都能继承自它，就可以保证符合 STL 规范：
 
-```c++
+```cpp
 template <class _Category,
           class _Tp,
           class _Distance = ptrdiff_t,

@@ -16,7 +16,7 @@ Nanjing, Jiangsu, China
 
 ## partial_sort
 
-```c++
+```cpp
 // partial_sort, partial_sort_copy, and auxiliary functions.
 
 template <class _RandomAccessIter>
@@ -50,7 +50,7 @@ inline void partial_sort(_RandomAccessIter __first,
 
 先将区间复制到另一块空间中，然后在复制后的空间中完成部分排序。
 
-```c++
+```cpp
 template <class _InputIter, class _RandomAccessIter>
 inline _RandomAccessIter
 partial_sort_copy(_InputIter __first, _InputIter __last,

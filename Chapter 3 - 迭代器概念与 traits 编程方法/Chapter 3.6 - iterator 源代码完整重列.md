@@ -10,7 +10,7 @@ Nanjing, Jiangsu, China
 
 ## 五种迭代器的类型定义
 
-```c++
+```cpp
 struct input_iterator_tag {};
 struct output_iterator_tag {};
 struct forward_iterator_tag : public input_iterator_tag {};
@@ -20,7 +20,7 @@ struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
 ## 自定义迭代器基类
 
-```c++
+```cpp
 template <class _Category, class _Tp, class _Distance = ptrdiff_t,
           class _Pointer = _Tp*, class _Reference = _Tp&>
 struct iterator {
@@ -34,7 +34,7 @@ struct iterator {
 
 ## Traits 的结构体模板以及原生指针特化版本
 
-```c++
+```cpp
 template <class _Iterator>
 struct iterator_traits {
   typedef typename _Iterator::iterator_category iterator_category;
@@ -65,7 +65,7 @@ struct iterator_traits<const _Tp*> {
 
 ## 获取迭代器的关联类型
 
-```c++
+```cpp
 // The overloaded functions iterator_category, distance_type, and
 // value_type are not part of the C++ standard.  (They have been
 // replaced by struct iterator_traits.)  They are included for
@@ -117,7 +117,7 @@ value_type(const _Iter& __i) { return __value_type(__i); }
 
 只对 Input Iterator 和 Random Access Iterator 做了实现。由于五种迭代器类型的继承关系，Forward Iterator 和 Bidirectional Iterator 最终都会被隐式转换为 Input Iterator 从而被分派到 Input Iterator 的实现版本上。
 
-```c++
+```cpp
 template <class _InputIterator, class _Distance>
 inline void __distance(_InputIterator __first, _InputIterator __last,
                        _Distance& __n, input_iterator_tag)
@@ -173,7 +173,7 @@ distance(_InputIterator __first, _InputIterator __last) {
 
 ## Advance
 
-```c++
+```cpp
 template <class _InputIter, class _Distance>
 inline void __advance(_InputIter& __i, _Distance __n, input_iterator_tag) {
   while (__n--) ++__i;

@@ -22,7 +22,7 @@ STL 的 `sort()` 在数据量较大时使用 **快速排序算法** 进行分段
 
 插入排序算法是一个经典的两层循环。将序列的前端视为有序区，后端视为无序区。每轮外层循环将无序区的第一个元素插入有序区中，而具体的插入位置需要通过内层循环来确定。内存循环通过不断交换 _逆序对 (inversion)_ 完成排序。这个算法的复杂度为 O(N^2)，但在数据量较少时有不错的效果；另外，在数据已经大致有序的前提下，性能也会很不错。
 
-```c++
+```cpp
 template <class _RandomAccessIter>
 void __insertion_sort(_RandomAccessIter __first, _RandomAccessIter __last) {
   if (__first == __last) return;
@@ -63,7 +63,7 @@ void __unguarded_linear_insert(_RandomAccessIter __last, _Tp __val) {
 
 任何一个元素都可以被选为枢轴，但合适与否会影响快速排序的效率。为了避免序列元素中的非随机性，可以选择序列中头、中、尾三个位置的元素，以其中的中间值作为枢轴。为了能够快速取出序列中间位置的值，迭代器需要能够随机访问。
 
-```c++
+```cpp
 template <class _Tp>
 inline const _Tp& __median(const _Tp& __a, const _Tp& __b, const _Tp& __c) {
   __STL_REQUIRES(_Tp, _LessThanComparable);
@@ -91,7 +91,7 @@ __median(const _Tp& __a, const _Tp& __b, const _Tp& __c, _Compare __comp);
 
 使头部迭代器和尾部迭代器同时向中间移动，知道不满足枢轴条件时停下。如果两个迭代器没有交错，那么元素互换；如果两个迭代器已经交错，说明整个序列已经分割完毕。
 
-```c++
+```cpp
 template <class _RandomAccessIter, class _Tp>
 _RandomAccessIter __unguarded_partition(_RandomAccessIter __first,
                                         _RandomAccessIter __last,
@@ -130,7 +130,7 @@ _RandomAccessIter __unguarded_partition(_RandomAccessIter __first,
 
 ### SGI STL sort
 
-```c++
+```cpp
 template <class _RandomAccessIter>
 inline void sort(_RandomAccessIter __first, _RandomAccessIter __last) {
   __STL_REQUIRES(_RandomAccessIter, _Mutable_RandomAccessIterator);
@@ -157,7 +157,7 @@ inline _Size __lg(_Size __n) {
 1. introsort
 2. final_insertion_sort
 
-```c++
+```cpp
 template <class _RandomAccessIter, class _Tp, class _Size>
 void __introsort_loop(_RandomAccessIter __first,
                       _RandomAccessIter __last, _Tp*,
@@ -182,7 +182,7 @@ void __introsort_loop(_RandomAccessIter __first,
 const int __stl_threshold = 16;  // 开始 introsort 的阈值个数为 16
 ```
 
-```c++
+```cpp
 template <class _RandomAccessIter>
 void __final_insertion_sort(_RandomAccessIter __first,
                             _RandomAccessIter __last) {

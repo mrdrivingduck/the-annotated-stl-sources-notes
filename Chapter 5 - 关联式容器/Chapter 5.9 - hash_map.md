@@ -10,7 +10,7 @@ Nanjing, Jiangsu, China
 
 SGI STL 的 hash_map 以 hashtable 作为底层机制，API 基本转而调用 hashtable 的 API。hash_map 和 map 的区别在于 **无序性**。
 
-```c++
+```cpp
 template <class _Key, class _Tp,
           class _HashFcn  __STL_DEPENDENT_DEFAULT_TMPL(hash<_Key>),
           class _EqualKey __STL_DEPENDENT_DEFAULT_TMPL(equal_to<_Key>),
@@ -18,7 +18,7 @@ template <class _Key, class _Tp,
 class hash_map;
 ```
 
-```c++
+```cpp
 template <class _Key, class _Tp, class _HashFcn, class _EqualKey,
           class _Alloc>
 class hash_map

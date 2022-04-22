@@ -14,7 +14,7 @@ Nanjing, Jiangsu, China
 
 后向插入迭代器。对迭代器的赋值操作将导致从容器的尾端插入元素。
 
-```c++
+```cpp
 template <class _Container>
 class back_insert_iterator {
 protected:
@@ -46,7 +46,7 @@ inline back_insert_iterator<_Container> back_inserter(_Container& __x) {
 
 前向插入迭代器。对迭代器的赋值操作将导致从容器前端插入元素。
 
-```c++
+```cpp
 template <class _Container>
 class front_insert_iterator {
 protected:
@@ -78,7 +78,7 @@ inline front_insert_iterator<_Container> front_inserter(_Container& __x) {
 
 跟随结点的插入函数。在迭代器指示的结点 (之前) 插入元素，插入成功后将返回的迭代器自增，指向原迭代器指示的元素。即插入位置永远随着构造对象时指定的那个迭代器。
 
-```c++
+```cpp
 template <class _Container>
 class insert_iterator {
 protected:
@@ -122,7 +122,7 @@ insert_iterator<_Container> inserter(_Container& __x, _Iterator __i)
 
 以下是 Random Access Iterators 对应的反向迭代器。由于支持随机存取，因此可以使用 `+=`、`-=` 等运算符。对于 Bidirectional Iterators 的反向迭代器，只对外提供重载后的 `++`、`--` 运算符。
 
-```c++
+```cpp
 class reverse_iterator {
   typedef reverse_iterator<_RandomAccessIterator, _Tp, _Reference, _Distance>
         _Self;
@@ -187,7 +187,7 @@ public:
 
 对于输入流迭代器来说，实际上就是在类内维护一个输入流 (`istream`)。对迭代器的 `++` 操作将会转而调用 `istream` 的 `>>` 操作获取输入。输入流是一个 Input Iterator，因为它是只读的。
 
-```c++
+```cpp
 template <class _Tp, class _Dist = ptrdiff_t> class istream_iterator;
 
 template <class _Tp, class _Dist>
@@ -229,7 +229,7 @@ public:
 
 由于构造该迭代器时会调用一次 `read()` 造成阻塞，所以一定要在确定需要的时候才定义输入流迭代器。示例：
 
-```c++
+```cpp
 istream_iterator<int> first(cin);
 istream_iterator<int> last;  // (cin, false)
 copy(first, last, ..., ...); // while first != last
@@ -237,7 +237,7 @@ copy(first, last, ..., ...); // while first != last
 
 对于输出流迭代器来说，类内绑定了一个 `ostream`。用户对迭代器的 `operator=` 操作，将会转而调用 `ostream` 的 `operator<<` 输出操作。
 
-```c++
+```cpp
 template <class _Tp>
 class ostream_iterator {
 protected:
@@ -266,7 +266,7 @@ public:
 
 一种可能的使用方式：
 
-```c++
+```cpp
 ostream_iterator<int> out(cout, " ");
 copy(vec.begin(), vec.end(), out);
 ```

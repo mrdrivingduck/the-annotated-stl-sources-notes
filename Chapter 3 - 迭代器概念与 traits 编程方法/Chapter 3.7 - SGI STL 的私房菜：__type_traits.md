@@ -28,7 +28,7 @@ Nanjing, Jiangsu, China
 
 由于编译器只会对对象形式的参数做参数推导，因此，定义两个结构体分别表示 `true` 和 `false`。结构体内是空的，因为这两个结构体仅用于标记真假 (是否有 non-trivial 的 XXX)。
 
-```c++
+```cpp
 struct __true_type {
 };
 
@@ -38,7 +38,7 @@ struct __false_type {
 
 由此，`__type_traits` 内定义了五种数据类型特性：
 
-```c++
+```cpp
 template <class _Tp>
 struct __type_traits {
    typedef __true_type     this_dummy_member_must_be_first;
@@ -79,7 +79,7 @@ struct __type_traits {
 
 另外，对于 C++ 所有的原生数据类型，可以对上述结构体模板进行部分具体化，修改模板默认的行为。这些数据类型的相关特性将是 trivial 的，因此可以使用 `memcpy()` 等最快速的方式来进行拷贝或赋值。
 
-```c++
+```cpp
 __STL_TEMPLATE_NULL struct __type_traits<bool> {
    typedef __true_type    has_trivial_default_constructor;
    typedef __true_type    has_trivial_copy_constructor;
@@ -221,7 +221,7 @@ __STL_TEMPLATE_NULL struct __type_traits<long double> {
 
 另外，C++ 原生的指针类型也被定义为是一种标量：
 
-```c++
+```cpp
 template <class _Tp>
 struct __type_traits<_Tp*> {
    typedef __true_type    has_trivial_default_constructor;
@@ -236,7 +236,7 @@ struct __type_traits<_Tp*> {
 
 以 STL 中的 `copy()` 函数模板为例。该函数包含多个特化版本和多个强化版本，都是为了效率考虑。其基本函数的入口定义如下：
 
-```c++
+```cpp
 template <class T>
 inline void copy(T* source, T* destination, int n)
 {
@@ -246,7 +246,7 @@ inline void copy(T* source, T* destination, int n)
 
 在上述函数中，调用了重载版本的 `copy()` 函数，其最后一个参数将根据类型 `T` 的 `has_trivial_copy_constructor` 类型临时对象是 `__true_type` 对象还是 `__false_type` 对象，决定将函数调用分派到哪个版本的 `copy()` 上去：
 
-```c++
+```cpp
 template <class T>
 void copy(T* source, T* destination, int n, __false_type)
 {
@@ -264,7 +264,7 @@ void copy(T* source, T* destination, int n, __true_type)
 
 如果使用 SGI 的编译器，`__type_traits` 将有能力根据用户自定义类型是否有 trivial 的构造函数萃取出相应特性。但对于大部分缺乏这种功能的编译器来说，除 _POD (Plain Old Data)_ 本身以外的类型，`__type_traits` 只能萃取出 `__false_type`，从而使用保守策略。除非显式为自定义类型设计一个具体化的 `__type_traits` 版本，显式告诉编译器，该类型具有 trivial 的构造函数：
 
-```c++
+```cpp
 template <> struct __type_traits<Shape> {
    typedef __true_type     has_trivial_default_constructor;
    typedef __false_type    has_trivial_copy_constructor;

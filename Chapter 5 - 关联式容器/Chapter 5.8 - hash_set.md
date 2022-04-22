@@ -10,7 +10,7 @@ Nanjing, Jiangsu, China
 
 SGI STL 的 hash_set 使用 hashtable 作为底层机制。几乎所有 hash_set 的操作都是转而调用 hashtable 的操作。hash_set 和 set 的区别是 **无序性**。
 
-```c++
+```cpp
 template <class _Value,
           class _HashFcn  __STL_DEPENDENT_DEFAULT_TMPL(hash<_Value>),
           class _EqualKey __STL_DEPENDENT_DEFAULT_TMPL(equal_to<_Value>),
@@ -20,7 +20,7 @@ class hash_set;
 
 底层结构为 hashtable：
 
-```c++
+```cpp
 template <class _Value, class _HashFcn, class _EqualKey, class _Alloc>
 class hash_set
 {

@@ -22,13 +22,13 @@ stack 是一种 FILO (First In Last Out) 的数据结构，只有一个出口。
 
 deque 是双向开口的数据结构。如果以 deque 为底层结构，封闭 deque 的头部开口，就形成了一个 stack。SGI STL 默认以 deque 为 stack 的底层结构。stack 的所有 API 都由底层数据结构的 API 来实现，只不过屏蔽了某些底层结构的 API (比如头部开口)。具有这种 _修改某物接口，形成另一种风貌_ 性质的结构被称为 **adapter (适配器)**。STL 中的 stack 通常不被归类为容器 (container)，而是容器适配器 (container adapter)。
 
-```c++
+```cpp
 template <class _Tp,
           class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(deque<_Tp>) > // deque
 class stack;
 ```
 
-```c++
+```cpp
 template <class _Tp, class _Sequence>
 class stack {
 
@@ -80,7 +80,7 @@ public:
 
 运算符重载也直接调用底层容器的运算符：
 
-```c++
+```cpp
 template <class _Tp, class _Seq>
 bool operator==(const stack<_Tp,_Seq>& __x, const stack<_Tp,_Seq>& __y)
 {
@@ -102,6 +102,6 @@ stack 不提供遍历功能，也不提供迭代器。
 
 list 也是双向开口的结构，并且 stack 使用的底层容器操作 `empty()` / `size()` / `back()` / `push_back()` / `pop_back()` list 也都有。因此也可以使用 list 作为 stack 的底层结构：
 
-```c++
+```cpp
 stack<int, list<int> > list_stack;
 ```

@@ -14,7 +14,7 @@ Nanjing, Jiangsu, China
 
 ## 2.3.1 `uninitialized_copy`
 
-```c++
+```cpp
 template <class _InputIter, class _ForwardIter>
 inline _ForwardIter
   uninitialized_copy(_InputIter __first, _InputIter __last,
@@ -29,7 +29,7 @@ inline _ForwardIter
 
 上述代码已经使用 `iterator_traits` 萃取出了待复制元素的数据类型。接下来再使用 `__type_traits` 萃取出该数据类型是否为 POD (Plain Old Data) 类型 (C++ 原生数据类型及结构体)：
 
-```c++
+```cpp
 template <class _InputIter, class _ForwardIter, class _Tp>
 inline _ForwardIter
 __uninitialized_copy(_InputIter __first, _InputIter __last,
@@ -45,7 +45,7 @@ __uninitialized_copy(_InputIter __first, _InputIter __last,
 - 如果是 POD 类型，则调用 `copy()`
 - 如果不是 POD 类型，则遍历每一个元素，依次调用拷贝构造函数
 
-```c++
+```cpp
 // Valid if copy construction is equivalent to assignment, and if the
 //  destructor is trivial.
 template <class _InputIter, class _ForwardIter>
@@ -75,7 +75,7 @@ __uninitialized_copy_aux(_InputIter __first, _InputIter __last,
 
 而 `copy()` 中直接使用了 `memmove()` 进行高效拷贝：
 
-```c++
+```cpp
 static _Tp* copy(const _Tp* __first, const _Tp* __last, _Tp* __result) {
     const ptrdiff_t _Num = __last - __first;
     memmove(__result - _Num, __first, sizeof(_Tp) * _Num);
@@ -85,7 +85,7 @@ static _Tp* copy(const _Tp* __first, const _Tp* __last, _Tp* __result) {
 
 ## 2.3.2 `uninitialized_fill`
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp>
 inline void uninitialized_fill(_ForwardIter __first,
                                _ForwardIter __last,
@@ -97,7 +97,7 @@ inline void uninitialized_fill(_ForwardIter __first,
 
 对 `__first` 和 `__last` 之间的未初始化区间全部初始化为 `__x`。类似地，首先使用 `iterator_traits` 萃取出元素的数据类型。接下来，使用 `__type_traits` 萃取出数据类型是否为 POD 类型：
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp, class _Tp1>
 inline void __uninitialized_fill(_ForwardIter __first,
                                  _ForwardIter __last, const _Tp& __x, _Tp1*)
@@ -110,7 +110,7 @@ inline void __uninitialized_fill(_ForwardIter __first,
 
 如果不是 POD 类型，则依次循环每个元素进行拷贝构造；如果是 POD 类型，则直接调用 `fill()`：
 
-```c++
+```cpp
 // Valid if copy construction is equivalent to assignment, and if the
 // destructor is trivial.
 template <class _ForwardIter, class _Tp>
@@ -137,7 +137,7 @@ __uninitialized_fill_aux(_ForwardIter __first, _ForwardIter __last,
 
 其中，`fill()` 直接使用指针进行循环复制：
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp>
 void fill(_ForwardIter __first, _ForwardIter __last, const _Tp& __value) {
   __STL_REQUIRES(_ForwardIter, _Mutable_ForwardIterator);
@@ -148,7 +148,7 @@ void fill(_ForwardIter __first, _ForwardIter __last, const _Tp& __value) {
 
 ## 2.3.3 `uninitialized_fill_n`
 
-```c++
+```cpp
 template <class _ForwardIter, class _Size, class _Tp>
 inline _ForwardIter
 uninitialized_fill_n(_ForwardIter __first, _Size __n, const _Tp& __x)
@@ -159,7 +159,7 @@ uninitialized_fill_n(_ForwardIter __first, _Size __n, const _Tp& __x)
 
 将 `__first` 开始的 `__n` 个内存空间的初始值全部设置为 `__x`。同样，先使用 `iterator_traits` 萃取出元素的数据类型，然后使用 `__type_traits` 萃取出数据类型是否为 POD：
 
-```c++
+```cpp
 template <class _ForwardIter, class _Size, class _Tp, class _Tp1>
 inline _ForwardIter
 __uninitialized_fill_n(_ForwardIter __first, _Size __n, const _Tp& __x, _Tp1*)
@@ -171,7 +171,7 @@ __uninitialized_fill_n(_ForwardIter __first, _Size __n, const _Tp& __x, _Tp1*)
 
 根据是否为 POD 类型，进一步具体化：
 
-```c++
+```cpp
 // Valid if copy construction is equivalent to assignment, and if the
 //  destructor is trivial.
 template <class _ForwardIter, class _Size, class _Tp>
@@ -199,7 +199,7 @@ __uninitialized_fill_n_aux(_ForwardIter __first, _Size __n,
 
 其中，`fill_n()` 也是使用指针进行循环内存复制：
 
-```c++
+```cpp
 template <class _OutputIter, class _Size, class _Tp>
 _OutputIter fill_n(_OutputIter __first, _Size __n, const _Tp& __value) {
   __STL_REQUIRES(_OutputIter, _OutputIterator);

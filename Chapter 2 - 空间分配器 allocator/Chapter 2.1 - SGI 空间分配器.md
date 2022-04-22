@@ -23,7 +23,7 @@ Nanjing, Jiangsu, China
 - `construct(pointer p, const T& x)`：构造对象
 - `destroy(pointer p)`：析构对象
 
-```c++
+```cpp
 template <class _Tp>
 class allocator {
   typedef alloc _Alloc;          // The underlying allocator.
@@ -69,7 +69,7 @@ public:
 
 SGI STL 在空间分配器上脱离了 STL 的标准规格，自行实现了一个专属的、拥有层次分配能力的、效率优越的特殊分配器。但是实际上 SGI STL 仍然提供了一个标准的分配器接口 `simple_alloc`，对 SGI STL 自行实现的内存分配器做了一层隐藏：
 
-```c++
+```cpp
 template<class _Tp, class _Alloc>
 class simple_alloc {
 
@@ -89,7 +89,7 @@ public:
 
 SGI STL 使用了自行实现的空间分配器 `alloc`，与标准规范中的 `allocator` 不同。
 
-```c++
+```cpp
 // 标准写法
 vector<int, std::allocator<int> > vec;
 
@@ -99,7 +99,7 @@ vector<int, std::alloc> vec;
 
 不过 SGI STL 在实现所有容器时，已经将默认的空间分配器设置为 SGI 自行实现的 `alloc`：
 
-```c++
+```cpp
 template <class T, class Alloc = alloc>
 class vector { ... };
 ```
@@ -110,7 +110,7 @@ class vector { ... };
 
 SGI 中定义了一个符合标准且名为 `allocator` 的分配器，但是 SGI 自己不使用它，也不建议开发者使用，因为 **效率不佳**。其本质只是对 C++ 原生的 `operator new` 和 `operator delete` 做了一层封装，并没有考虑到效率上的强化。
 
-```c++
+```cpp
 template <class T>
 inline T* allocate(ptrdiff_t size, T*) {
     set_new_handler(0);

@@ -10,7 +10,7 @@ Nanjing, Jiangsu, China
 
 map 的特性是，所有元素都根据元素的 key 值自动被排序。map 的所有元素都是 **pair** (key + value)。map 不允许两个元素有相同的 key 值。
 
-```c++
+```cpp
 template <class _Key, class _Tp,
           class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<_Key>), // 默认使用 < 比较 key
           class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) > // 默认使用 alloc 分配器
@@ -19,7 +19,7 @@ class map;
 
 multimap 允许两个元素有相同的 key。
 
-```c++
+```cpp
 template <class _Key, class _Tp,
           class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<_Key>),
           class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
@@ -28,7 +28,7 @@ class multimap;
 
 ## Pair
 
-```c++
+```cpp
 template <class _T1, class _T2>
 struct pair {
   typedef _T1 first_type;
@@ -43,7 +43,7 @@ struct pair {
 
 ## Definition
 
-```c++
+```cpp
 template <class _Key, class _Tp, class _Compare, class _Alloc>
 class map {
 public:
@@ -87,7 +87,7 @@ private:
 
 其中，红黑树的定义里，key 的类型是来自于模板参数，value 的类型为模板参数 key 和 value 组成的 pair。key 比较函数来自于模板参数。`KeyOfValue` 仿函数的功能是从红黑树的 value 类型 pair 中取出 pair 的 key：
 
-```c++
+```cpp
 template <class _Pair>
 struct _Select1st : public unary_function<_Pair, typename _Pair::first_type> {
   const typename _Pair::first_type& operator()(const _Pair& __x) const {
@@ -100,7 +100,7 @@ struct _Select1st : public unary_function<_Pair, typename _Pair::first_type> {
 
 类内封装了一个用于比较 key 的仿函数，重载了该类的 `()` 运算符：
 
-```c++
+```cpp
 class value_compare : public binary_function<value_type, value_type, bool> {
     friend class map<_Key,_Tp,_Compare,_Alloc>;
 protected :
@@ -117,7 +117,7 @@ public:
 
 构造函数初始化红黑树：
 
-```c++
+```cpp
 map() : _M_t(_Compare(), allocator_type()) {}
 explicit map(const _Compare& __comp,
              const allocator_type& __a = allocator_type())
@@ -145,7 +145,7 @@ map(const_iterator __first, const_iterator __last, const _Compare& __comp,
 
 直接转而调用红黑树的函数：
 
-```c++
+```cpp
 key_compare key_comp() const { return _M_t.key_comp(); }
 value_compare value_comp() const { return value_compare(_M_t.key_comp()); }
 allocator_type get_allocator() const { return _M_t.get_allocator(); }
@@ -175,7 +175,7 @@ void swap(map<_Key,_Tp,_Compare,_Alloc>& __x) { _M_t.swap(__x._M_t); }
 
 不允许元素的 key 重复，因此调用红黑树的 `insert_unique()`；如果是 multimap，那么调用 `insert_equal()`。
 
-```c++
+```cpp
 pair<iterator,bool> insert(const value_type& __x)
   { return _M_t.insert_unique(__x); }
 iterator insert(iterator position, const value_type& __x)
@@ -191,7 +191,7 @@ void insert(const_iterator __first, const_iterator __last) {
 
 ## Erase
 
-```c++
+```cpp
 void erase(iterator __position) { _M_t.erase(__position); }
 size_type erase(const key_type& __x) { return _M_t.erase(__x); }
 void erase(iterator __first, iterator __last)
@@ -203,7 +203,7 @@ void clear() { _M_t.clear(); }
 
 由于红黑树的有序性，因此可以使用二分查找：
 
-```c++
+```cpp
 iterator find(const key_type& __x) { return _M_t.find(__x); }
 const_iterator find(const key_type& __x) const { return _M_t.find(__x); }
 size_type count(const key_type& __x) const {
@@ -230,7 +230,7 @@ pair<const_iterator,const_iterator> equal_range(const key_type& __x) const {
 
 借用红黑树的运算符实现重载：
 
-```c++
+```cpp
 template <class _Key, class _Tp, class _Compare, class _Alloc>
 inline bool operator==(const map<_Key,_Tp,_Compare,_Alloc>& __x,
                        const map<_Key,_Tp,_Compare,_Alloc>& __y) {

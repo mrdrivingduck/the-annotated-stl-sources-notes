@@ -18,7 +18,7 @@ STL 的 list 是双向链表。SGI STL 还另外提供了一个单向链表 slis
 
 结点运用继承关系定义：
 
-```c++
+```cpp
 struct _Slist_node_base
 {
   _Slist_node_base* _M_next;
@@ -33,7 +33,7 @@ struct _Slist_node : public _Slist_node_base
 
 链接新结点：
 
-```c++
+```cpp
 inline _Slist_node_base*
 __slist_make_link(_Slist_node_base* __prev_node,
                   _Slist_node_base* __new_node)
@@ -46,7 +46,7 @@ __slist_make_link(_Slist_node_base* __prev_node,
 
 获得某个结点的前一个结点 (需要从头开始找)：
 
-```c++
+```cpp
 inline _Slist_node_base*
 __slist_previous(_Slist_node_base* __head,
                  const _Slist_node_base* __node)
@@ -68,7 +68,7 @@ __slist_previous(const _Slist_node_base* __head,
 
 获取结点个数 (从前开始找)：
 
-```c++
+```cpp
 inline size_t __slist_size(_Slist_node_base* __node)
 {
   size_t __result = 0;
@@ -82,7 +82,7 @@ inline size_t __slist_size(_Slist_node_base* __node)
 
 内部维护了一个指向结点的指针。
 
-```c++
+```cpp
 struct _Slist_iterator_base
 {
   typedef size_t               size_type;
@@ -139,7 +139,7 @@ struct _Slist_iterator : public _Slist_iterator_base
 
 slist 内维护了一个实物头结点。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 struct _Slist_base {
   typedef _Alloc allocator_type;
@@ -171,7 +171,7 @@ protected:
 
 删除一个范围以内的结点 (由范围之前的一个结点和范围内最后一个结点的下一个结点指示)：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 _Slist_node_base*
 _Slist_base<_Tp,_Alloc>::_M_erase_after(_Slist_node_base* __before_first,
@@ -190,7 +190,7 @@ _Slist_base<_Tp,_Alloc>::_M_erase_after(_Slist_node_base* __before_first,
 
 slist 主类：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
 class slist : private _Slist_base<_Tp,_Alloc>
 {
@@ -270,7 +270,7 @@ public:
 
 迭代器与相关操作：
 
-```c++
+```cpp
 iterator begin() { return iterator((_Node*)this->_M_head._M_next); } // 头结点的下一个元素
 const_iterator begin() const
   { return const_iterator((_Node*)this->_M_head._M_next);}
@@ -301,7 +301,7 @@ void swap(slist& __x)
 
 支持从 slist 的头部进行操作：
 
-```c++
+```cpp
 reference front() { return ((_Node*) this->_M_head._M_next)->_M_data; }
 const_reference front() const
     { return ((_Node*) this->_M_head._M_next)->_M_data; }
@@ -319,7 +319,7 @@ void pop_front() {
 
 返回迭代器的前一个位置 (需要从头遍历)：
 
-```c++
+```cpp
 iterator previous(const_iterator __pos) {
     return iterator((_Node*) __slist_previous(&this->_M_head, __pos._M_node));
 }
@@ -331,7 +331,7 @@ const_iterator previous(const_iterator __pos) const {
 
 效率较高的插入：`insert_after()`：
 
-```c++
+```cpp
 _Node* _M_insert_after(_Node_base* __pos, const value_type& __x) {
     return (_Node*) (__slist_make_link(__pos, _M_create_node(__x))); // 在当前位置之后插入
 }

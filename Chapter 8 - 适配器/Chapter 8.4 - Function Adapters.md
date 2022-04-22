@@ -14,7 +14,7 @@ Function adapters 对仿函数进行适配。因此，每个 function adapters �
 
 对 (一元 / 二元) 仿函数的返回值进行逻辑非。
 
-```c++
+```cpp
 template <class _Predicate> // 模板参数为仿函数类
 class unary_negate  // 一元仿函数的非运算还是一元仿函数，参数为仿函数的参数类型，返回值为 bool 类型
   : public unary_function<typename _Predicate::argument_type, bool> {
@@ -35,7 +35,7 @@ not1(const _Predicate& __pred)
 }
 ```
 
-```c++
+```cpp
 template <class _Predicate>
 class binary_negate  // 二元仿函数的非运算还是二元仿函数，参数为二元仿函数的两个参数类型，返回值为 bool 类型
   : public binary_function<typename _Predicate::first_argument_type,
@@ -66,11 +66,11 @@ not2(const _Predicate& __pred)
 
 > 有啥用？假如想实现对任意一个数加 2 的仿函数，那么可以这样写：
 >
-> ```c++
+> ```cpp
 > bind2nd(plus<int>() /* 二元仿函数对象 */, 2 /* 绑定为仿函数的第二参数 */);
 > ```
 
-```c++
+```cpp
 template <class _Operation>  // 二元仿函数
 class binder1st
   : public unary_function<typename _Operation::second_argument_type,  // 仿函数的第二参数类型
@@ -97,7 +97,7 @@ bind1st(const _Operation& __fn, const _Tp& __x)
 }
 ```
 
-```c++
+```cpp
 template <class _Operation>  // 二元仿函数
 class binder2nd
   : public unary_function<typename _Operation::first_argument_type,  // 仿函数的第一参数类型
@@ -130,7 +130,7 @@ bind2nd(const _Operation& __fn, const _Tp& __x)
 
 一元合成：`f1(f2(args))`
 
-```c++
+```cpp
 template <class _Operation1, class _Operation2>
 class unary_compose
   : public unary_function<typename _Operation2::argument_type,
@@ -158,7 +158,7 @@ compose1(const _Operation1& __fn1, const _Operation2& __fn2)
 
 二元合成：`f1(f2(args), f3(args))`
 
-```c++
+```cpp
 template <class _Operation1, class _Operation2, class _Operation3>
 class binary_compose
   : public unary_function<typename _Operation2::argument_type,
@@ -191,7 +191,7 @@ compose2(const _Operation1& __fn1, const _Operation2& __fn2,
 
 这类适配器使得开发者有能力将一般函数 (函数指针) 当成仿函数使用，使函数指针拥有适配能力。适配方法是将函数指针维护在类内，并重载类的 `operator()` 使其成为一个仿函数。
 
-```c++
+```cpp
 template <class _Arg, class _Result>  // 函数指针的参数类型 (1 个) 和返回类型
 class pointer_to_unary_function : public unary_function<_Arg, _Result> {
 protected:
@@ -209,7 +209,7 @@ inline pointer_to_unary_function<_Arg, _Result> ptr_fun(_Result (*__x)(_Arg))
 }
 ```
 
-```c++
+```cpp
 template <class _Arg1, class _Arg2, class _Result>  // 函数指针的参数类型 (2 个) 和返回类型
 class pointer_to_binary_function :
   public binary_function<_Arg1,_Arg2,_Result> {
@@ -237,7 +237,7 @@ ptr_fun(_Result (*__x)(_Arg1, _Arg2)) {
 
 无参成员函数：
 
-```c++
+```cpp
 template <class _Ret, class _Tp>  // 返回类型，以及对象的数据类型
 class mem_fun_t : public unary_function<_Tp*,_Ret> {
 public:
@@ -277,7 +277,7 @@ private:
 
 带参成员函数：
 
-```c++
+```cpp
 template <class _Ret, class _Tp, class _Arg>  // 返回类型，对象类型，成员函数参数类型
 class mem_fun1_t : public binary_function<_Tp*,_Arg,_Ret> {
 public:
@@ -318,7 +318,7 @@ private:
 
 封装后的辅助函数：
 
-```c++
+```cpp
 // Mem_fun adaptor helper functions.  There are only two:
 //  mem_fun and mem_fun_ref.  (mem_fun1 and mem_fun1_ref
 //  are provided for backward compatibility, but they are no longer

@@ -34,7 +34,7 @@ C++ 的 **类** 使得程序员可以自定义类型，C++ 的 **模板** 使得
 
 _Hewlett-Packard (HP)_ 版本是所有 STL 实现版本的始祖。每个 HP STL 头文件上都有声明，允许任何人免费使用、拷贝、修改、传播、贩卖，唯一的条件是在所有文件中加上这个声明。属于开源范畴。
 
-```c++
+```cpp
 /*
  *
  * Copyright (c) 1994
@@ -62,7 +62,7 @@ _Hewlett-Packard (HP)_ 版本是所有 STL 实现版本的始祖。每个 HP STL
 
 由 _Silicon Graphics Computer Systems, Inc._ 公司开发，继承自 HP 版本。每份文件内除了 HP 的声明，还有 SGI 公司的版权声明。
 
-```c++
+```cpp
 /*
  *
  * Copyright (c) 1994

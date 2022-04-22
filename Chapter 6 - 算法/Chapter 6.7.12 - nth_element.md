@@ -12,7 +12,7 @@ Nanjing, Jiangsu, China
 
 算法不断以 median-of-3 partitioning 分割法进行切分，并判断分割完毕的枢轴位置与指定的枢轴位置的相对差。如果指定枢轴位于分割完毕的枢轴左边，那么对左区间进行进一步分割；否则对右区间进行进一步分割。当分割元素过少时 (小于等于 3)，那么分割操作实际上等效于三个元素的排序 (小于枢轴 / 枢轴 / 大于枢轴)，所以可以直接用插入排序实现。
 
-```c++
+```cpp
 template <class _RandomAccessIter>
 inline void nth_element(_RandomAccessIter __first, _RandomAccessIter __nth,
                         _RandomAccessIter __last) {
@@ -27,7 +27,7 @@ void __nth_element(_RandomAccessIter __first, _RandomAccessIter __nth,
                    _RandomAccessIter __last, _Tp*, _Compare __comp);
 ```
 
-```c++
+```cpp
 template <class _RandomAccessIter, class _Tp>
 void __nth_element(_RandomAccessIter __first, _RandomAccessIter __nth,
                    _RandomAccessIter __last, _Tp*) {

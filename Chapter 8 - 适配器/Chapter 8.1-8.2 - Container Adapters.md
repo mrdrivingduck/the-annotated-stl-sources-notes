@@ -28,7 +28,7 @@ Nanjing, Jiangsu, China
 
 stack 和 queue 两个适配器的底层都是 deque。这两个适配器通过屏蔽或保留 deque 的一些接口，形成了不同的功能。
 
-```c++
+```cpp
 template <class _Tp,
           class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(deque<_Tp>) >
 class stack;
@@ -42,7 +42,7 @@ protected:
 };
 ```
 
-```c++
+```cpp
 template <class _Tp,
           class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(deque<_Tp>) >
 class queue;

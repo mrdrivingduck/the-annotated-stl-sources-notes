@@ -27,7 +27,7 @@ Nanjing, Jiangsu, China
 
 一次线性遍历可以实现。
 
-```c++
+```cpp
 template <class _ForwardIter>
 _ForwardIter adjacent_find(_ForwardIter __first, _ForwardIter __last) {
   __STL_REQUIRES(_ForwardIter, _ForwardIterator);
@@ -72,7 +72,7 @@ _ForwardIter adjacent_find(_ForwardIter __first, _ForwardIter __last,
 
 一次线性遍历可以实现。
 
-```c++
+```cpp
 template <class _InputIter, class _Tp>
 inline _InputIter find(_InputIter __first, _InputIter __last,
                        const _Tp& __val,
@@ -103,7 +103,7 @@ inline _InputIter find_if(_InputIter __first, _InputIter __last,
 
 需要两层循环实现。外层循环遍历序列一，内层循环遍历序列二。
 
-```c++
+```cpp
 template <class _ForwardIter1, class _ForwardIter2, class _BinaryPred>
 _ForwardIter1 search(_ForwardIter1 __first1, _ForwardIter1 __last1,
                      _ForwardIter2 __first2, _ForwardIter2 __last2,
@@ -169,7 +169,7 @@ _ForwardIter1 search(_ForwardIter1 __first1, _ForwardIter1 __last1,
 
 代码上写的是两层循环，实际上序列内元素只会被遍历一次。
 
-```c++
+```cpp
 template <class _ForwardIter, class _Integer, class _Tp, class _BinaryPred>
 _ForwardIter search_n(_ForwardIter __first, _ForwardIter __last,
                       _Integer __count, const _Tp& __val,
@@ -214,7 +214,7 @@ _ForwardIter search_n(_ForwardIter __first, _ForwardIter __last,
 
 显然，需要两层循环结构来实现。如果迭代器具有 **逆向移动** 的功能，那么相当于在逆向上进行一次 `search()`；否则，迭代器只能从头开始寻找。所以，这里需要根据迭代器的类型做两种不同的实现。这也是 STL 中经常使用的编译器参数推导技巧。
 
-```c++
+```cpp
 template <class _ForwardIter1, class _ForwardIter2,
           class _BinaryPredicate>
 inline _ForwardIter1
@@ -240,7 +240,7 @@ find_end(_ForwardIter1 __first1, _ForwardIter1 __last1,
 
 单向 (前向) 迭代器版本：
 
-```c++
+```cpp
 // find_end, with and without an explicitly supplied comparison function.
 // Search [first2, last2) as a subsequence in [first1, last1), and return
 // the *last* possible match.  Note that find_end for bidirectional iterators
@@ -273,7 +273,7 @@ _ForwardIter1 __find_end(_ForwardIter1 __first1, _ForwardIter1 __last1,
 
 双向迭代器版本 (快很多)：
 
-```c++
+```cpp
 // find_end for bidirectional iterators.  Requires partial specialization.
 
 template <class _BidirectionalIter1, class _BidirectionalIter2>
@@ -309,7 +309,7 @@ __find_end(_BidirectionalIter1 __first1, _BidirectionalIter1 __last1,
 - (默认) 使用 `operator==` 决定元素是否出现
 - 用户自行提供二元仿函数
 
-```c++
+```cpp
 // find_first_of, with and without an explicitly supplied comparison function.
 
 template <class _InputIter, class _ForwardIter, class _BinaryPredicate>
@@ -339,7 +339,7 @@ _InputIter find_first_of(_InputIter __first1, _InputIter __last1,
 
 返回区间内与指定值相等的元素个数，泛化后用户可以提供一个一元仿函数，返回仿函数应用在元素上返回 `true` 的元素个数。遍历一次区间即可。
 
-```c++
+```cpp
 // count and count_if.  There are two version of each, one whose return type
 // type is void and one (present only if we have partial specialization)
 // whose return type is iterator_traits<_InputIter>::difference_type.  The
@@ -367,7 +367,7 @@ void count_if(_InputIter __first, _InputIter __last, _Predicate __pred,  // 用�
 
 将仿函数施加在区间内的每一个元素身上，仿函数的返回值被忽略。由于迭代器参数只读 (Input Iterator)，仿函数不能修改区间内元素。
 
-```c++
+```cpp
 // for_each.  Apply a function to every element of a range.
 template <class _InputIter, class _Function>
 _Function for_each(_InputIter __first, _InputIter __last, _Function __f) {
@@ -382,7 +382,7 @@ _Function for_each(_InputIter __first, _InputIter __last, _Function __f) {
 
 将 (一元 / 二元) 仿函数施加在区间内的 (每一个 / 每一对) 元素身上，并将返回值输出到一个区间中。输出区间可以是输入区间，那么仿函数的参数将会被仿函数的返回值替换。
 
-```c++
+```cpp
 // transform
 
 template <class _InputIter, class _OutputIter, class _UnaryOperation>
@@ -414,7 +414,7 @@ _OutputIter transform(_InputIter1 __first1, _InputIter1 __last1,
 
 将用户提供的仿函数的运算结果赋值到区间内所有 (前 `n` 个) 元素上。
 
-```c++
+```cpp
 // generate and generate_n
 
 template <class _ForwardIter, class _Generator>
@@ -439,7 +439,7 @@ _OutputIter generate_n(_OutputIter __first, _Size __n, _Generator __gen) {
 
 遍历序列一次，返回序列中最大或最小值的位置。
 
-```c++
+```cpp
 // min_element and max_element, with and without an explicitly supplied
 // comparison function.
 
@@ -482,7 +482,7 @@ _ForwardIter min_element(_ForwardIter __first, _ForwardIter __last,
 
 `remove_copy()` 移除区间内所有与给定值相等的元素，不从区间中真正删除元素，而是将结果复制到一个特定空间中。操作空间和目标空间可以是同一个。`remove_copy_if()` 使用用户自定义的一元仿函数替换 `operator==`，删除使仿函数返回 `true` 的元素。
 
-```c++
+```cpp
 template <class _InputIter, class _OutputIter, class _Tp>
 _OutputIter remove_copy(_InputIter __first, _InputIter __last,
                         _OutputIter __result, const _Tp& __value) {
@@ -516,7 +516,7 @@ _OutputIter remove_copy_if(_InputIter __first, _InputIter __last,
 
 `remove()` 借用了 `remove_copy()` 的实现，将结果直接覆盖在当前容器中；`remove_if()` 借用了 `remove_copy_if()` 的实现，将结果覆盖在当前容器中。
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp>
 _ForwardIter remove(_ForwardIter __first, _ForwardIter __last,
                     const _Tp& __value) {
@@ -547,7 +547,7 @@ _ForwardIter remove_if(_ForwardIter __first, _ForwardIter __last,
 
 `replace()` 将区间内的特定值用新值替代，使用 `operator==` 来判断元素是否等于某个特定值；`replace_if()` 使用用户提供的一元仿函数作用在元素上是否返回 `true` 来决定是否被替换。
 
-```c++
+```cpp
 // replace, replace_if, replace_copy, replace_copy_if
 
 template <class _ForwardIter, class _Tp>
@@ -577,7 +577,7 @@ void replace_if(_ForwardIter __first, _ForwardIter __last,
 
 以下两个函数行为类似，一边将序列中的元素复制到一个目标空间中，一边将特定值替换为新值。
 
-```c++
+```cpp
 template <class _InputIter, class _OutputIter, class _Tp>
 _OutputIter replace_copy(_InputIter __first, _InputIter __last,
                          _OutputIter __result,
@@ -609,7 +609,7 @@ _OutputIter replace_copy_if(_InputIter __first, _InputIter __last,
 
 `reverse()` 将区间内的元素就地颠倒顺序；`reverse_copy()` 将区间内的元素在一个新的区间内颠倒顺序。`reverse_copy()` 的实现相对来说简单一些，通过双向迭代器依次将区间内元素从后到前复制即可。
 
-```c++
+```cpp
 template <class _BidirectionalIter, class _OutputIter>
 _OutputIter reverse_copy(_BidirectionalIter __first,
                          _BidirectionalIter __last,
@@ -627,7 +627,7 @@ _OutputIter reverse_copy(_BidirectionalIter __first,
 
 而对于就地颠倒来说，双向迭代器和随机存取迭代器的实现方式不同：
 
-```c++
+```cpp
 template <class _BidirectionalIter>
 inline void reverse(_BidirectionalIter __first, _BidirectionalIter __last) {
   __STL_REQUIRES(_BidirectionalIter, _Mutable_BidirectionalIterator);
@@ -658,7 +658,7 @@ void __reverse(_RandomAccessIter __first, _RandomAccessIter __last,
 
 `rotate_copy()` 将颠倒后的结果保存到一个目标区间中，因此实现较为简单；`rotate()` 就地交换两个子区间，实现上根据迭代器类型的不同而不同。
 
-```c++
+```cpp
 template <class _ForwardIter, class _OutputIter>
 _OutputIter rotate_copy(_ForwardIter __first, _ForwardIter __middle,
                         _ForwardIter __last, _OutputIter __result) {
@@ -669,7 +669,7 @@ _OutputIter rotate_copy(_ForwardIter __first, _ForwardIter __middle,
 }
 ```
 
-```c++
+```cpp
 template <class _ForwardIter>
 inline _ForwardIter rotate(_ForwardIter __first, _ForwardIter __middle,
                            _ForwardIter __last) {
@@ -716,7 +716,7 @@ _BidirectionalIter __rotate(_BidirectionalIter __first,
 
 功能与 `rotate()` 类似，但是只能交换元素个数相同的区间。通过循环，交换两对迭代器指向的对应元素。
 
-```c++
+```cpp
 // swap_ranges
 
 template <class _ForwardIter1, class _ForwardIter2>
@@ -742,7 +742,7 @@ _ForwardIter2 swap_ranges(_ForwardIter1 __first1, _ForwardIter1 __last1,
 
 `unique_copy()` 将元素复制到另一个区间上，如果遇到相邻的重复元素，则只会复制一个。
 
-```c++
+```cpp
 template <class _InputIter, class _OutputIter>
 inline _OutputIter unique_copy(_InputIter __first, _InputIter __last,
                                _OutputIter __result) {
@@ -792,7 +792,7 @@ _ForwardIter __unique_copy(_InputIter __first, _InputIter __last,
 
 `unique()` 直接借用了 `unique_copy()` 的实现：
 
-```c++
+```cpp
 template <class _ForwardIter>
 _ForwardIter unique(_ForwardIter __first, _ForwardIter __last) {
   __STL_REQUIRES(_ForwardIter, _Mutable_ForwardIterator);
@@ -811,7 +811,7 @@ _ForwardIter unique(_ForwardIter __first, _ForwardIter __last,
 
 判断序列一中是否包含序列二 (序列二中的每个元素都出现在序列一中)。两个序列 **必须有序**。根据两个序列递增 / 递减，算法使用 `less / `greater` 仿函数进行比较。用户也可以自行提供一个用于比较的二元仿函数。
 
-```c++
+```cpp
 template <class _InputIter1, class _InputIter2>
 bool includes(_InputIter1 __first1, _InputIter1 __last1,
               _InputIter2 __first2, _InputIter2 __last2) {
@@ -842,7 +842,7 @@ bool includes(_InputIter1 __first1, _InputIter1 __last1,
 
 将两个排序后的区间有序合并到另一段区间中。用户可指定比较仿函数替代默认的 `operator<`。
 
-```c++
+```cpp
 // merge, with and without an explicitly supplied comparison function.
 
 template <class _InputIter1, class _InputIter2, class _OutputIter>
@@ -882,7 +882,7 @@ _OutputIter merge(_InputIter1 __first1, _InputIter1 __last1,
 
 将区间内的元素重新排列，排列依据是提供的一元仿函数作用在元素上是否返回 `true`，所有返回 `true` 的元素将排列在返回 `false` 的元素之前。该算法 **不稳定**。想象如果这个一元仿函数是 `less`，那么效果就是所有小于某个值的元素将会排列在所有不小于该值的元素之前 (快速排序的必要算法)。
 
-```c++
+```cpp
 template <class _ForwardIter, class _Predicate>
 inline _ForwardIter partition(_ForwardIter __first,
    			      _ForwardIter __last,

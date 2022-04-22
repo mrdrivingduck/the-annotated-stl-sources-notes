@@ -38,7 +38,7 @@ STL 的仿函数必须定义自己的 **相关类型 (associative types)** (和�
 
 一元仿函数。
 
-```c++
+```cpp
 template <class _Arg, class _Result>
 struct unary_function {
   typedef _Arg argument_type;   // 参数类型
@@ -52,7 +52,7 @@ struct unary_function {
 
 二元仿函数。
 
-```c++
+```cpp
 template <class _Arg1, class _Arg2, class _Result>
 struct binary_function {
   typedef _Arg1 first_argument_type;   // 第一参数类型
@@ -67,7 +67,7 @@ struct binary_function {
 
 加法仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct plus : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与返回值类型一致
   _Tp operator()(const _Tp& __x, const _Tp& __y) const { return __x + __y; }
@@ -76,7 +76,7 @@ struct plus : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与返�
 
 减法仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct minus : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与返回值类型一致
   _Tp operator()(const _Tp& __x, const _Tp& __y) const { return __x - __y; }
@@ -85,7 +85,7 @@ struct minus : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与返
 
 乘法仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct multiplies : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与返回值类型一致
   _Tp operator()(const _Tp& __x, const _Tp& __y) const { return __x * __y; }
@@ -94,7 +94,7 @@ struct multiplies : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型�
 
 除法仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct divides : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与返回值类型一致
   _Tp operator()(const _Tp& __x, const _Tp& __y) const { return __x / __y; }
@@ -103,7 +103,7 @@ struct divides : public binary_function<_Tp,_Tp,_Tp> { // 两个参数类型与�
 
 模运算仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct modulus : public binary_function<_Tp,_Tp,_Tp>
 {
@@ -113,7 +113,7 @@ struct modulus : public binary_function<_Tp,_Tp,_Tp>
 
 取反运算仿函数 (一元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct negate : public unary_function<_Tp,_Tp> // 参数类型与返回类型一致
 {
@@ -126,7 +126,7 @@ struct negate : public unary_function<_Tp,_Tp> // 参数类型与返回类型一
 - `T + 0 = T`
 - `T * 1 = T`
 
-```c++
+```cpp
 // identity_element (not part of the C++ standard).
 
 template <class _Tp> inline _Tp identity_element(plus<_Tp>) {
@@ -143,7 +143,7 @@ template <class _Tp> inline _Tp identity_element(multiplies<_Tp>) {
 
 相等仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct equal_to : public binary_function<_Tp,_Tp,bool>
 {
@@ -153,7 +153,7 @@ struct equal_to : public binary_function<_Tp,_Tp,bool>
 
 不相等仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct not_equal_to : public binary_function<_Tp,_Tp,bool>
 {
@@ -163,7 +163,7 @@ struct not_equal_to : public binary_function<_Tp,_Tp,bool>
 
 大于仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct greater : public binary_function<_Tp,_Tp,bool>
 {
@@ -173,7 +173,7 @@ struct greater : public binary_function<_Tp,_Tp,bool>
 
 大于等于仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct greater_equal : public binary_function<_Tp,_Tp,bool>
 {
@@ -183,7 +183,7 @@ struct greater_equal : public binary_function<_Tp,_Tp,bool>
 
 小于仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct less : public binary_function<_Tp,_Tp,bool>
 {
@@ -193,7 +193,7 @@ struct less : public binary_function<_Tp,_Tp,bool>
 
 小于等于仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct less_equal : public binary_function<_Tp,_Tp,bool>
 {
@@ -207,7 +207,7 @@ struct less_equal : public binary_function<_Tp,_Tp,bool>
 
 与运算仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct logical_and : public binary_function<_Tp,_Tp,bool>
 {
@@ -217,7 +217,7 @@ struct logical_and : public binary_function<_Tp,_Tp,bool>
 
 或运算仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct logical_or : public binary_function<_Tp,_Tp,bool>
 {
@@ -227,7 +227,7 @@ struct logical_or : public binary_function<_Tp,_Tp,bool>
 
 非运算仿函数 (二元运算)：
 
-```c++
+```cpp
 template <class _Tp>
 struct logical_not : public unary_function<_Tp,bool>
 {
@@ -241,7 +241,7 @@ C++ 标准不涵盖这类仿函数，但各个实现版本都实现了这类仿�
 
 表示相同元素的仿函数 (一元运算)：
 
-```c++
+```cpp
 // identity is an extensions: it is not part of the standard.
 
 template <class _Tp>
@@ -254,7 +254,7 @@ template <class _Tp> struct identity : public _Identity<_Tp> {};
 
 选择仿函数，接收一个 pair，返回 pair 中的第一个元素或第二个元素 (一元运算)：
 
-```c++
+```cpp
 // select1st and select2nd are extensions: they are not part of the standard.
 
 template <class _Pair>
@@ -278,7 +278,7 @@ template <class _Pair> struct select2nd : public _Select2nd<_Pair> {};
 
 投影仿函数，接收两个参数，返回一个参数 (二元运算)：
 
-```c++
+```cpp
 // project1st and project2nd are extensions: they are not part of the standard
 template <class _Arg1, class _Arg2>
 struct _Project1st : public binary_function<_Arg1, _Arg2, _Arg1> {

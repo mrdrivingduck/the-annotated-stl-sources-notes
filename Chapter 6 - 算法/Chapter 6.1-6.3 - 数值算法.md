@@ -25,7 +25,7 @@ Nanjing, Jiangsu, China
 
 用于将一个区间的值累加到某个初始值身上，并返回累加值。除了加法，可以泛化为其它二元操作：
 
-```c++
+```cpp
 template <class _InputIterator, class _Tp>
 _Tp accumulate(_InputIterator __first, _InputIterator __last, _Tp __init)
 {
@@ -50,7 +50,7 @@ _Tp accumulate(_InputIterator __first, _InputIterator __last, _Tp __init,
 
 给定一个区间，计算每对相邻元素之间的差，并返回该区间。计算差值的过程也可以泛化为二元操作。
 
-```c++
+```cpp
 template <class _InputIterator, class _OutputIterator, class _Tp>
 _OutputIterator
 __adjacent_difference(_InputIterator __first, _InputIterator __last,
@@ -114,7 +114,7 @@ adjacent_difference(_InputIterator __first, _InputIterator __last,
 
 计算两个序列的内积。内积的定义是两个序列的对应元素相乘，然后累加到一个值上。泛化版本可以提供两个二元操作，分别泛化相乘和累加两个过程。
 
-```c++
+```cpp
 template <class _InputIterator1, class _InputIterator2, class _Tp>
 _Tp inner_product(_InputIterator1 __first1, _InputIterator1 __last1,
                   _InputIterator2 __first2, _Tp __init)
@@ -145,7 +145,7 @@ _Tp inner_product(_InputIterator1 __first1, _InputIterator1 __last1,
 
 部分和 (也可以称为是 **前缀和**)。给定一个区间，计算每个位置之前的所有元素之和。同样，求和操作可以泛化为二元操作。
 
-```c++
+```cpp
 template <class _InputIterator, class _OutputIterator, class _Tp>
 _OutputIterator
 __partial_sum(_InputIterator __first, _InputIterator __last,
@@ -203,7 +203,7 @@ partial_sum(_InputIterator __first, _InputIterator __last,
 
 该算法由 SGI 专属，不在 STL 标准中。用于计算某个数的 `n` 次幂，默认使用乘法计算乘幂。当然，也可以用泛化版的算法，用其它二元操作替换乘法，但二元操作 **必须满足结合律**。
 
-```c++
+```cpp
 template <class _Tp, class _Integer, class _MonoidOperation>
 _Tp __power(_Tp __x, _Integer __n, _MonoidOperation __opr)
 {
@@ -253,7 +253,7 @@ inline _Tp power(_Tp __x, _Integer __n)
 
 SGI 专属，不在 STL 标准中。设置某个区间的内容，使得区间内元素从一个指定的 `value` 开始递增。
 
-```c++
+```cpp
 // iota is not part of the C++ standard.  It is an extension.
 
 template <class _ForwardIter, class _Tp>

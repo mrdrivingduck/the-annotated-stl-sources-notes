@@ -14,7 +14,7 @@ Nanjing, Jiangsu, China
 
 算法默认使用 `operator==` 对元素进行大小比较，用户也可以自行指定二元仿函数。
 
-```c++
+```cpp
 template <class _InputIter1, class _InputIter2>
 inline bool equal(_InputIter1 __first1, _InputIter1 __last1,
                   _InputIter2 __first2) {
@@ -46,7 +46,7 @@ inline bool equal(_InputIter1 __first1, _InputIter1 __last1,
 
 将指定区间内的所有元素设置为新值。该函数只对元素进行赋值，不对元素进行构造，因此操作区间不能超过容器的实际大小。
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp>
 void fill(_ForwardIter __first, _ForwardIter __last, const _Tp& __value) {
   __STL_REQUIRES(_ForwardIter, _Mutable_ForwardIterator);
@@ -57,7 +57,7 @@ void fill(_ForwardIter __first, _ForwardIter __last, const _Tp& __value) {
 
 对于单字节的类型，直接使用 `memset()`。以下是部分具体化的版本：
 
-```c++
+```cpp
 inline void fill(unsigned char* __first, unsigned char* __last,
                  const unsigned char& __c) {
   unsigned char __tmp = __c;
@@ -78,7 +78,7 @@ inline void fill(char* __first, char* __last, const char& __c) {
 
 将从某个位置开始的前 n 个元素设置为新值：
 
-```c++
+```cpp
 template <class _OutputIter, class _Size, class _Tp>
 _OutputIter fill_n(_OutputIter __first, _Size __n, const _Tp& __value) {
   __STL_REQUIRES(_OutputIter, _OutputIterator);
@@ -90,7 +90,7 @@ _OutputIter fill_n(_OutputIter __first, _Size __n, const _Tp& __value) {
 
 如果想要获得的是插入行为而不是赋值，那么可以使用具有插入能力的迭代器适配器：
 
-```c++
+```cpp
 vector<int> iv;
 fill_n(inserter(iv, iv.begin()), 5, 7);  // 在 iv.begin() 前插入 5 个 7
 ```
@@ -99,7 +99,7 @@ fill_n(inserter(iv, iv.begin()), 5, 7);  // 在 iv.begin() 前插入 5 个 7
 
 将两个迭代器所指向的对象进行交换。由于交换操作需要使用到一个临时变量，如果不知道这个临时变量的数据类型，代码应该怎么写呢？如何声明这个临时变量呢？这里使用到了迭代器的数据类型萃取功能，提取出了迭代器的 value type：
 
-```c++
+```cpp
 template <class _ForwardIter1, class _ForwardIter2, class _Tp>
 inline void __iter_swap(_ForwardIter1 __a, _ForwardIter2 __b, _Tp*) {  // _Tp 为迭代器所指对象类型
   _Tp __tmp = *__a;
@@ -123,7 +123,7 @@ inline void iter_swap(_ForwardIter1 __a, _ForwardIter2 __b) {
 
 按 **字典序** 对两个序列进行比较，直到两个序列的某组对应元素不相等，或者到达结尾。默认使用 `operator<` 进行比较，也支持用户提供二元仿函数。
 
-```c++
+```cpp
 //--------------------------------------------------
 // lexicographical_compare and lexicographical_compare_3way.
 // (the latter is not part of the C++ standard.)
@@ -168,7 +168,7 @@ bool lexicographical_compare(_InputIter1 __first1, _InputIter1 __last1,
 
 部分具体化：对于单字节的字符串，使用 `memcmp()` 进行比较。如果已经比较完毕的部分大小不相上下，那么长度更长的字符串更大。
 
-```c++
+```cpp
 inline bool
 lexicographical_compare(const unsigned char* __first1,
                         const unsigned char* __last1,
@@ -195,7 +195,7 @@ inline bool lexicographical_compare(const char* __first1, const char* __last1,
 
 默认使用 `operator<` 来获得两个对象中的最大 / 最小值，用户可以提供二元仿函数。
 
-```c++
+```cpp
 //--------------------------------------------------
 // min and max
 
@@ -233,7 +233,7 @@ inline const _Tp& max(const _Tp& __a, const _Tp& __b, _Compare __comp) {
 
 平行比较两个序列，并返回两个序列之间的第一个不匹配点 (迭代器)。如果第二个序列的元素个数更多，那么多出来的元素忽略不计。缺省情况使用 `operator==` 来比较元素，用户可以自行提供二元仿函数。
 
-```c++
+```cpp
 //--------------------------------------------------
 // equal and mismatch
 
@@ -273,7 +273,7 @@ pair<_InputIter1, _InputIter2> mismatch(_InputIter1 __first1,
 
 对换两个对象中的内容 (使用 `operator=`)：
 
-```c++
+```cpp
 template <class _Tp>
 inline void swap(_Tp& __a, _Tp& __b) {
   __STL_REQUIRES(_Tp, _Assignable);
@@ -296,7 +296,7 @@ inline void swap(_Tp& __a, _Tp& __b) {
 - 针对参数给定的迭代器类型，可以使用不同的操作算法
 - 针对被复制元素的数据类型，选择是否使用高效的内存移动算法
 
-```c++
+```cpp
 //--------------------------------------------------
 // copy
 
@@ -309,7 +309,7 @@ inline void swap(_Tp& __a, _Tp& __b) {
 
 最泛化的版本：接收两个 Input Iterator (被复制区间) 和一个 Output Iterator (目标区间起始位置) 进行复制。
 
-```c++
+```cpp
 template <class _InputIter, class _OutputIter>
 inline _OutputIter copy(_InputIter __first, _InputIter __last,
                         _OutputIter __result)
@@ -322,7 +322,7 @@ inline _OutputIter copy(_InputIter __first, _InputIter __last,
 
 对于 Input Iterator，使用迭代器的 `operator==` 和 `operator++` 能够实现遍历；而对于 Ramdom Access Iterator 来说，可以直接计算两个迭代器的距离，并基于首尾迭代器的距离进行计算，效率更高：
 
-```c++
+```cpp
 template <class _InputIter, class _OutputIter, class _Distance>
 inline _OutputIter __copy(_InputIter __first, _InputIter __last,
                           _OutputIter __result,
@@ -349,7 +349,7 @@ __copy(_RandomAccessIter __first, _RandomAccessIter __last,
 
 而对于原生数据类型，SGI STL 认为它们具有简单的拷贝构造函数，因此直接可以使用 `memmove`：
 
-```c++
+```cpp
 #define __SGI_STL_DECLARE_COPY_TRIVIAL(_Tp)                                \
   inline _Tp* copy(const _Tp* __first, const _Tp* __last, _Tp* __result) { \
     memmove(__result, __first, sizeof(_Tp) * (__last - __first));          \
@@ -382,7 +382,7 @@ __SGI_STL_DECLARE_COPY_TRIVIAL(long double)
 
 以上并没有使用数据类型萃取机制，不知道是不是和编译器类型有关。有些编译器无法识别用户自定义的类型是否具有简单的拷贝构造函数。对于那些有能力识别自定义类型是否有简单拷贝构造函数的编译器而言，实现方式就有所不同了：
 
-```c++
+```cpp
 template <class _InputIter, class _OutputIter>
 inline _OutputIter copy(_InputIter __first, _InputIter __last,
                         _OutputIter __result) {
@@ -396,7 +396,7 @@ inline _OutputIter copy(_InputIter __first, _InputIter __last,
 }
 ```
 
-```c++
+```cpp
 template <class _InputIter, class _OutputIter, class _BoolType>  // false type，没有简单拷贝构造函数
 struct __copy_dispatch {
   static _OutputIter copy(_InputIter __first, _InputIter __last,
@@ -429,7 +429,7 @@ __copy_trivial(const _Tp* __first, const _Tp* __last, _Tp* __result) {
 
 另外，由于是从后向前拷贝，那么迭代器需要支持 `operator--`，迭代器类型需要是 Bidirectional Iterator。
 
-```c++
+```cpp
 //--------------------------------------------------
 // copy_backward
 

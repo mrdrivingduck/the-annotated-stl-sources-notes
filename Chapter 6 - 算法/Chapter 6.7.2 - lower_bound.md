@@ -12,7 +12,7 @@ Nanjing, Jiangsu, China
 
 二分查找的一种特殊版本，返回一个迭代器，指向第一个 **不小于指定值的元素**。换句话说，返回值是 **不破坏排序状态的原则下，可插入 value 的第一个位置**。算法默认使用 `operator<` 进行元素比较，用户也可以自定义二元仿函数。
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp, class _Distance>
 _ForwardIter __lower_bound(_ForwardIter __first, _ForwardIter __last,
                            const _Tp& __val, _Distance*)
@@ -61,7 +61,7 @@ inline _ForwardIter lower_bound(_ForwardIter __first, _ForwardIter __last,
 
 找到有序区间中是否存在等于特定值的元素，如果有，则返回 `true`。这里借用了 `lower_bound()` 的实现，判断 `lower_bound()` 返回的迭代器指向的元素值是否等于特定值：
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp>
 bool binary_search(_ForwardIter __first, _ForwardIter __last,
                    const _Tp& __val) {

@@ -16,7 +16,7 @@ set 的这几个相关算法默认都使用了 `operator<`，配合两个序列�
 
 `set_union()` 构造两个 set 的并集，也就是构造一个集合，集合内包含两个 set 内的每一个元素。如果两个 set 都出现了同一个元素，那么每一对相同元素将会对应目标集合中的一个元素 (看代码实现可知)。算法使用 `operator<` 来确定两个元素是否相等 (`a < b` / `b < a`)，也可以接收用户提供的二元仿函数。
 
-```c++
+```cpp
 template <class _InputIter1, class _InputIter2, class _OutputIter>
 _OutputIter set_union(_InputIter1 __first1, _InputIter1 __last1,
                       _InputIter2 __first2, _InputIter2 __last2,
@@ -86,7 +86,7 @@ _OutputIter set_union(_InputIter1 __first1, _InputIter1 __last1,
 
 `set_intersection()` 构造两个 set 的交集，即集合内为同时出现在两个 set 内的每一对元素。同样提供两个版本：`operator<` 版本和用户自定义的二元仿函数版本。
 
-```c++
+```cpp
 template <class _InputIter1, class _InputIter2, class _OutputIter>
 _OutputIter set_intersection(_InputIter1 __first1, _InputIter1 __last1,
                              _InputIter2 __first2, _InputIter2 __last2,
@@ -147,7 +147,7 @@ _OutputIter set_intersection(_InputIter1 __first1, _InputIter1 __last1,
 
 构造两个集合之间的差集，即出现在第一个集合但没有出现在第二个集合中的所有元素。同样支持 `operator<` 和用户自定义仿函数的实现版本。
 
-```c++
+```cpp
 template <class _InputIter1, class _InputIter2, class _OutputIter>
 _OutputIter set_difference(_InputIter1 __first1, _InputIter1 __last1,
                            _InputIter2 __first2, _InputIter2 __last2,
@@ -210,7 +210,7 @@ _OutputIter set_difference(_InputIter1 __first1, _InputIter1 __last1,
 
 `set_symmetric_difference()` 可以得到两个集合的对称差集，即 `(S1 - S2) ∪ (S2 - S1)`，_出现在第一个集合但不出现在第二个集合_ 以及 _出现在第二个集合但不出现在第一个集合_ 的每一个元素。参考之前非对称差集的实现 (`set_difference()`) 就可以知道如何实现这个函数。同样，支持 `operator<` 和二元仿函数两个版本。
 
-```c++
+```cpp
 template <class _InputIter1, class _InputIter2, class _OutputIter>
 _OutputIter
 set_symmetric_difference(_InputIter1 __first1, _InputIter1 __last1,

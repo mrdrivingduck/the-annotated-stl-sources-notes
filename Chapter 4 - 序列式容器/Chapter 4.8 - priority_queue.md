@@ -14,7 +14,7 @@ Nanjing, Jiangsu, China
 
 ## 4.8.2 priority_queue 完整定义列表
 
-```c++
+```cpp
 template <class _Tp,
           class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(vector<_Tp>), // 底层容器
           class _Compare                                             // 比较运算算子
@@ -94,7 +94,7 @@ public:
 
 ## 4.8.4 priority_queue 测试实例
 
-```c++
+```cpp
 priority_queue<int> q1;
 priority_queue<int, deque<int>, greater<int>> q2; // 底层容器需要支持随机访问迭代器
 ```

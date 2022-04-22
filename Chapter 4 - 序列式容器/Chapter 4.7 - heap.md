@@ -27,7 +27,7 @@ heap 不属于 SQL 容器组件，而是一种组织数据的方式，用于实�
 
 该算法默认新的元素已经被插入在底层结构的 `end()` 迭代器所在的位置上。为了让这个新元素满足堆的定义，需要对该结点执行一个 _上浮 (percolate up)_ 操作，直到该元素的父结点比该元素大。
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Compare>
 inline void
 push_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
@@ -39,7 +39,7 @@ push_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
 }
 ```
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Distance, class _Tp>
 inline void
 __push_heap_aux(_RandomAccessIterator __first,
@@ -50,7 +50,7 @@ __push_heap_aux(_RandomAccessIterator __first,
 }
 ```
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Distance, class _Tp>
 void
 __push_heap(_RandomAccessIterator __first,
@@ -70,7 +70,7 @@ __push_heap(_RandomAccessIterator __first,
 
 取走根结点，将空出的根结点位置下放 (percolate down) 直到叶子结点；然后将堆的最右下结点填到空出的位置，做一次上浮 (percolate up) 操作。
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Compare>
 inline void
 pop_heap(_RandomAccessIterator __first,
@@ -81,7 +81,7 @@ pop_heap(_RandomAccessIterator __first,
 }
 ```
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Tp>
 inline void
 __pop_heap_aux(_RandomAccessIterator __first, _RandomAccessIterator __last,
@@ -92,7 +92,7 @@ __pop_heap_aux(_RandomAccessIterator __first, _RandomAccessIterator __last,
 }
 ```
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Tp, class _Distance>
 inline void
 __pop_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
@@ -103,7 +103,7 @@ __pop_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,
 }
 ```
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Distance, class _Tp>
 void
 __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,
@@ -132,7 +132,7 @@ __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,
 
 迭代地对整个 heap 进行 `pop_heap()` 操作，那么每次堆区间的最后就是堆内最大元素。每次操作范围缩小 1，最终得到的就是一个递增的序列。
 
-```c++
+```cpp
 template <class _RandomAccessIterator>
 void sort_heap(_RandomAccessIterator __first, _RandomAccessIterator __last)
 {
@@ -158,7 +158,7 @@ sort_heap(_RandomAccessIterator __first,
 
 该算法将一段现有数据 **堆化**。找到区间内最后一个元素的父结点。以该结点为堆的根，进行堆调整。然后不断调整每一个父结点，直到父结点成为整个堆的根。
 
-```c++
+```cpp
 template <class _RandomAccessIterator, class _Compare,
           class _Tp, class _Distance>
 void

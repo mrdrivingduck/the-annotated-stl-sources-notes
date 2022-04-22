@@ -16,7 +16,7 @@ Nanjing, Jiangsu, China
 
 双向链表，除了数据以外，还有两个前后指针：
 
-```c++
+```cpp
 struct _List_node_base {
   _List_node_base* _M_next;
   _List_node_base* _M_prev;
@@ -32,7 +32,7 @@ struct _List_node : public _List_node_base {
 
 list 的结点并不在内存中连续存储，因此不能像 vector 一样使用普通指针作为迭代器。list 的迭代器应当能够在递增 / 递减时正确指向下一个 / 前一个元素。因此，list 提供 Bidirectional Iterators。
 
-```c++
+```cpp
 inline bidirectional_iterator_tag
 iterator_category(const _List_iterator_base&)
 {
@@ -44,7 +44,7 @@ list 迭代器的重要性质是，insert 或 splice 操作都不会使原有迭
 
 list 的迭代器内需要维护一个指向结点的指针。通过该指针，能够访问到 list 结点。对迭代器的自增 / 自减能够使迭代器指向下一个 / 上一个 list 结点。
 
-```c++
+```cpp
 struct _List_iterator_base {
   typedef size_t                     size_type;
   typedef ptrdiff_t                  difference_type;
@@ -112,7 +112,7 @@ struct _List_iterator : public _List_iterator_base {
 
 由于 SGI list 是一个环形双向链表，因此只需要一个指针就能表示整个链表。该指针可以指向一个 dummy 的空白结点，从而能够完成 STL **左闭右开** 的区间要求。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 class _List_base
 {
@@ -144,7 +144,7 @@ protected:
 
 初始状态下，`node` 指针将会指向一个空白结点，该结点的 `prev` 和 `next` 都指向自身。通过 `node` 指针，以下成员函数可以轻松实现：
 
-```c++
+```cpp
 iterator begin()             { return (_Node*)(_M_node->_M_next); }
 const_iterator begin() const { return (_Node*)(_M_node->_M_next); }
 
@@ -169,7 +169,7 @@ const_reference back() const { return *(--end()); }
 
 list 使用缺省的 `alloc` 空间分配器，并在类内定义了一个分配器，方便以 list 结点大小为单位分配内存：
 
-```c++
+```cpp
 typedef simple_alloc<_List_node<_Tp>, _Alloc> _Alloc_type;
 _List_node<_Tp>* _M_get_node() { return _Alloc_type::allocate(1); }
 void _M_put_node(_List_node<_Tp>* __p) { _Alloc_type::deallocate(__p, 1); }
@@ -177,7 +177,7 @@ void _M_put_node(_List_node<_Tp>* __p) { _Alloc_type::deallocate(__p, 1); }
 
 以下两个子函数除了分配内存，还调用构造函数构造对象：
 
-```c++
+```cpp
 _Node* _M_create_node(const _Tp& __x)
 {
     _Node* __p = _M_get_node();
@@ -201,7 +201,7 @@ _Node* _M_create_node()
 
 list 的插入函数 `insert()` 有多种重载，但本质上都需要确定一个插入位置。元素将会被插入到该位置之前：该位置的元素将成为所有被插入元素之后的第一个元素，这也是 STL 的插入规范。其余的，就是分配空间与构造结点的过程。
 
-```c++
+```cpp
 iterator insert(iterator __position, const _Tp& __x) {
     _Node* __tmp = _M_create_node(__x);
     __tmp->_M_next = __position._M_node;
@@ -214,7 +214,7 @@ iterator insert(iterator __position, const _Tp& __x) {
 
 有了这个标准实现，其它的 `insert()` 无非就是指定不同的插入位置罢了。包括 `push_back()` 和 `push_front()`：
 
-```c++
+```cpp
 void push_front(const _Tp& __x) { insert(begin(), __x); }
 void push_front() {insert(begin());}
 void push_back(const _Tp& __x) { insert(end(), __x); }
@@ -227,7 +227,7 @@ void push_back() {insert(end());}
 
 `erase()` 操作与 `insert()` 相反。将迭代器指向的结点或结点区间从链表中取出来 (并重新修复链表内的指针) 后，依次调用析构与内存方式即可。
 
-```c++
+```cpp
 iterator erase(iterator __position) {
     _List_node_base* __next_node = __position._M_node->_M_next;
     _List_node_base* __prev_node = __position._M_node->_M_prev;
@@ -249,7 +249,7 @@ iterator erase(iterator __first, iterator __last)
 
 基于此，`pop_back()` 和 `pop_front()` 也可以被实现了：
 
-```c++
+```cpp
 void pop_front() { erase(begin()); }
 void pop_back() {
     iterator __tmp = end();
@@ -259,7 +259,7 @@ void pop_back() {
 
 `remove()` 删除所有特定值的结点：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void list<_Tp, _Alloc>::remove(const _Tp& __value)
 {
@@ -276,7 +276,7 @@ void list<_Tp, _Alloc>::remove(const _Tp& __value)
 
 `unique()` 移除 **数值相同且连续** 的元素，移除至只剩下一个：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void list<_Tp, _Alloc>::unique()
 {
@@ -298,7 +298,7 @@ void list<_Tp, _Alloc>::unique()
 
 > 该函数接受插入区间和插入位置在同一个 list 中。
 
-```c++
+```cpp
 void transfer(iterator __position, iterator __first, iterator __last) {
     if (__position != __last) {
         // Remove [first, last) from its old position.
@@ -319,7 +319,7 @@ void transfer(iterator __position, iterator __first, iterator __last) {
 
 `splice()` 函数能够将一个区间插入到 list 迭代器指示的位置：
 
-```c++
+```cpp
 void splice(iterator __position, list& __x) { // x 与当前 list 不能是同一个 list
     if (!__x.empty())
         this->transfer(__position, __x.begin(), __x.end());
@@ -338,7 +338,7 @@ void splice(iterator __position, list&, iterator __first, iterator __last) {
 
 `merge()` 将两个 **已经递增排序** 的 list 合并到调用该函数的 list 身上：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void list<_Tp, _Alloc>::merge(list<_Tp, _Alloc>& __x)
 {
@@ -360,7 +360,7 @@ void list<_Tp, _Alloc>::merge(list<_Tp, _Alloc>& __x)
 
 提到排序，list 不能使用 STL 的泛化版 `sort()`，因为泛化算法只接受 Random Access Iterators。list 类实现了自己的 `sort()`：据称这是一个 **快速排序**，但我看不懂...... 😭
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void list<_Tp, _Alloc>::sort()
 {
@@ -389,7 +389,7 @@ void list<_Tp, _Alloc>::sort()
 
 `reverse()` 函数将 list 中的所有元素逆置。具体实现是，将每个元素从链表尾 tranfer 到链表头。但我看到的版本是这样的：
 
-```c++
+```cpp
 inline void __List_base_reverse(_List_node_base* __p)
 {
   _List_node_base* __tmp = __p;

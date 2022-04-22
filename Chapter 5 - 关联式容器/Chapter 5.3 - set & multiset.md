@@ -23,13 +23,13 @@ STL 特别提供了一组 set / multiset 的算法来进行集合操作：
 
 标准 STL 以 **红黑树** 作为 set 的底层机制。
 
-```c++
+```cpp
 template <class _Key, class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<_Key>), // 默认使用 < 比较 key
           class _Alloc = __STL_DEFAULT_ALLOCATOR(_Key) > // 默认使用 alloc 分配器
 class set;
 ```
 
-```c++
+```cpp
 template <class _Key, class _Compare, class _Alloc>
 class set {
   // requirements:
@@ -68,7 +68,7 @@ public: // 只读迭代器，不可修改 key 的值
 
 其中，红黑树的 `KeyOfValue` 仿函数被定义为 `identity`：key 即 value。
 
-```c++
+```cpp
 template <class _Tp>
 struct _Identity : public unary_function<_Tp,_Tp> {
   const _Tp& operator()(const _Tp& __x /* value */ ) const { return __x /* key */; }
@@ -79,7 +79,7 @@ struct _Identity : public unary_function<_Tp,_Tp> {
 
 构造函数需要将 **元素比较仿函数** 传给红黑树：
 
-```c++
+```cpp
 set() : _M_t(_Compare(), allocator_type()) {}
 explicit set(const _Compare& __comp,
              const allocator_type& __a = allocator_type())
@@ -105,7 +105,7 @@ set(const_iterator __first, const_iterator __last, const _Compare& __comp,
 
 元素访问函数：
 
-```c++
+```cpp
 key_compare key_comp() const { return _M_t.key_comp(); }
 value_compare value_comp() const { return _M_t.key_comp(); }
 allocator_type get_allocator() const { return _M_t.get_allocator(); }
@@ -122,7 +122,7 @@ void swap(set<_Key,_Compare,_Alloc>& __x) { _M_t.swap(__x._M_t); }
 
 插入函数。由于 set 不允许元素重复出现，因此在插入结点时，调用的是 `insert_unique()`。如果是 multiset，那么调用的是 `insert_equal()`。
 
-```c++
+```cpp
 pair<iterator,bool> insert(const value_type& __x) {           // (从根结点开始寻找位置) 并插入元素
     pair<typename _Rep_type::iterator, bool> __p = _M_t.insert_unique(__x);
     return pair<iterator, bool>(__p.first, __p.second);
@@ -142,7 +142,7 @@ void insert(const value_type* __first, const value_type* __last) {
 
 删除函数：
 
-```c++
+```cpp
 void erase(iterator __position) {
     typedef typename _Rep_type::iterator _Rep_iterator;
     _M_t.erase((_Rep_iterator&)__position);
@@ -159,7 +159,7 @@ void clear() { _M_t.clear(); }
 
 查找函数。由于元素有序，因此可以进行二分范围查找：
 
-```c++
+```cpp
 iterator find(const key_type& __x) const { return _M_t.find(__x); } // 查找确切元素
 size_type count(const key_type& __x) const { // 查找特定元素出现的个数 (只能为 0 或 1)
     return _M_t.find(__x) == _M_t.end() ? 0 : 1;
@@ -177,7 +177,7 @@ pair<iterator,iterator> equal_range(const key_type& __x) const { // 与 x 值相
 
 比较运算符的重载直接借用了底层红黑树的运算符：
 
-```c++
+```cpp
 template <class _Key, class _Compare, class _Alloc>
 inline bool operator==(const set<_Key,_Compare,_Alloc>& __x,
                        const set<_Key,_Compare,_Alloc>& __y) {

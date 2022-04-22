@@ -18,7 +18,7 @@ deque 也能够提供 Random Access Iterator，但是迭代器肯定不是简单
 
 deque 由一段一段的连续空间组成。这些一段一段的连续空间本身需要由数据结构来维护。这个数据结构就是中控器 map。当 deque 的前端或后端的空间不够用时，则分配一段新的连续空间，并将空间维护在 map 中。map 本身也是一小块连续空间，可被视为是一个 **指针数组**，里面的每个指针指向一段缓冲区 - 缓冲区才是 deque 的存储主体。SGI STL 允许用户指定缓冲区大小，或使用默认的 512 bytes。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 class _Deque_base {
   // ...
@@ -38,7 +38,7 @@ protected:
 
 deque 的迭代器不仅需要知道自己当当前缓冲区中是否已经到达边缘，同时还需要知道自己在哪个缓冲区中。当迭代器前进或后退时，可能需要切换缓冲区。因此迭代器的定义中有几个重要的指针：
 
-```c++
+```cpp
 template <class _Tp, class _Ref, class _Ptr>
 struct _Deque_iterator {
   typedef _Deque_iterator<_Tp, _Tp&, _Tp*>             iterator;
@@ -75,7 +75,7 @@ deque 类内也维护着两个重要的迭代器 `start` 和 `finish`：
 
 deque 迭代器的关键行为在于对所有运算符的正确重载。尤其是当迭代器遇到缓冲区边缘时，需要调用 `set_node()` 跳到另一个缓冲区中。该函数负责重新设置 `cur`、`first`、`last` 指针：
 
-```c++
+```cpp
   void _M_set_node(_Map_pointer __new_node) {
     _M_node = __new_node;
     _M_first = *__new_node;
@@ -85,7 +85,7 @@ deque 迭代器的关键行为在于对所有运算符的正确重载。尤其�
 
 解引用运算符直接使用 `cur` 指针：
 
-```c++
+```cpp
 reference operator*() const { return *_M_cur; }
 pointer operator->() const { return _M_cur; }
 ```
@@ -96,7 +96,7 @@ pointer operator->() const { return _M_cur; }
 - 当前迭代器所在缓冲区中，`cur` 与 `first` 之间的距离
 - 参数迭代器所在缓冲区中，`cur` 与 `last` 之间的距离
 
-```c++
+```cpp
 difference_type operator-(const _Self& __x) const {
     return difference_type(_S_buffer_size()) * (_M_node - __x._M_node - 1) +
         (_M_cur - _M_first) + (__x._M_last - __x._M_cur);
@@ -108,7 +108,7 @@ difference_type operator-(const _Self& __x) const {
 - 如果到达缓冲区前边界，那么跳到前一个缓冲区，并将 `cur` 设置为缓冲区最后一个元素的下一个位置
 - 如果到达缓冲区后边界，那么跳到后一个缓冲区，并将 `cur` 设置为缓冲区的第一个元素
 
-```c++
+```cpp
 _Self& operator++() {
     ++_M_cur;
     if (_M_cur == _M_last) {
@@ -140,7 +140,7 @@ _Self operator--(int) {
 
 `operator+=` 和 `operator-=` (附带 `operator+` 和 `operator-`) 实现了返回一个随机访问迭代器。对于给定的参数，需要通过计算确定其跨越了几个缓冲区，然后计算确定在目标缓冲区中 `cur` 的最终位置：
 
-```c++
+```cpp
 _Self& operator+=(difference_type __n)
 {
     difference_type __offset = __n + (_M_cur - _M_first);
@@ -173,7 +173,7 @@ _Self operator-(difference_type __n) const {
 
 `operator[]` 可以实现元素的随机访问，内部实际上借用了 `operator+` 的实现：
 
-```c++
+```cpp
 reference operator[](difference_type __n) const { return *(*this + __n); }
 ```
 
@@ -182,7 +182,7 @@ reference operator[](difference_type __n) const { return *(*this + __n); }
 1. 所属缓冲区
 2. 所属缓冲区相同的前提下，`cur` 指针的位置
 
-```c++
+```cpp
 bool operator==(const _Self& __x) const { return _M_cur == __x._M_cur; }
 bool operator!=(const _Self& __x) const { return !(*this == __x); }
 bool operator<(const _Self& __x) const {
@@ -198,7 +198,7 @@ bool operator>=(const _Self& __x) const { return !(*this < __x); }
 
 deque 最重要的成员变量是一个指向 map 的指针，以及刚才提到的 `start` 和 `finish` 两个迭代器。另外，将默认的 `alloc` 分配器封装为两个分配器，一个以缓冲区大小为单位分配内存 (用于分配新的缓冲区)，一个以缓冲区指针的大小为单位分配内存 (用于分配新的 map 以扩容)：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 class _Deque_base {
 public:
@@ -244,7 +244,7 @@ protected:
 
 有了 `start` 和 `finish` 迭代器，以及迭代器重载的所有运算符，可以轻松实现以下成员函数：
 
-```c++
+```cpp
 iterator begin() { return _M_start; }
 iterator end() { return _M_finish; }
 const_iterator begin() const { return _M_start; }
@@ -281,7 +281,7 @@ deque 的构造函数支持用户设定缓冲区中的元素个数，但是显�
 
 > ？咋没有第三个模板参数
 
-```c++
+```cpp
 template <class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
 class deque : protected _Deque_base<_Tp, _Alloc> {
     // ...
@@ -290,7 +290,7 @@ class deque : protected _Deque_base<_Tp, _Alloc> {
 
 在构造函数中，根据要保留的元素个数，决定如何对 map 进行初始化：
 
-```c++
+```cpp
 _Deque_base(const allocator_type&, size_t __num_elements)
     : _M_map(0), _M_map_size(0),  _M_start(), _M_finish() {
         _M_initialize_map(__num_elements);
@@ -299,7 +299,7 @@ _Deque_base(const allocator_type&, size_t __num_elements)
 
 调用 `initialize_map()` 来构造 map：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void
 _Deque_base<_Tp,_Alloc>::_M_initialize_map(size_t __num_elements)
@@ -331,7 +331,7 @@ _Deque_base<_Tp,_Alloc>::_M_initialize_map(size_t __num_elements)
 }
 ```
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void _Deque_base<_Tp,_Alloc>::_M_create_nodes(_Tp** __nstart, _Tp** __nfinish)
 {
@@ -346,7 +346,7 @@ void _Deque_base<_Tp,_Alloc>::_M_create_nodes(_Tp** __nstart, _Tp** __nfinish)
 
 以 `push_back()` 为例。如果 `finish` 迭代器指向的缓冲区 (最后一个缓冲区) 中还有两个以上的备用空间，那么直接在备用空间上构造元素即可；如果只剩一个备用空间了，那么在构造元素后，还需要分配新的缓冲区，并把 `finish` 迭代器切换到新的缓冲区上。`push_front()` 的思路也类似，只不过是换了个方向。
 
-```c++
+```cpp
 void push_back(const value_type& __t) {
     if (_M_finish._M_cur != _M_finish._M_last - 1) {
         construct(_M_finish._M_cur, __t);
@@ -398,7 +398,7 @@ void  deque<_Tp,_Alloc>::_M_push_front_aux(const value_type& __t)
 
 这里引出了问题：如果 map 中的空间不够用了怎么办？不妨看看 `reserve_map_at_back()` 和 `reserve_map_at_front()` 是怎么干的。这两个函数不负责分配缓冲区，只负责重新分配一个更大的 map，并将原来 map 中的缓冲区指针搬运到新的 map 中，并析构释放原来的 map。
 
-```c++
+```cpp
 // Makes sure the _M_map has space for new nodes.  Does not actually
 //  add the nodes.  Can invalidate _M_map pointers.  (And consequently,
 //  deque iterators.)
@@ -416,7 +416,7 @@ void _M_reserve_map_at_front (size_type __nodes_to_add = 1) {
 
 其中，完成核心功能的是 `reallocate_map()` 函数，通过参数来决定向前扩容还是向后扩容：
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void deque<_Tp,_Alloc>::_M_reallocate_map(size_type __nodes_to_add,
                                           bool __add_at_front)
@@ -461,7 +461,7 @@ void deque<_Tp,_Alloc>::_M_reallocate_map(size_type __nodes_to_add,
 - 如果不是，则直接析构元素，并调整 `cur` 指针
 - 如果是，那么切换缓冲区，重新调整 `cur` 指针，销毁元素，此外还需要释放缓冲区
 
-```c++
+```cpp
 void pop_back() {
     if (_M_finish._M_cur != _M_finish._M_first) {
         --_M_finish._M_cur;
@@ -506,7 +506,7 @@ void deque<_Tp,_Alloc>::_M_pop_front_aux()
 
 `clear()` 清除整个 deque。deque 在最初状态 (无任何元素) 时保有一个缓冲区。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 void deque<_Tp,_Alloc>::clear()
 {
@@ -531,7 +531,7 @@ void deque<_Tp,_Alloc>::clear()
 
 `erase()` 清除某一个或某个区间内的元素。清除单个元素时，首先判断清楚位置之前与之后的元素哪边更多，移动较少那一端的元素以减小搬运代价。移动完毕后，调用 `pop_back()` 或 `pop_front()` 移除边界冗余的元素 (这两个函数还会自动释放冗余缓冲区)。
 
-```c++
+```cpp
 iterator erase(iterator __pos) {
     iterator __next = __pos;
     ++__next;
@@ -550,7 +550,7 @@ iterator erase(iterator __pos) {
 
 如果要移除的是一个区间，同样需要判断区间之前与区间之后的元素哪边更多，移动剩余元素较少的那一端。搬运完毕后，将冗余的元素全部删除，并释放已经冗余的缓冲区。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 typename deque<_Tp,_Alloc>::iterator
 deque<_Tp,_Alloc>::erase(iterator __first, iterator __last)
@@ -583,7 +583,7 @@ deque<_Tp,_Alloc>::erase(iterator __first, iterator __last)
 
 `insert()` 在某个位置 (之前) 插入元素。首先判断插入位置是否在前后两个端点，如果是，则直接使用 `push_back()` / `push_front()` 完成功能；否则，将最前端 / 最后段插入与第一个元素 / 最后一个元素值相同的元素，并通过搬运元素使得插入位置留空，最终将新值放到插入位置上。
 
-```c++
+```cpp
 template <class _Tp, class _Alloc>
 typename deque<_Tp, _Alloc>::iterator
 deque<_Tp,_Alloc>::_M_insert_aux(iterator __pos, const value_type& __x)

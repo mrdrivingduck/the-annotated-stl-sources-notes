@@ -12,7 +12,7 @@ Nanjing, Jiangsu, China
 
 二分查找的一个特殊版本。在不破坏顺序的前提下，寻找 **可插入特定值的最后一个合适的位置**。默认使用 `operator<` 进行比较，但也支持用户提供的二元仿函数。
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp, class _Distance>
 _ForwardIter __upper_bound(_ForwardIter __first, _ForwardIter __last,
                            const _Tp& __val, _Distance*)
@@ -57,13 +57,13 @@ inline _ForwardIter upper_bound(_ForwardIter __first, _ForwardIter __last,
 >
 > `lower_bound()`：
 >
-> ```c++
+> ```cpp
 > if (*__middle < __val) { /* ... */ }
 > ```
 >
 > `upper_bound()`：
 >
-> ```c++
+> ```cpp
 > if (__val < *__middle) { /* ... */ }
 > ```
 >
@@ -80,7 +80,7 @@ inline _ForwardIter upper_bound(_ForwardIter __first, _ForwardIter __last,
 
 算法默认使用 `operator<` 来进行比较，也接受用户自行提供的仿函数。
 
-```c++
+```cpp
 template <class _ForwardIter, class _Tp>
 inline pair<_ForwardIter, _ForwardIter>
 equal_range(_ForwardIter __first, _ForwardIter __last, const _Tp& __val) {

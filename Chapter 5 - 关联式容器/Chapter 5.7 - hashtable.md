@@ -24,7 +24,7 @@ Nanjing, Jiangsu, China
 
 桶是 hash table 中的单元，每个桶中包含了若干结点。桶结点的定义如下：
 
-```c++
+```cpp
 template <class _Val>
 struct _Hashtable_node
 {
@@ -37,7 +37,7 @@ struct _Hashtable_node
 
 ## 5.7.3 hashtable 的迭代器
 
-```c++
+```cpp
 template <class _Val, class _Key, class _HashFcn,
           class _ExtractKey, class _EqualKey, class _Alloc>
 struct _Hashtable_iterator {
@@ -79,7 +79,7 @@ struct _Hashtable_iterator {
 
 hashtable 的迭代器必须维护与 hashtable 的联系。迭代器的前进操作意味着利用结点的 `next` 指针访问桶内链表的下一个元素；如果当前结点刚好是链表的尾端，那么就应当跳转到下一个 bucket 上。
 
-```c++
+```cpp
 template <class _Val, class _Key, class _HF, class _ExK, class _EqK,
           class _All>
 _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>&
@@ -108,7 +108,7 @@ _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>::operator++(int)
 
 ## 5.7.4 hashtable 的数据结构
 
-```c++
+```cpp
 template <class _Val, class _Key, class _HashFcn,
           class _ExtractKey, class _EqualKey, class _Alloc>
 class hashtable {
@@ -153,7 +153,7 @@ public:
 
 链地址法并不需要桶数组的大小为质数，但 SGI STL 仍然以质数来设置桶数组的大小。STL 准备了 28 个接近两倍的质数，并提供一个函数，用于查找最接近并大于等于指定值的那个质数：
 
-```c++
+```cpp
 // Note: assumes long is at least 32 bits.
 enum { __stl_num_primes = 28 };
 
@@ -178,7 +178,7 @@ inline unsigned long __stl_next_prime(unsigned long __n)
 
 与桶数组尺寸相关的 API：
 
-```c++
+```cpp
 size_type bucket_count() const { return _M_buckets.size(); }
 
 size_type max_bucket_count() const
@@ -189,7 +189,7 @@ size_type max_bucket_count() const
 
 通过分配器获得一个结点的空间，构造该结点并返回：
 
-```c++
+```cpp
 typedef simple_alloc<_Node, _Alloc> _M_node_allocator_type;
 _Node* _M_get_node() { return _M_node_allocator_type::allocate(1); }
 void _M_put_node(_Node* __p) { _M_node_allocator_type::deallocate(__p, 1); }
@@ -214,7 +214,7 @@ void _M_delete_node(_Node* __n)
 
 初始化桶数组，默认将桶内的结点指针全部设为空：
 
-```c++
+```cpp
 void _M_initialize_buckets(size_type __n)
 {
     const size_type __n_buckets = _M_next_size(__n); // 以大于等于 n 的第一个质数作为桶容量
@@ -241,7 +241,7 @@ hashtable(size_type __n,
 
 不允许重复的元素插入操作过程：
 
-```c++
+```cpp
 pair<iterator, bool> insert_unique(const value_type& __obj)
 {
     resize(_M_num_elements + 1);           // 元素个数增加，判断是否需要 rehash
@@ -309,7 +309,7 @@ hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
 
 允许重复的元素插入操作过程：
 
-```c++
+```cpp
 iterator insert_equal(const value_type& __obj) // 由于操作肯定成功，因此不返回 pair
 {
     resize(_M_num_elements + 1); // 同上
@@ -344,7 +344,7 @@ hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
 
 判断元素所属的桶。由 hash 函数完成。如果不提供用于取模的数量，则使用桶的容量：
 
-```c++
+```cpp
 size_type _M_bkt_num_key(const key_type& __key) const
 {
     return _M_bkt_num_key(__key, _M_buckets.size());
@@ -368,7 +368,7 @@ size_type _M_bkt_num(const value_type& __obj, size_t __n) const
 
 整体删除。需要注意内存释放的问题：
 
-```c++
+```cpp
 template <class _Val, class _Key, class _HF, class _Ex, class _Eq, class _All>
 void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::clear()
 {
@@ -387,7 +387,7 @@ void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::clear()
 
 从另一个 hashtable 复制：
 
-```c++
+```cpp
 template <class _Val, class _Key, class _HF, class _Ex, class _Eq, class _All>
 void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
   ::_M_copy_from(const hashtable& __ht)
@@ -421,7 +421,7 @@ void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>
 
 hash 函数的主要工作是将数据转换成一个可以进行模运算的值。对于整数类型 (`int` / `char` / `long`) 来说，大部分 hash 函数什么都不做，直接返回原值：
 
-```c++
+```cpp
 __STL_TEMPLATE_NULL struct hash<char> {
   size_t operator()(char __x) const { return __x; }
 };
@@ -453,7 +453,7 @@ __STL_TEMPLATE_NULL struct hash<unsigned long> {
 
 对于字符串来说，STL 设计了一个转换函数：
 
-```c++
+```cpp
 inline size_t __stl_hash_string(const char* __s)
 {
   unsigned long __h = 0;
